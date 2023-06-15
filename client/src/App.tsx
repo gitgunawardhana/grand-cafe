@@ -2,7 +2,7 @@ import "./App.css";
 
 function App() {
   return (
-    <div className="flex bg-[#FEFEFE] dark:bg-[#1B253B] min-h-screen place-content-center p-5 dark:text-slate-50 text-slate-900">
+    <div className="w-m flex min-h-screen flex-col bg-[#FEFEFE] p-5 text-slate-900 dark:bg-[#1B253B] dark:text-slate-50">
       <h1 className="text-2xl font-bold">Hello World!</h1>
     </div>
   );
