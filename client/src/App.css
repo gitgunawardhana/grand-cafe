@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/Poppins-Regular.ttf") format("truetype");
+  /* Add other font weights and styles as needed */
+}
+
+body {
+  font-family: "Poppins", "Inter", sans-serif;
+}
