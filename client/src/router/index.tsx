@@ -1,4 +1,5 @@
 import { useRoutes } from "react-router-dom";
+import Layout from "../layouts/index";
 import ErrorPage from "../pages/ErrorPage";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
@@ -8,7 +9,11 @@ function Router() {
   const routes = [
     {
       path: "/",
-      element: <Landing />,
+      element: (
+        <Layout>
+          <Landing />
+        </Layout>
+      ),
     },
     {
       path: "/login",
