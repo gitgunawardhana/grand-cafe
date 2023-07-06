@@ -1,3 +1,10 @@
 {
-  "exclude": ["node_modules", "jsx", "js", "tsx", "ts"]
+  "exclude": ["node_modules", "jsx", "js", "tsx", "ts"],
+
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "checkJs": true,
+    "jsx": "react",
+    "tsx": "react"
+  }
 }
