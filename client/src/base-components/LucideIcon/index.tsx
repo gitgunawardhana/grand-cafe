@@ -8,6 +8,8 @@ type IconName = keyof typeof icons;
 
 interface LucideProps extends React.ComponentPropsWithoutRef<"svg"> {
   icon: IconName;
+  size?: number;
+  strokeWidth?: number;
 }
 
 const Lucide: React.FC<LucideProps> = ({ icon, className, ...rest }) => {
