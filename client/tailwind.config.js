@@ -19,6 +19,12 @@ export default {
       fontFamily: {
         inter: ["Inter var", "sans-serif"],
       },
+      colors: {
+        "regal-blue": "#243c5a",
+        "gradient-yellow-300": "#675B1E",
+        "gradient-yellow-500": "#ffe35299",
+        "gradient-yellow-900": "#FF9224",
+      },
     },
   },
   plugins: [require("tailwind-scrollbar"), require("flowbite/plugin")],
