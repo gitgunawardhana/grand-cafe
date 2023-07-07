@@ -35,9 +35,7 @@ function DropdownButton(props: DropdownButtonProps) {
         onClick={handleToggleDropdown}
       >
         <div className="relative flex justify-start text-center">
-          <div className="left-1 mr-2 justify-start">
-            {props.icon && props.icon}
-          </div>
+          <div className="left-1 justify-start">{props.icon && props.icon}</div>
           <div
             className={twMerge([
               "justify-items-center text-center text-xs font-semibold hover:!text-gradient-yellow-900",
