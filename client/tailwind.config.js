@@ -24,6 +24,7 @@ export default {
         "gradient-yellow-300": "#675B1E",
         "gradient-yellow-500": "#ffe35299",
         "gradient-yellow-900": "#FF9224",
+        "gradient-green-500": "rgba(96,255,83,0.2)",
       },
     },
   },
