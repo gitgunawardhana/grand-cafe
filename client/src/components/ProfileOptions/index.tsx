@@ -55,7 +55,10 @@ const ProfileOptions = (props: ProfileOptionsProps) => {
           className={twMerge(
             "border-2 border-gradient-yellow-300 !backdrop-blur-md"
           )}
-          buttonClassName={twMerge(["!m-0 !p-0", CSSClasses.NAVBARICON])}
+          buttonClassName={twMerge([
+            "!m-0 !p-0 !shadow-none",
+            CSSClasses.NAVBARICON,
+          ])}
         >
           {profileOptionList?.map((item) => (
             <DropdownButton.LI
