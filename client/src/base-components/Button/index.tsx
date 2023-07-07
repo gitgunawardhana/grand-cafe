@@ -1,4 +1,5 @@
 import React from "react";
+
 import { twMerge } from "tailwind-merge";
 
 type ButtonOwnProps<E extends React.ElementType> = {
@@ -6,6 +7,7 @@ type ButtonOwnProps<E extends React.ElementType> = {
   className?: string;
   dataDropdownToggle?: string;
   as?: E;
+  to?: string;
 };
 
 type ButtonProps<E extends React.ElementType> = ButtonOwnProps<E> &
@@ -15,6 +17,7 @@ export const Button = <E extends React.ElementType = "a">({
   children,
   as,
   className,
+  dataDropdownToggle,
   ...props
 }: ButtonProps<E>) => {
   const Component = as || "button";
@@ -29,9 +32,7 @@ export const Button = <E extends React.ElementType = "a">({
     <Component
       className={twMerge([generalStyles, className])}
       {...props}
-      data-dropdown-toggle={
-        props.dataDropdownToggle && props.dataDropdownToggle
-      }
+      data-dropdown-toggle={dataDropdownToggle && dataDropdownToggle}
     >
       {children}
     </Component>
