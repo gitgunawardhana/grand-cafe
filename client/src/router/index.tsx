@@ -16,6 +16,10 @@ function Router() {
       element: <Login />,
     },
     {
+      path: "/sign-out",
+      element: <Landing />,
+    },
+    {
       path: "/register",
       element: <Register />,
     },
