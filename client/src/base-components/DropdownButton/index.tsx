@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../Button";
 
@@ -17,22 +16,12 @@ interface DropdownButtonProps {
 }
 
 function DropdownButton(props: DropdownButtonProps) {
-  //* Dropdown menu handler - start
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const handleToggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-    console.log("first " + isDropdownOpen);
-  };
-  //* Dropdown menu handler - end
-
   return (
     <>
       <Button
         id="dropdownDefaultButton"
         dataDropdownToggle="dropdown"
         className={props.buttonClassName}
-        onClick={handleToggleDropdown}
       >
         <div className="relative flex justify-start text-center">
           <div className="left-1 mr-2 justify-start">
@@ -47,19 +36,17 @@ function DropdownButton(props: DropdownButtonProps) {
           </div>
         </div>
       </Button>
-      {isDropdownOpen && (
-        <div
-          id="dropdown"
-          className={twMerge([
-            "!absolute right-0 !z-50 w-fit divide-y divide-gray-100 overflow-hidden rounded-lg border-[1px] shadow-lg",
-            props.className,
-          ])}
-        >
-          <ul className="text-sm" aria-labelledby="dropdownDefaultButton">
-            {props.children}
-          </ul>
-        </div>
-      )}
+      <div
+        id="dropdown"
+        className={twMerge([
+          "!z-50 hidden w-fit divide-y divide-gray-100 overflow-hidden rounded-lg border-[1px] shadow-lg",
+          props.className,
+        ])}
+      >
+        <ul className="text-sm" aria-labelledby="dropdownDefaultButton">
+          {props.children}
+        </ul>
+      </div>
     </>
   );
 }

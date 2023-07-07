@@ -48,17 +48,14 @@ const ProfileOptions = (props: ProfileOptionsProps) => {
   ];
   return (
     <>
-      <div className={twMerge(["relative z-50 w-fit p-0", props.className])}>
+      <div className={twMerge(["z-50 w-fit p-0", props.className])}>
         <DropdownButton
           icon={Profile}
           items={profileOptionList}
           className={twMerge(
             "border-2 border-gradient-yellow-300 !backdrop-blur-md"
           )}
-          buttonClassName={twMerge([
-            "!m-0 !p-0 !static",
-            CSSClasses.NAVBARICON,
-          ])}
+          buttonClassName={twMerge(["!m-0 !p-0", CSSClasses.NAVBARICON])}
         >
           {profileOptionList?.map((item) => (
             <DropdownButton.LI
