@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../../../base-components/Button";
 
@@ -13,8 +14,8 @@ const Option = (props: OptionProps) => {
   return (
     <>
       <Button
-        as="a"
-        href={props.to}
+        as={NavLink}
+        to={props.to}
         onClick={props.onClick}
         className={twMerge([
           "text-medium m-0 rounded-none",

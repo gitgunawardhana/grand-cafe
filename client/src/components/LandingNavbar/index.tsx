@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../../base-components/Button";
 import Logo from "../../base-components/Logo";
@@ -18,7 +19,6 @@ function Main() {
   useEffect(() => {
     if (windowSize.width < 768) {
       setCls("fixed right-[29px] top-[38px]");
-      console.log("Width   " + windowSize.width);
     } else {
       setCls("");
     }
@@ -67,8 +67,8 @@ function Main() {
               {navigationLinks?.map((item, id) => (
                 <li key={id}>
                   <Button
-                    as="a"
-                    href={item.to}
+                    as={NavLink}
+                    to={item.to}
                     className={twMerge([
                       "block border-none !bg-transparent py-2 pl-3 pr-4 uppercase !text-gradient-yellow-500 hover:!text-gradient-yellow-900 md:p-0",
                     ])}

@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import LandingPageBG from "../../assets/images/LandingPageBG.svg";
 import LandingPageText from "../../assets/images/LandingPageText.svg";
@@ -19,8 +20,8 @@ const Main = () => {
           <div>
             <img src={LandingPageText} />
             <Button
-              as="a"
-              href="/"
+              as={NavLink}
+              to="/"
               className={twMerge(
                 "rounded-[125.148px] border-2 border-solid border-gradient-yellow-300 !bg-transparent px-[25px] py-[15.141px] lg:px-[40px] lg:py-[20.141px]"
               )}
