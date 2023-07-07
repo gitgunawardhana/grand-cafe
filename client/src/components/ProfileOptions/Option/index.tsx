@@ -19,6 +19,7 @@ const Option = (props: OptionProps) => {
         onClick={props.onClick}
         className={twMerge([
           "text-medium m-0 rounded-none",
+          "!shadow-none",
           // theme === Modes.DARK && "border-orange-600",
           props.className,
         ])}

@@ -57,6 +57,7 @@ const ProfileOptions = (props: ProfileOptionsProps) => {
           )}
           buttonClassName={twMerge([
             "!m-0 !p-0 !static",
+            "!shadow-none",
             CSSClasses.NAVBARICON,
           ])}
         >

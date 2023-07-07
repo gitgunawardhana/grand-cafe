@@ -50,7 +50,7 @@ function Main() {
           <Button
             as="a"
             href="/"
-            className="flex items-center !border-none !bg-transparent"
+            className="flex items-center !border-none !bg-transparent !shadow-none"
           >
             <Logo className="!h-14 !w-14" />
             <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
@@ -58,9 +58,9 @@ function Main() {
             </span>
           </Button>
           <div className={twMerge(["flex md:order-2", clsProfileBtn])}>
-            <Button type="button" className={CSSClasses.NAVBARICON}>
-              <ProfileOptions />
-            </Button>
+            {/* <Button type="button" className={CSSClasses.NAVBARICON}>
+            </Button> */}
+            <ProfileOptions className={CSSClasses.NAVBARICON} />
             <Button
               data-collapse-toggle="navbar-sticky"
               type="button"
@@ -85,7 +85,7 @@ function Main() {
                       as={NavLink}
                       to={item.to}
                       className={twMerge([
-                        "block border-none !bg-transparent py-2 pl-3 pr-4 uppercase !text-gradient-yellow-500 hover:!text-gradient-yellow-900 md:p-0",
+                        "mb-6 block border-none !bg-transparent !px-0 py-0 !pb-[.1] !pt-0 uppercase !text-gradient-yellow-500 hover:!text-gradient-yellow-900 md:p-0",
                       ])}
                       aria-current="page"
                     >
