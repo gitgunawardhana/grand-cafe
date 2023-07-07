@@ -10,6 +10,15 @@ import ProfileOptions from "../ProfileOptions";
 import { navigationLinks } from "./navigationLinks";
 
 function Main() {
+  //* Dropdown menu handler - start
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleToggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+    console.log("first " + isDropdownOpen);
+  };
+  //* Dropdown menu handler - end
+
   //* Set class name according to window width - start
   const [windowSize, setWindowSize] = useState({
     width: 0,
@@ -20,22 +29,16 @@ function Main() {
   useEffect(() => {
     if (windowSize.width < 768) {
       setClsProfileBtn("fixed right-[29px] top-[38px]");
+      setIsDropdownOpen(false);
     } else {
       setClsProfileBtn("");
+      setIsDropdownOpen(true);
     }
-  }, [windowSize.width]);
+  }, [windowSize.width, clsProfileBtn]);
 
   getWindowSize(setWindowSize);
   //* Set class name according to window width - end
 
-  //* Dropdown menu handler - start
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const handleToggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-    console.log("first " + isDropdownOpen);
-  };
-  //* Dropdown menu handler - end
   return (
     <div>
       <nav
@@ -72,7 +75,7 @@ function Main() {
           </div>
           {isDropdownOpen && (
             <div
-              className=" w-full items-center justify-between md:order-1 md:flex md:w-auto"
+              className="w-full items-center justify-between md:order-1 md:flex md:w-auto"
               id="navbar-sticky"
             >
               <ul className="mt-4 flex flex-col rounded-lg border border-gradient-yellow-500 !bg-transparent bg-gray-50 p-4 font-medium backdrop-blur-md md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0">
