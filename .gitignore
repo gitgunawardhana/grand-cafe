@@ -3,3 +3,5 @@
 *.lock
 .yarn.lock
 yarn.lock
+*.lock
+client/yarn.lock
