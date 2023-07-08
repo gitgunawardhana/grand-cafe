@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 import { Button } from "../../base-components/Button";
 import { NavLink } from "react-router-dom";
 
+
 const Main = () => {
   return (
     <div>
@@ -118,32 +119,32 @@ const Main = () => {
                     as={NavLink}
                     to="/"
                     className={twMerge(
-                      "rounded-[10px] border-2 border-solid border-gradient-yellow-300 !bg-transparent px-[25px] py-[15.141px] lg:px-[60px] lg:py-[10.141px]"
+                      "rounded-[10px] border-2 border-solid border-gradient-yellow-300 !bg-gradient-to-r from-gray-900 to-geay-600 px-[25px] py-[15.141px] lg:px-[60px] lg:py-[10.141px]"
                     )}
                   >
                     <span
                       className={twMerge(
-                        "text-[18px] font-[500] uppercase tracking-[1.226px] !text-gradient-yellow-500"
+                        "text-[8px] font-[100] uppercase tracking-[0.5px] !text-gradient-cyan-500"
                       )}
                     >
-                      Sign Up
+                      Sign in with google
                     </span>
                     
                   </Button>
-                          
+                   &nbsp;&nbsp;
                   <Button
                     as={NavLink}
                     to="/"
                     className={twMerge(
-                      "rounded-[10px] border-2 border-solid border-gradient-yellow-300 !bg-transparent px-[25px] py-[15.141px] lg:px-[60px] lg:py-[10.141px]"
+                      "rounded-[10px] border-2 border-solid border-gradient-yellow-300 !bg-gradient-to-r from-gray-900 to-gray-600 px-[25px] py-[15.141px] lg:px-[60px] lg:py-[10.141px]"
                     )}
                   >
                     <span
                       className={twMerge(
-                        "text-[18px] font-[500] uppercase tracking-[1.226px] !text-gradient-yellow-500"
+                        "text-[8px] font-[100] uppercase tracking-[0.5px] !text-gradient-cyan-500"
                       )}
                     >
-                      <img src="https://icons8.com/icon/17949/google" alt="google"/>
+                      Sign in with facebook
                     </span>
                   </Button>
 
