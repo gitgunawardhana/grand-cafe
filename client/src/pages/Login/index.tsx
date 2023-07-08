@@ -12,7 +12,7 @@ const Main = () => {
           backgroundImage: `url(${Sign_up})`,
           backgroundSize: "cover",
         }}
-        className="w-m flex h-screen flex-col p-5 pt-[80px] text-center text-slate-900  dark:text-slate-50"
+        className="w-m flex h-screen flex-col p-5 pt-[25px] text-center text-slate-900  dark:text-slate-50"
       >
         <div className="grid grid-cols-2 ">
           <div className="grid h-screen justify-center ">
@@ -88,7 +88,7 @@ const Main = () => {
                     </label>
                     <br></br>
                   </div>
-                  <br></br>
+                  
                   <Button
                     as={NavLink}
                     to="/"
@@ -104,6 +104,49 @@ const Main = () => {
                       Sign Up
                     </span>
                   </Button>
+                  <br></br>
+                  <span
+                      className={twMerge(
+                        "text-[10px] font-[500]  tracking-[1.226px] !text-gradient-yellow-500"
+                      )}
+                    >
+                      Or sign in with
+                    </span>
+<br></br>
+                    {/* Google button*/ }
+                    <Button
+                    as={NavLink}
+                    to="/"
+                    className={twMerge(
+                      "rounded-[10px] border-2 border-solid border-gradient-yellow-300 !bg-transparent px-[25px] py-[15.141px] lg:px-[60px] lg:py-[10.141px]"
+                    )}
+                  >
+                    <span
+                      className={twMerge(
+                        "text-[18px] font-[500] uppercase tracking-[1.226px] !text-gradient-yellow-500"
+                      )}
+                    >
+                      Sign Up
+                    </span>
+                    
+                  </Button>
+                          
+                  <Button
+                    as={NavLink}
+                    to="/"
+                    className={twMerge(
+                      "rounded-[10px] border-2 border-solid border-gradient-yellow-300 !bg-transparent px-[25px] py-[15.141px] lg:px-[60px] lg:py-[10.141px]"
+                    )}
+                  >
+                    <span
+                      className={twMerge(
+                        "text-[18px] font-[500] uppercase tracking-[1.226px] !text-gradient-yellow-500"
+                      )}
+                    >
+                      <img src="https://icons8.com/icon/17949/google" alt="google"/>
+                    </span>
+                  </Button>
+
                 </form>
               </div>
             </div>
