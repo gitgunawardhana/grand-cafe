@@ -4,6 +4,7 @@ import ErrorPage from "../pages/ErrorPage";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import Test from "../pages/Test";
 
 function Router() {
   const routes = [
@@ -22,6 +23,10 @@ function Router() {
     {
       path: "/error-page",
       element: <ErrorPage />,
+    },
+    {
+      path: "/test",
+      element: <Test />,
     },
     {
       path: "/*",
