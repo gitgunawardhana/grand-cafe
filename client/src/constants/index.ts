@@ -1,3 +1,4 @@
-import { CSSClasses } from "./common-enums";
+import { AlignmentTypes, CSSClasses, NotificationTypes } from "./common-enums";
+import Icons from "./icon";
 
-export { CSSClasses };
+export { AlignmentTypes, CSSClasses, Icons, NotificationTypes };
