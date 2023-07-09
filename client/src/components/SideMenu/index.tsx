@@ -101,9 +101,15 @@ const SidebarMenu = () => {
         {/*  MINI SIDEBAR */}
         <div className="mini mt-20 flex h-[calc(100vh)] w-full flex-col space-y-2">
           {sideNavigationLinks?.map((linkItem, id) => (
-            <div className="flex w-full transform justify-end rounded-full bg-gradient-brown-500 p-3 pr-5 text-gradient-yellow-500 duration-300 ease-in-out hover:ml-4 hover:!text-gradient-yellow-900">
+            <Button
+              key={linkItem.title}
+              as={NavLink}
+              to={linkItem.to}
+              generalStylesStatus={false}
+              className="flex !w-full transform justify-end !rounded-full bg-gradient-brown-500 !p-3 !pr-5 text-gradient-yellow-500 duration-300 ease-in-out hover:ml-4 hover:!text-gradient-yellow-900"
+            >
               <img src={linkItem.icon} className="h-4" alt="" />
-            </div>
+            </Button>
           ))}
         </div>
       </aside>
