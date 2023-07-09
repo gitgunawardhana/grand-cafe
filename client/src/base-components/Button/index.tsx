@@ -8,6 +8,7 @@ type ButtonOwnProps<E extends React.ElementType> = {
   dataDropdownToggle?: string;
   as?: E;
   to?: string;
+  generalStylesStatus?: boolean;
 };
 
 type ButtonProps<E extends React.ElementType> = ButtonOwnProps<E> &
@@ -17,6 +18,7 @@ export const Button = <E extends React.ElementType = "a">({
   children,
   as,
   className,
+  generalStylesStatus,
   dataDropdownToggle,
   ...props
 }: ButtonProps<E>) => {
@@ -31,11 +33,15 @@ export const Button = <E extends React.ElementType = "a">({
   ];
   return (
     <Component
-      className={twMerge([generalStyles, className])}
+      className={twMerge([generalStylesStatus && generalStyles, className])}
       {...props}
       data-dropdown-toggle={dataDropdownToggle && dataDropdownToggle}
     >
       {children}
     </Component>
   );
+};
+
+Button.defaultProps = {
+  generalStylesStatus: true,
 };
