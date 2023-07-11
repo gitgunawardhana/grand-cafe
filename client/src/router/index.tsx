@@ -1,7 +1,9 @@
 import { useRoutes } from "react-router-dom";
-import Layout from "../layouts";
+import SideMenuLayout from "../layouts/SideMenuLayout";
+import SimpleLayout from "../layouts/SimpleLayout";
 import CustormizePage from "../pages/CustormizePage";
 import ErrorPage from "../pages/ErrorPage";
+import FirstPage from "../pages/FirstPage";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
@@ -11,6 +13,10 @@ function Router() {
     {
       path: "/",
       element: <Landing />,
+    },
+    {
+      path: "/home",
+      element: <FirstPage />,
     },
     {
       path: "/sign-in",
@@ -29,11 +35,21 @@ function Router() {
       element: <ErrorPage />,
     },
     {
+      path: "/test",
+      element: (
+        <SideMenuLayout>
+          <h1 className="text-5xl font-extrabold text-gradient-yellow-900">
+            Test Page
+          </h1>
+        </SideMenuLayout>
+      ),
+    },
+    {
       path: "/*",
       element: (
-        <Layout className="bg-[#362B19]">
+        <SimpleLayout className="bg-[#362B19]">
           <ErrorPage />
-        </Layout>
+        </SimpleLayout>
       ),
     },
   ];
