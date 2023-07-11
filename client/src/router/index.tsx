@@ -1,5 +1,6 @@
 import { useRoutes } from "react-router-dom";
 import Layout from "../layouts";
+import CustormizePage from "../pages/CustormizePage";
 import ErrorPage from "../pages/ErrorPage";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
@@ -14,6 +15,10 @@ function Router() {
     {
       path: "/sign-in",
       element: <Login />,
+    },
+    {
+      path: "/custormize-page",
+      element: <CustormizePage />,
     },
     {
       path: "/register",
