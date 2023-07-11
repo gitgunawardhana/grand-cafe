@@ -4,12 +4,17 @@ import ErrorPage from "../pages/ErrorPage";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import FirstPage from "../pages/FirstPage";
 
 function Router() {
   const routes = [
     {
       path: "/",
       element: <Landing />,
+    },
+    {
+      path: "/home",
+      element: <FirstPage />,
     },
     {
       path: "/sign-in",
