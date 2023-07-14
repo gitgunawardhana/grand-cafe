@@ -27,8 +27,8 @@ const Main = () => {
         <br></br>
         <br></br>
 
-        <div className="grid h-screen grid-cols-3">
-          <div className="grid place-items-center">
+        <div className="grid h-screen grid-cols-4">
+          <div className="grid place-items-center col-span-2 ">
             
             <div>
               <h2 className="font-sans text-[36px] font-black uppercase text-amber-400">
@@ -91,23 +91,28 @@ const Main = () => {
            
             {/**3 iocons */}
             <div className="flex">
-              <div className="grid grid-cols-3 justify-around">
-                <div className="p-10 grid items-center justify-center ">
-                  <img src={Time} alt="time image" />
-                  
+              <div className="grid grid-cols-3 justify-arround ">
+                <div className="p-10 ">
+                  <img src={Time} alt="time image" className="mx-auto"/><br></br>
+                  <h2 className="text-sm md:text-base  text-amber-400">Today 6.PM - 1.00 AM</h2>
+                  <span>Working hours</span>            
                 </div>
                 <div className="p-10">
-                  <img src={Location} alt="location image" />
+                  <img src={Location} alt="location image" className="mx-auto"/><br></br>
+                  <h2 className="text-sm md:text-base  text-amber-400">One galleFace, Colombo</h2>
+                  <span>Get Direction</span>  
                 </div>
                 <div className="p-10">
-                  <img src={Call} alt="call image" />
+                  <img src={Call} alt="call image" className="mx-auto"/><br></br>
+                  <h2 className="text-sm md:text-base  text-amber-400">+94 115 542 110</h2>
+                  <span>Call online</span>  
                 </div>
               </div>
             </div>
           </div>
-          <div></div>
+          <div className=""></div>
           {/** right botton icons list */}
-          <div>
+          <div className="">
             <div className="flex h-full items-end justify-end">
               <div className="flex justify-center">
                 <div className="grid grid-cols-4">
@@ -126,6 +131,7 @@ const Main = () => {
                     />
                   </div>
                   <div className="cursor-pointer p-4">
+                    
                     <img
                       src={Twitter}
                       alt="time image"
