@@ -18,8 +18,9 @@ const Main = () => {
         style={{
           backgroundImage: `url(${First_Page})`,
           backgroundSize: "cover",
+          
         }}
-        className="w-m flex flex-col p-5 pt-[80px] text-center text-slate-900  dark:text-slate-50 h-full"
+        className="w-m flex flex-col p-5 pt-[80px] text-center text-slate-900  dark:text-slate-50 h-full sm:h-screen"
       >
         <LandingNavbar />
         <br></br>
@@ -27,7 +28,7 @@ const Main = () => {
         <br></br>
         <br></br>
 
-        <div className="grid h-screen grid-cols-1 md:grid-cols-4">
+        <div className="grid  grid-cols-1 lg:grid-cols-4 md:h-screen ">
           <div className="grid place-items-center col-span-2 ">
             
             <div>
@@ -91,7 +92,7 @@ const Main = () => {
            
             {/**3 iocons */}
             <div className="flex">
-              <div className="grid grid-cols-1 justify-arround md:grid-cols-3 ">
+              <div className="grid grid-cols-1 justify-arround lg:grid-cols-3 ">
                 <div className="p-10 ">
                   <img src={Time} alt="time image" className="mx-auto"/><br></br>
                   <h2 className="text-sm md:text-base  text-amber-400">Today 6.PM - 1.00 AM</h2>
@@ -110,11 +111,11 @@ const Main = () => {
               </div>
             </div>
           </div>
-          <div className="hidden md:block"></div>
+          <div className="hidden lg:block"></div>
           {/** right botton icons list */}
           <div className="md:place-items-center">
-            <div className="grid h-full items-end justify-end">
-              <div className="flex justify-center sm:items-center">
+            <div className="grid h-full items-end justify-center lg:justify-end">
+              <div className="flex justify-center ">
                 <div className="grid grid-cols-4">
                   <div className="cursor-pointer p-4">
                     <img
