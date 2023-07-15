@@ -1,7 +1,8 @@
 import { useRoutes } from "react-router-dom";
 import SideMenuLayout from "../layouts/SideMenuLayout";
 import SimpleLayout from "../layouts/SimpleLayout";
-import CustormizePage from "../pages/CustormizePage";
+import TopLayout from "../layouts/TopMenu";
+import CustomizePage from "../pages/CustomizePage";
 import ErrorPage from "../pages/ErrorPage";
 import FirstPage from "../pages/FirstPage";
 import Landing from "../pages/Landing";
@@ -12,7 +13,11 @@ function Router() {
   const routes = [
     {
       path: "/",
-      element: <Landing />,
+      element: (
+        <TopLayout landing>
+          <Landing />
+        </TopLayout>
+      ),
     },
     {
       path: "/home",
@@ -24,7 +29,11 @@ function Router() {
     },
     {
       path: "/custormize-page",
-      element: <CustormizePage />,
+      element: (
+        <TopLayout>
+          <CustomizePage />
+        </TopLayout>
+      ),
     },
     {
       path: "/register",
