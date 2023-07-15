@@ -11,17 +11,17 @@ const getWindowSize = (setWindowSize: any) => {
       if (window.innerWidth > 1024) {
         setWindowSize({
           width: window.innerWidth,
-          height: window.innerHeight - 176,
+          height: window.innerHeight,
         });
       } else if (window.innerWidth > 640) {
         setWindowSize({
           width: window.innerWidth,
-          height: window.innerHeight - 172,
+          height: window.innerHeight,
         });
       } else {
         setWindowSize({
           width: window.innerWidth,
-          height: window.innerHeight - 176,
+          height: window.innerHeight,
         });
       }
     }
