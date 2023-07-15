@@ -14,13 +14,14 @@ import Tiktok from "../../assets/images/FirstPage/tik-tok.png";
 const Main = () => {
   return (
     <div>
+      
       <div
         style={{
           backgroundImage: `url(${First_Page})`,
           backgroundSize: "cover",
           
         }}
-        className="w-m flex flex-col p-5 pt-[80px] text-center text-slate-900  dark:text-slate-50 h-full sm:h-screen"
+        className="w-m flex flex-col p-5 pt-[80px] text-center text-slate-900  dark:text-slate-50 h-full md:h-screen sm:h-screen"
       >
         <LandingNavbar />
         <br></br>
