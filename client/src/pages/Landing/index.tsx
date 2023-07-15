@@ -3,7 +3,6 @@ import { twMerge } from "tailwind-merge";
 import LandingPageBG from "../../assets/images/LandingPageBG.svg";
 import LandingPageText from "../../assets/images/LandingPageText.svg";
 import { Button } from "../../base-components/Button";
-import LandingNavbar from "../../components/LandingNavbar/index";
 
 const Main = () => {
   return (
@@ -13,9 +12,8 @@ const Main = () => {
           backgroundImage: `url(${LandingPageBG})`,
           backgroundSize: "cover",
         }}
-        className="w-m flex h-screen flex-col p-5 pt-[80px] text-center text-slate-900  dark:text-slate-50"
+        className="w-m -mt-[136px] flex h-screen flex-col p-5 pt-[80px] text-center text-gradient-yellow-300"
       >
-        <LandingNavbar />
         <div className="grid h-screen place-items-center">
           <div>
             <img src={LandingPageText} />
