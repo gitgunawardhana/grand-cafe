@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../../base-components/Button";
 import Logo from "../../base-components/Logo";
 import LucideIcon from "../../base-components/LucideIcon";
 import { CSSClasses } from "../../constants";
-import getWindowSize from "../../utils/getWindowSize";
 import ProfileOptions from "../ProfileOptions";
+import { ProviderContext } from "../Provider";
 import { navigationLinks } from "./navigationLinks";
 
 function Main() {
@@ -20,11 +20,8 @@ function Main() {
   //* Dropdown menu handler - end
 
   //* Set class name according to window width - start
-  const [windowSize, setWindowSize] = useState({
-    width: 0,
-    height: 0,
-  });
   const [clsProfileBtn, setClsProfileBtn] = useState("");
+  const { windowSize } = useContext(ProviderContext);
 
   useEffect(() => {
     if (windowSize.width < 768) {
@@ -35,8 +32,6 @@ function Main() {
       setIsDropdownOpen(true);
     }
   }, [windowSize.width, clsProfileBtn]);
-
-  getWindowSize(setWindowSize);
   //* Set class name according to window width - end
 
   return (
@@ -53,7 +48,7 @@ function Main() {
             className="flex items-center !border-none !bg-transparent !shadow-none"
           >
             <Logo className="!h-14 !w-14" />
-            <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
+            <span className="hidden self-center whitespace-nowrap text-2xl font-semibold dark:text-white sm:!block">
               GRAND CAFE
             </span>
           </Button>
@@ -78,7 +73,7 @@ function Main() {
               className="w-full items-center justify-between md:order-1 md:flex md:w-auto"
               id="navbar-sticky"
             >
-              <ul className="mt-4 flex flex-col rounded-lg border border-gradient-yellow-500 !bg-transparent bg-gray-50 p-4 font-medium backdrop-blur-md md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0">
+              <ul className="!mt-4 flex flex-col rounded-lg border border-gradient-yellow-500 !bg-transparent bg-gray-50 p-4 font-medium backdrop-blur-md md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0">
                 {navigationLinks?.map((item, id) => (
                   <li key={id}>
                     <Button
