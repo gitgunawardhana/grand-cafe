@@ -8,6 +8,7 @@ import FirstPage from "../pages/FirstPage";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import HomePage from "../pages/HomePage";
 
 function Router() {
   const routes = [
@@ -21,6 +22,10 @@ function Router() {
     },
     {
       path: "/home",
+      element: <HomePage />,
+    },
+    {
+      path: "/first",
       element: <FirstPage />,
     },
     {
