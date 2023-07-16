@@ -8,6 +8,7 @@ import FirstPage from "../pages/FirstPage";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import CustomerAcc from "../pages/CustomerAccount";
 
 function Router() {
   const routes = [
@@ -53,6 +54,14 @@ function Router() {
         </SideMenuLayout>
       ),
     },
+
+    {
+      path: "/customer-acc",
+      element: (
+       <CustomerAcc/>
+      ),
+    },
+
     {
       path: "/*",
       element: (
@@ -61,6 +70,8 @@ function Router() {
         </SimpleLayout>
       ),
     },
+
+    
   ];
 
   return useRoutes(routes);
