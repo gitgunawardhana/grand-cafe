@@ -59,11 +59,15 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
             >
               {/* Render your product component or content here */}
               <div className="rounded-md p-4">
+                <div className="justify-center items-center flex ">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="h-auto w-full"
-                /><br></br>
+                
+                  className=" h-auto w-3/5"
+                />
+                </div>
+                <br></br>
 
                 <p className="text-amber-500 uppercase font-black tracking-widest text-2xl">{product.name}</p><br></br>
                 <p className="text-amber-100 tracking-widest">{product.content}</p><br></br>
