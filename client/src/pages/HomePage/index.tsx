@@ -8,6 +8,11 @@ import Text_05 from "../../assets/images/HomePage/Text_05.png";
 import { Button } from "../../base-components/Button";
 import { NavLink } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
+import DeliveryCards from "../../components/HomePageOrderDiv";
+import Delivery_01 from "../../assets/images/HomePage/Delivery_01.png";
+import Delivery_02 from "../../assets/images/HomePage/Delivery_02.png";
+import Delivery_03 from "../../assets/images/HomePage/Delivery_03.png";
+
 
 const Main = () => {
   return (
@@ -19,6 +24,9 @@ const Main = () => {
         }}
         className="w-m flex h-screen flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen"
       >
+
+       
+
         <div className="grid h-screen items-center p-5 md:grid-cols-3 ">
           <div className="flex flex-col items-center justify-center">
             <img src={Text_03} alt="" />
@@ -70,17 +78,50 @@ const Main = () => {
           <div></div>
         </div>
       </div>
+{/**Second Part */}
       <div
         style={{
           backgroundImage: `url(${Back_02})`,
           backgroundSize: "cover",
         }}
-        className="w-m flex h-screen flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen"
+        className="w-m flex h-full flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen bg-repeat"
       >
         <div className="flex flex-col items-center justify-center">
           <img src={Text_01} alt="" />
           <br></br>
           <img className="jsutify-center" src={Text_02} alt="" />
+          <br></br>
+          <div className="grid  md:grid-cols-3 w-screen ">
+
+            <div className="flex items-center justify-center">
+              <DeliveryCards
+                imageSrc={Delivery_01}
+                title="Best Quality"
+                description="We believe that ordering delicious food should be easy and hassle-free. We understand that our customers have busy schedules, and we want to make the ordering  "
+                buttonText="Read More"
+              
+              />
+            </div>
+            <div className="flex items-center justify-center">
+            <DeliveryCards
+                imageSrc={Delivery_02}
+                title="Easy to order"
+                description="We take pride in delivering our customers' orders quickly and efficiently. We understand that our customers' time is valuable, and we want to ensure that they receive  "
+                buttonText="Read More"
+              
+              />
+            </div>
+            <div className="flex items-center justify-center">
+            <DeliveryCards
+                imageSrc={Delivery_03}
+                title="Fast Delivery"
+                description="We take great pride in delivering the best quality products to our customers. We believe that using high-quality ingredients is the foundation of creating delicious and satisfying  "
+                buttonText="Read More"
+              
+              />
+            </div>
+            </div>
+            
         </div>
       </div>
     </div>

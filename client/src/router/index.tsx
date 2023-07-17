@@ -22,7 +22,9 @@ function Router() {
     },
     {
       path: "/home",
-      element: <HomePage />,
+      element: (<TopLayout>
+                  <HomePage />
+                </TopLayout>),
     },
     {
       path: "/first",
