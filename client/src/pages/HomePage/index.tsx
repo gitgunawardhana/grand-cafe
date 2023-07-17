@@ -1,10 +1,12 @@
 import Back_01 from "../../assets/images/HomePage/Back_01.svg";
 import Back_02 from "../../assets/images/HomePage/Back_02.svg";
+import Back_03 from "../../assets/images/HomePage/Back_03.svg";
 import Text_01 from "../../assets/images/HomePage/Text_01.png";
 import Text_02 from "../../assets/images/HomePage/Text_02.png";
 import Text_03 from "../../assets/images/HomePage/Text_03.png";
 import Text_04 from "../../assets/images/HomePage/Text_04.png";
 import Text_05 from "../../assets/images/HomePage/Text_05.png";
+import OurMenu from "../../assets/images/HomePage/OurMenu.png";
 import { Button } from "../../base-components/Button";
 import { NavLink } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
@@ -12,6 +14,34 @@ import DeliveryCards from "../../components/HomePageOrderDiv";
 import Delivery_01 from "../../assets/images/HomePage/Delivery_01.png";
 import Delivery_02 from "../../assets/images/HomePage/Delivery_02.png";
 import Delivery_03 from "../../assets/images/HomePage/Delivery_03.png";
+import ProductBrowsingComponent from './../../components/MenuItems/index';
+import Shawarma from "../../assets/images/HomePage/Shawarma.png";
+import OurSpecial from "../../assets/images/HomePage/OurSpecial.png";
+import Burger from "../../assets/images/HomePage/Burger.png";
+
+const products = [
+  { name: 'our special',
+    image: OurSpecial, 
+    content: 'Rice, spices, and Chicken, lamb, beef, or sweet chicken dish, Cardamom, see foods and Special dish',
+    price: 'rs  2200.00',
+  },
+  { name: 'burger submarine ',
+  image: Burger ,
+  content: 'Crispy chicken, two types of  cheeses, Tomato, potato, Ham, flavor submarine bun and Lettuce ',
+  price: 'rs  1200.00',
+  },
+  { name: 'Shawarma',
+  image: Shawarma,
+  content: 'Shawarma Roti, chicken, beef, muton, vegetables , customizing flavors with French fries    ',
+  price: 'rs  2300.00',
+  },
+  { name: 'our special' ,
+  image: OurSpecial,
+  content: 'Rice, spices, and Chicken, lamb, beef, or sweet chicken dish, Cardamom, see foods and Special dish',
+  price: 'rs  2200.00',
+  },
+  // Add more products as needed
+];
 
 
 const Main = () => {
@@ -123,6 +153,22 @@ const Main = () => {
             </div>
             
         </div>
+      </div>
+
+      {/**Third part */}
+      <div
+        style={{
+          backgroundImage: `url(${Back_03})`,
+          backgroundSize: "cover",
+        }}
+        className="w-m flex h-full flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen bg-repeat"
+      >
+          <div className="flex flex-col items-center justify-center">
+          <img src={OurMenu} alt="" /><br></br>
+          <ProductBrowsingComponent products={products} />
+        
+          </div>
+
       </div>
     </div>
   );
