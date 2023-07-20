@@ -114,7 +114,7 @@ function Main() {
                 <form className="!my-auto content-center md:flex">
                   <InputField
                     type="search"
-                    className="placeholder-gradient-yellow-500] min-w-[210x] border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 !placeholder-opacity-25"
+                    className="min-w-[210x] border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
                     placeholder="Search here your favorites"
                   />
 
@@ -143,7 +143,7 @@ function Main() {
               className="ml-0 w-full items-center justify-between  md:order-1 md:flex min-[1200px]:w-auto"
               id="navbar-sticky"
             >
-              <ul className="max-[1200px]:border cus-navbar !mt-4 flex  w-full flex-col rounded-lg border border-gradient-yellow-500 p-5  min-[1200px]:flex-row">
+              <ul className="cus-navbar !mt-4 flex w-full  flex-col rounded-lg border border-gradient-yellow-500 p-5 max-[1200px]:border  min-[1200px]:flex-row">
                 {navigationLinks?.map((item, id) => (
                   <li key={id}>
                     <Button
@@ -166,7 +166,7 @@ function Main() {
                   <form className="flex !w-full">
                     <InputField
                       type="search"
-                      className="cus-nav-search-bar placeholder-gradient-yellow-500] !w-[100%] border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 !placeholder-opacity-25"
+                      className="cus-nav-search-bar !w-[100%] border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
                       placeholder="Search here your favorites"
                     />
                     <span
