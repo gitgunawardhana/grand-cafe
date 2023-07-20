@@ -42,11 +42,11 @@ function OrderMenuSection() {
                 textShadow:
                   "-1px 1px 0 #ffe35299, 1px 1px 0 #ffe35299,1px -1px 0 #FF9224,-1px -1px 0 #FF9224",
               }}
-              className="mt-3 !bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-lg tracking-widest text-transparent md:text-2xl md:tracking-wider"
+              className="mt-3 !bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-lg tracking-widest text-transparent md:text-xl md:tracking-wider"
             >
               Total Amount
             </h1>
-            <p className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-base font-semibold text-transparent md:text-xl">
+            <p className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-base font-semibold text-transparent md:text-lg">
               Rs {"2300.00"}
             </p>
           </div>
