@@ -7,8 +7,8 @@ import ErrorPage from "../pages/ErrorPage";
 import FirstPage from "../pages/FirstPage";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
+import ProductPage from "../pages/ProductPage";
 import Register from "../pages/Register";
-import TestPage from "../pages/TestPage";
 
 function Router() {
   const routes = [
@@ -37,6 +37,10 @@ function Router() {
       ),
     },
     {
+      path: "/product-page",
+      element: <ProductPage />,
+    },
+    {
       path: "/register",
       element: <Register />,
     },
@@ -48,7 +52,8 @@ function Router() {
       path: "/test",
       element: (
         <SideMenuLayout>
-          <TestPage />
+          {/* <TestPage /> */}
+          <ProductPage />
         </SideMenuLayout>
       ),
     },
