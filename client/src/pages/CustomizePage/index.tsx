@@ -94,7 +94,7 @@ const Main = () => {
             </div>
             <div className="col-span-2 justify-start text-start sm:col-span-1">
               <InputField
-                className="placeholder-gradient-yellow-500] border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 !placeholder-opacity-25"
+                className="border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
                 label="Chicken Flavor"
                 labelClassName="!bg-gradient-brown-900 !text-gradient-yellow-900 text-xs p-1 pr-16"
                 placeholder="Crispy Chicken"
@@ -110,7 +110,7 @@ const Main = () => {
             </div>
             <div className="col-span-2 justify-start text-start sm:col-span-1">
               <InputField
-                className="placeholder-gradient-yellow-500] border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 !placeholder-opacity-25"
+                className="border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
                 label="Cheese flavor 1"
                 labelClassName="!bg-gradient-brown-900 !text-gradient-yellow-900 text-xs p-1 pr-16"
                 placeholder="Cheddar cheese"
@@ -118,7 +118,7 @@ const Main = () => {
             </div>
             <div className="col-span-2 justify-start text-start sm:col-span-1">
               <InputField
-                className="placeholder-gradient-yellow-500] border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 !placeholder-opacity-25"
+                className="border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
                 label="Cheese flavor 2"
                 labelClassName="!bg-gradient-brown-900 !text-gradient-yellow-900 text-xs p-1 pr-16"
                 placeholder="Provolone cheese"
