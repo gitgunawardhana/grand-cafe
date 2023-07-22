@@ -1,18 +1,90 @@
 import Cart from "../../assets/icons/Cart.svg";
 import DecreaseButton from "../../assets/icons/DecreaseButton.svg";
 import IncreaseButton from "../../assets/icons/IncreaseButton.svg";
+import Food1 from "../../assets/images/Foods/Food1.svg";
+import Food2 from "../../assets/images/Foods/Food2.svg";
+import Food3 from "../../assets/images/Foods/Food3.svg";
+import Food4 from "../../assets/images/Foods/Food4.svg";
+import Food5 from "../../assets/images/Foods/Food5.svg";
+import Food6 from "../../assets/images/Foods/Food6.svg";
 import Order1 from "../../assets/images/Orders/Order1.svg";
 import ProductPageBg from "../../assets/images/ProductPageBg.svg";
 import SpeciealDescount from "../../assets/images/SpeciealDescount.svg";
 import { Button } from "../../base-components/Button";
 import InputField from "../../base-components/FormElements/InputElement";
+import MuiRating from "../../components/MuiRating";
 import TextLimit from "../../components/TextLimit";
 
 const Main = () => {
+  const foods = [
+    {
+      title: "Skewer (Beef or Chicken)",
+      starting_from: "1200.00",
+      image: Food2,
+      rateValue: 3.5,
+    },
+    {
+      title: "Grilled chicken",
+      starting_from: "1350.00",
+      image: Food3,
+      rateValue: 5,
+    },
+    {
+      title: "oxtail soup",
+      starting_from: "1050.00",
+      image: Food4,
+      rateValue: 4.5,
+    },
+    {
+      title: "benachin",
+      starting_from: "1300.00",
+      image: Food5,
+      rateValue: 5,
+    },
+    {
+      title: "Sawarma",
+      starting_from: "1350.00",
+      image: Food6,
+      rateValue: 3.5,
+    },
+    {
+      title: "beef Dishes",
+      starting_from: "1850.00",
+      image: Food1,
+      rateValue: 4.5,
+    },
+  ];
   return (
     <>
       <div className="grid grid-cols-12">
-        <div className="col-span-9 h-[5000px]">{HeaderSection()}</div>
+        <div className="col-span-9 h-[5000px]">
+          {HeaderSection()}
+          {/* Category Section - start */}
+          <div className="">
+            <div className="mx-5 flex content-center justify-between">
+              <div className="my-auto">
+                <h1 className="mb-2 !bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text !text-sm font-extrabold uppercase text-transparent md:!text-lg">
+                  Categories
+                </h1>
+              </div>
+              <div className="my-auto min-[1650px]:mr-6">
+                <Button className="m-0 !mb-2 !mt-1 !rounded-[10px] border-none !bg-gradient-brown-400 !px-5 !py-2 !text-xs font-semibold capitalize text-black hover:text-black md:!px-5 md:py-2 md:text-sm">
+                  <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
+                    see more
+                  </p>
+                </Button>
+              </div>
+            </div>
+          </div>
+          {/* Category Section - end */}
+          {/* Food Card Section - start */}
+          <div>
+            <div className="mx-5 mt-12 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+              {foods.map((item) => Card(item))}
+            </div>
+          </div>
+          {/* Food Card Section - end */}
+        </div>
         <div className="sticky top-5 col-span-3 mt-5 h-fit">
           {AddressSection()}
           {OrderMenuSection()}
@@ -23,6 +95,52 @@ const Main = () => {
 };
 
 export default Main;
+
+// Food Card
+function Card(item: {
+  title: string;
+  starting_from: string;
+  image: string;
+  rateValue: number;
+}) {
+  return (
+    <div
+      key={item.title}
+      className="mb-5 max-w-sm overflow-hidden rounded-xl !bg-opacity-25 bg-gradient-to-b from-gradient-yellow-100-15 to-gradient-yellow-900-10 text-center shadow-lg"
+    >
+      <img className="w-full" src={item.image} alt={item.title} />
+      <div className="mb-0 ml-5 mt-2 flex">
+        <MuiRating rateValue={item.rateValue} />
+      </div>
+      <div className="px-6 pb-4 pt-2">
+        <h1 className="mb-2 !bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text font-extrabold !capitalize text-transparent md:text-lg">
+          {item.title}
+        </h1>
+        <div>
+          <p className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-sm font-normal text-transparent">
+            Starting from
+          </p>
+          <p className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-base font-semibold  text-transparent md:text-lg">
+            Rs {item.starting_from}
+          </p>
+        </div>
+        <div className="mt-2">
+          <Button className="m-0 !mb-2 !mt-1 min-w-[200px] !rounded-[10px] border-none !bg-opacity-20 !bg-gradient-to-b from-gradient-yellow-900-6 to-gradient-yellow-900-2 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm">
+            <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
+              customize
+            </p>
+          </Button>
+          <br />
+          <Button className="m-0 min-w-[200px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm">
+            <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
+              Add to cart
+            </p>
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // Order menu Section
 function OrderMenuSection() {

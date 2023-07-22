@@ -10,7 +10,7 @@ const Main = (props: SideMenuLayoutsProps) => {
       <SideMenu />
       <div
         className={twMerge([
-          "content ml-12 transform px-2 pb-4 pt-20 duration-500 ease-in-out md:px-5",
+          "content ml-12 transform px-2 pb-4 duration-500 ease-in-out md:px-5",
           props.className,
         ])}
       >
