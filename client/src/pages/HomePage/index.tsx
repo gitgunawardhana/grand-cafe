@@ -18,6 +18,9 @@ import ProductBrowsingComponent from './../../components/MenuItems/index';
 import Shawarma from "../../assets/images/HomePage/Shawarma.png";
 import OurSpecial from "../../assets/images/HomePage/OurSpecial.png";
 import Burger from "../../assets/images/HomePage/Burger.png";
+import BestMenu from "../../assets/images/HomePage/BestMenu.svg";
+import OurFood from "../../assets/images/HomePage/OurFood.png";
+import ImageGallery from './../../components/ImageGallery/index';
 
 const products = [
   { name: 'our special',
@@ -42,6 +45,7 @@ const products = [
   },
   // Add more products as needed
 ];
+
 
 
 const Main = () => {
@@ -170,6 +174,25 @@ const Main = () => {
           </div>
 
       </div>
+      {/** Third part */}
+
+      <div
+        style={{
+          backgroundImage: `url(${BestMenu})`,
+          backgroundSize: "cover",
+        }}
+        className="w-m flex h-full flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-screen md:h-full bg-repeat"
+      >
+        <div className=" h-full flex flex-col items-center justify-center">
+          <img src={OurFood} alt="Our food"/><br></br>
+          <ImageGallery/>
+          <br></br>
+
+        </div>
+
+
+      </div>
+      
     </div>
   );
 };
