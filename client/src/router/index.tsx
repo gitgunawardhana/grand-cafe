@@ -30,7 +30,7 @@ function Router() {
       element: <Login />,
     },
     {
-      path: "/custormize-page",
+      path: "/customize-page",
       element: (
         <TopLayout>
           <CustomizePage />
