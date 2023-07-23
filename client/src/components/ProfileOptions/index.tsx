@@ -67,9 +67,7 @@ const ProfileOptions = (props: ProfileOptionsProps) => {
               className="z-50 w-fit justify-start text-left hover:!bg-yellow-200 hover:!bg-opacity-5"
             >
               <Option
-                onClick={() => {
-                  console.log("first");
-                }}
+                onClick={() => {}}
                 to={item.to}
                 className="group h-[40px] w-28 border-none !bg-transparent !text-gradient-yellow-500"
                 icon={item.icon}
