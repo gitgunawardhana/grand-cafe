@@ -30,7 +30,7 @@ const Main = (props: CheckBoxSetResponsiveProps) => {
         ])}
       >
         {props.dataset?.map((item, key) => (
-          <li className="w-full">
+          <li key={item.label} className="w-full">
             <div className="flex items-center pl-3">
               <input
                 id={item.id}
