@@ -86,30 +86,42 @@ const SidebarMenu = () => {
         {/*  MAX SIDEBAR */}
         <div className="max mt-20 hidden h-[calc(100vh)] w-full flex-col space-y-2 text-gradient-yellow-500">
           {sideNavigationLinks?.map((linkItem, id) => (
-            <Button
-              key={linkItem.title}
-              as={NavLink}
-              to={linkItem.to}
-              generalStylesStatus={false}
-              className="flex !w-full transform flex-row items-center space-x-3 rounded-full border-none bg-gradient-brown-500 !p-2 !px-8 text-gradient-yellow-500 shadow-none duration-300 ease-in-out hover:ml-4 hover:!text-gradient-yellow-900"
-            >
-              <img src={linkItem.icon} className="h-4" alt="" />
-              <div>{linkItem.title}</div>
-            </Button>
+            <>
+              <Button
+                key={linkItem.title}
+                as={NavLink}
+                to={linkItem.to}
+                generalStylesStatus={false}
+                className="flex !w-full transform flex-row items-center space-x-3 rounded-full border-none bg-gradient-brown-500 !p-2 !px-8 text-gradient-yellow-500 shadow-none duration-300 ease-in-out hover:ml-4 hover:!text-gradient-yellow-900"
+              >
+                <img src={linkItem.icon} className="h-4" alt="" />
+                <div>{linkItem.title}</div>
+              </Button>
+              {(linkItem.title === "Food cart" ||
+                linkItem.title === "Settings") && (
+                <hr className="!my-3 mx-auto h-[2px] w-[75%] rounded border-0 bg-gradient-yellow-300 opacity-50" />
+              )}
+            </>
           ))}
         </div>
         {/*  MINI SIDEBAR */}
         <div className="mini mt-20 flex h-[calc(100vh)] w-full flex-col space-y-2">
           {sideNavigationLinks?.map((linkItem, id) => (
-            <Button
-              key={linkItem.title}
-              as={NavLink}
-              to={linkItem.to}
-              generalStylesStatus={false}
-              className="flex !w-full transform justify-end !rounded-full bg-gradient-brown-500 !p-3 !pr-5 text-gradient-yellow-500 duration-300 ease-in-out hover:ml-4 hover:!text-gradient-yellow-900"
-            >
-              <img src={linkItem.icon} className="h-4" alt="" />
-            </Button>
+            <>
+              <Button
+                key={linkItem.title}
+                as={NavLink}
+                to={linkItem.to}
+                generalStylesStatus={false}
+                className="flex !w-full transform justify-end !rounded-full bg-gradient-brown-500 !p-3 !pr-5 text-gradient-yellow-500 duration-300 ease-in-out hover:ml-4 hover:!text-gradient-yellow-900"
+              >
+                <img src={linkItem.icon} className="h-4" alt="" />
+              </Button>
+              {(linkItem.title === "Food cart" ||
+                linkItem.title === "Settings") && (
+                <hr className="!my-3 mx-auto h-[2px] w-[90%] rounded border-0 bg-gradient-yellow-300 opacity-50" />
+              )}
+            </>
           ))}
         </div>
       </aside>
