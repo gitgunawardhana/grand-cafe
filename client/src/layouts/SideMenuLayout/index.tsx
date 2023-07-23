@@ -14,6 +14,7 @@ const Main = (props: SideMenuLayoutsProps) => {
         className={twMerge([
           "content ml-12 transform px-2 pb-4 duration-500 ease-in-out md:px-5",
           props.className,
+          // "pt-20",
         ])}
       >
         {props.children}
