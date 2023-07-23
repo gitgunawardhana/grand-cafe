@@ -9,6 +9,7 @@ import Landing from "../pages/Landing";
 import Login from "../pages/Login";
 import ProductPage from "../pages/ProductPage";
 import Register from "../pages/Register";
+import TestPage from "../pages/TestPage";
 
 function Router() {
   const routes = [
@@ -38,7 +39,11 @@ function Router() {
     },
     {
       path: "/product-page",
-      element: <ProductPage />,
+      element: (
+        <SideMenuLayout footer>
+          <ProductPage />
+        </SideMenuLayout>
+      ),
     },
     {
       path: "/register",
@@ -51,9 +56,9 @@ function Router() {
     {
       path: "/test",
       element: (
-        <SideMenuLayout footer>
-          {/* <TestPage /> */}
-          <ProductPage />
+        <SideMenuLayout>
+          <TestPage />
+          {/* <ProductPage /> */}
         </SideMenuLayout>
       ),
     },
