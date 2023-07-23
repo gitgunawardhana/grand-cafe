@@ -13,8 +13,6 @@ const MuiRating = (props: MuiRatingProps) => {
     props.rateValue ? props.rateValue : null
   );
 
-  console.log(value);
-
   const handleChange = (
     _event: React.ChangeEvent<{}>,
     newValue: number | null
@@ -38,8 +36,12 @@ const MuiRating = (props: MuiRatingProps) => {
         </Stack>
       </div>
       <div className="my-auto">
-        <p className={twMerge(["ml-2 !bg-gradient-to-r from-gradient-green-300 to-gradient-blue-500 bg-clip-text text-xs font-normal text-transparent md:text-sm",
-          props.textClassName && props.textClassName])}>
+        <p
+          className={twMerge([
+            "ml-2 !bg-gradient-to-r from-gradient-green-300 to-gradient-blue-500 bg-clip-text text-xs font-normal text-transparent md:text-sm",
+            props.textClassName && props.textClassName,
+          ])}
+        >
           {value}
         </p>
       </div>
