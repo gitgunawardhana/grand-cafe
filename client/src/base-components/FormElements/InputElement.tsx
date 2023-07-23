@@ -15,6 +15,7 @@ interface InputFieldProps {
   helperText?: string;
   sepLabel?: string;
   labelAlignment?: AlignmentTypes;
+  type?: string;
 }
 
 const InputField = (props: InputFieldProps) => {
@@ -75,6 +76,7 @@ const InputField = (props: InputFieldProps) => {
           }`}
         >
           <FormInput
+            id={props.id && props.id}
             className={props.className && props.className}
             placeholder={props.placeholder && props.placeholder}
             onChange={props.onChange}
@@ -87,6 +89,10 @@ const InputField = (props: InputFieldProps) => {
       </div>
     </>
   );
+};
+
+InputField.defaultProps = {
+  type: "text",
 };
 
 export default InputField;

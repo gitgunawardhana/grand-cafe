@@ -1,0 +1,13 @@
+@media (min-width: 1200px) {
+  /* etc. */
+  .cus-navbar {
+    border: 0px solid transparent !important;
+  }
+  .cus-nav-item {
+    margin-left: 1rem !important;
+  }
+}
+
+.cus-nav-search-bar {
+  width: inherit !important;
+}
