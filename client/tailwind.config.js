@@ -28,6 +28,8 @@ export default {
         "gradient-blue-500": "rgba(36,255,255,1)",
         "gradient-brown-500": "#362B19",
         "gradient-brown-900": "#1f180e",
+        "gradient-brown-400": "#201E17",
+        "main-background": "#0c0702",
       },
     },
   },
