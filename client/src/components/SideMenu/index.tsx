@@ -3,6 +3,7 @@ import ButtonBg from "../../assets/images/ButtonBg.svg";
 import { Button } from "../../base-components/Button";
 import Logo from "../../base-components/Logo";
 
+import SocailMediaLinks from "../SocailMediaLinks";
 import { sideNavigationLinks } from "./navigationLinks";
 
 const SidebarMenu = () => {
@@ -85,10 +86,9 @@ const SidebarMenu = () => {
         </div>
         {/*  MAX SIDEBAR */}
         <div className="max mt-20 hidden h-[calc(100vh)] w-full flex-col space-y-2 text-gradient-yellow-500">
-          {sideNavigationLinks?.map((linkItem, id) => (
-            <>
+          {sideNavigationLinks?.map((linkItem) => (
+            <div key={linkItem.title}>
               <Button
-                key={linkItem.title}
                 as={NavLink}
                 to={linkItem.to}
                 generalStylesStatus={false}
@@ -101,15 +101,19 @@ const SidebarMenu = () => {
                 linkItem.title === "Settings") && (
                 <hr className="!my-3 mx-auto h-[2px] w-[75%] rounded border-0 bg-gradient-yellow-300 opacity-50" />
               )}
-            </>
+            </div>
           ))}
+          <div className="absolute bottom-5 w-full">
+            <div className="flex justify-center">
+              <SocailMediaLinks />
+            </div>
+          </div>
         </div>
         {/*  MINI SIDEBAR */}
         <div className="mini mt-20 flex h-[calc(100vh)] w-full flex-col space-y-2">
-          {sideNavigationLinks?.map((linkItem, id) => (
-            <>
+          {sideNavigationLinks?.map((linkItem) => (
+            <div key={linkItem.title}>
               <Button
-                key={linkItem.title}
                 as={NavLink}
                 to={linkItem.to}
                 generalStylesStatus={false}
@@ -121,7 +125,7 @@ const SidebarMenu = () => {
                 linkItem.title === "Settings") && (
                 <hr className="!my-3 mx-auto h-[2px] w-[90%] rounded border-0 bg-gradient-yellow-300 opacity-50" />
               )}
-            </>
+            </div>
           ))}
         </div>
       </aside>
