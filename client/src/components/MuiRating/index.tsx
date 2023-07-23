@@ -1,8 +1,11 @@
 import { Rating, Stack } from "@mui/material";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface MuiRatingProps {
   rateValue?: number;
+  className?: string;
+  textClassName?: string;
 }
 
 const MuiRating = (props: MuiRatingProps) => {
@@ -27,12 +30,16 @@ const MuiRating = (props: MuiRatingProps) => {
             value={value}
             onChange={handleChange}
             precision={0.5}
-            style={{ color: "#24FFFF" }}
+            className={twMerge([
+              "!text-[#24FFFF]",
+              props.className && props.className,
+            ])}
           />
         </Stack>
       </div>
       <div className="my-auto">
-        <p className="ml-2 !bg-gradient-to-r from-gradient-green-300 to-gradient-blue-500 bg-clip-text text-xs font-normal text-transparent md:text-sm">
+        <p className={twMerge(["ml-2 !bg-gradient-to-r from-gradient-green-300 to-gradient-blue-500 bg-clip-text text-xs font-normal text-transparent md:text-sm",
+          props.textClassName && props.textClassName])}>
           {value}
         </p>
       </div>
