@@ -1,9 +1,9 @@
-import Footer from "../../components/Footer";
-
 const Main = () => {
   return (
     <div>
-      <Footer />
+      <h1 className="text-7xl font-black text-gradient-yellow-900">
+        Test Page
+      </h1>
     </div>
   );
 };
