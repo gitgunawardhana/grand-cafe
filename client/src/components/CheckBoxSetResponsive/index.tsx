@@ -19,7 +19,7 @@ export interface CheckBoxSetResponsiveProps {
 const Main = (props: CheckBoxSetResponsiveProps) => {
   return (
     <div className="relative sm:flex">
-      <p className="absolute -top-2 left-1 bg-gradient-brown-900 !px-[5px] text-xs font-medium text-gradient-yellow-900">
+      <p className="absolute -top-2 left-1 bg-main-background !px-[5px] text-xs font-medium text-gradient-yellow-900">
         {props.label}
       </p>
       <ul
