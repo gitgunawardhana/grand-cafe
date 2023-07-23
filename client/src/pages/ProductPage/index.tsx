@@ -13,6 +13,9 @@ import Food3 from "../../assets/images/Foods/Food3.svg";
 import Food4 from "../../assets/images/Foods/Food4.svg";
 import Food5 from "../../assets/images/Foods/Food5.svg";
 import Food6 from "../../assets/images/Foods/Food6.svg";
+import Food7 from "../../assets/images/Foods/Food7.svg";
+import Food8 from "../../assets/images/Foods/Food8.svg";
+import Food9 from "../../assets/images/Foods/Food9.svg";
 import Order1 from "../../assets/images/Orders/Order1.svg";
 import ProductPageBg from "../../assets/images/ProductPageBg.svg";
 import SpeciealDescount from "../../assets/images/SpeciealDescount.svg";
@@ -61,6 +64,27 @@ const Main = () => {
     },
   ];
 
+  const popularDashers = [
+    {
+      title: "Special chicken Rice",
+      starting_from: "1300.00",
+      image: Food7,
+      rateValue: 4.9,
+    },
+    {
+      title: "burger  with French fries",
+      starting_from: "1350.00",
+      image: Food8,
+      rateValue: 4.2,
+    },
+    {
+      title: "our Special",
+      starting_from: "2200.00",
+      image: Food9,
+      rateValue: 5,
+    },
+  ];
+
   const categories = [
     { title: "Our Specials", icon: OurSpecialsIcon },
     { title: "Burger", icon: BurgerIcon },
@@ -72,9 +96,9 @@ const Main = () => {
   return (
     <>
       <div className="grid grid-cols-12">
-        <div className="col-span-9 h-[5000px]">
+        <div className="col-span-9">
           {HeaderSection()}
-          {/* Category Section - start */}
+          {/* Category Section1 - start */}
           <div>
             <div className="mx-5 flex content-center justify-between">
               <div className="my-auto">
@@ -90,18 +114,45 @@ const Main = () => {
                 </Button>
               </div>
             </div>
+          </div>
+          <div>
             <div className="grid grid-cols-3 gap-2 divide-x divide-gradient-yellow-300 lg:grid-cols-6">
-              {categories.map((itme) => Category(itme))}
+              {categories.map((item) => Category(item))}
             </div>
           </div>
-          {/* Category Section - end */}
-          {/* Food Card Section - start */}
+          {/* Category Section1 - end */}
+          {/* Food Card Section1 - start */}
           <div>
-            <div className="mx-5 mt-8 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+            <div className="mx-5 mb-8 mt-8 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
               {foods.map((item) => Card(item))}
             </div>
           </div>
-          {/* Food Card Section - end */}
+          {/* Food Card Section1 - end */}
+          {/* Category Section2 - start */}
+          <div>
+            <div className="mx-5 flex content-center justify-between">
+              <div className="my-auto">
+                <h1 className="mb-2 !bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text !text-sm font-extrabold uppercase text-transparent md:!text-lg">
+                  popular dashers
+                </h1>
+              </div>
+              <div className="my-auto min-[1650px]:mr-6">
+                <Button className="m-0 !mb-2 !mt-1 !rounded-[10px] border-none !bg-gradient-brown-400 !px-5 !py-2 !text-xs font-semibold capitalize text-black hover:text-black md:!px-5 md:py-2 md:text-sm">
+                  <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
+                    see more
+                  </p>
+                </Button>
+              </div>
+            </div>
+          </div>
+          {/* Category Section2 - end */}
+          {/* Food Card Section2 - start */}
+          <div>
+            <div className="mx-5 mb-8 mt-8 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+              {popularDashers.map((item) => Card(item))}
+            </div>
+          </div>
+          {/* Food Card Section2 - end */}
         </div>
         <div className="sticky top-5 col-span-3 mt-5 h-fit">
           {AddressSection()}
@@ -114,17 +165,17 @@ const Main = () => {
 
 export default Main;
 
-function Category(itme: { title: string; icon: string }) {
+function Category(item: { title: string; icon: string }) {
   return (
-    <div className="flex justify-center px-2">
+    <div key={item.title} className="flex justify-center px-2">
       <Button className="m-0 !max-w-full !grow gap-2 border-none !bg-transparent text-xs font-semibold capitalize shadow-none hover:shadow-none md:text-sm">
         <img
-          src={itme.icon}
+          src={item.icon}
           alt=""
           className="h-5 w-5 overflow-hidden rounded-lg object-cover"
         />
         <p className="my-auto !bg-gradient-to-tl from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
-          {itme.title}
+          {item.title}
         </p>
       </Button>
     </div>
@@ -141,7 +192,7 @@ function Card(item: {
   return (
     <div
       key={item.title}
-      className="mb-5 max-w-sm overflow-hidden rounded-xl !bg-opacity-25 bg-gradient-to-b from-gradient-yellow-100-15 to-gradient-yellow-900-10 text-center shadow-lg"
+      className="mb-0 max-w-sm overflow-hidden rounded-xl !bg-opacity-25 bg-gradient-to-b from-gradient-yellow-100-15 to-gradient-yellow-900-10 text-center shadow-lg"
     >
       <img className="w-full" src={item.image} alt={item.title} />
       <div className="mb-0 ml-5 mt-2 flex">

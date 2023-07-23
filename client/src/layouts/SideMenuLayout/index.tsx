@@ -1,8 +1,10 @@
 import { twMerge } from "tailwind-merge";
+import Footer from "../../components/Footer";
 import SideMenu from "../../components/SideMenu";
 interface SideMenuLayoutsProps {
   children: React.ReactElement | React.ReactElement[];
   className?: string;
+  footer?: boolean;
 }
 const Main = (props: SideMenuLayoutsProps) => {
   return (
@@ -15,6 +17,11 @@ const Main = (props: SideMenuLayoutsProps) => {
         ])}
       >
         {props.children}
+        {props.footer && (
+          <div className="-mx-5 -mb-5 mt-10">
+            <Footer />
+          </div>
+        )}
       </div>
     </>
   );

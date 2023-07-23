@@ -51,7 +51,7 @@ function Router() {
     {
       path: "/test",
       element: (
-        <SideMenuLayout>
+        <SideMenuLayout footer>
           {/* <TestPage /> */}
           <ProductPage />
         </SideMenuLayout>
