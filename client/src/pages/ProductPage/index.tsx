@@ -1,3 +1,9 @@
+import BeveragesIcon from "../../assets/categoryIcon/BeveragesIcon.svg";
+import BurgerIcon from "../../assets/categoryIcon/BurgerIcon.svg";
+import MeatIcon from "../../assets/categoryIcon/MeatIcon.svg";
+import NoodlesIcon from "../../assets/categoryIcon/NoodlesIcon.svg";
+import OurSpecialsIcon from "../../assets/categoryIcon/OurSpecialsIcon.svg";
+import PastaIcon from "../../assets/categoryIcon/PastaIcon.svg";
 import Cart from "../../assets/icons/Cart.svg";
 import DecreaseButton from "../../assets/icons/DecreaseButton.svg";
 import IncreaseButton from "../../assets/icons/IncreaseButton.svg";
@@ -54,13 +60,22 @@ const Main = () => {
       rateValue: 4.5,
     },
   ];
+
+  const categories = [
+    { title: "Our Specials", icon: OurSpecialsIcon },
+    { title: "Burger", icon: BurgerIcon },
+    { title: "Beverages", icon: BeveragesIcon },
+    { title: "Noodles", icon: NoodlesIcon },
+    { title: "Meat", icon: MeatIcon },
+    { title: "Pasta", icon: PastaIcon },
+  ];
   return (
     <>
       <div className="grid grid-cols-12">
         <div className="col-span-9 h-[5000px]">
           {HeaderSection()}
           {/* Category Section - start */}
-          <div className="">
+          <div>
             <div className="mx-5 flex content-center justify-between">
               <div className="my-auto">
                 <h1 className="mb-2 !bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text !text-sm font-extrabold uppercase text-transparent md:!text-lg">
@@ -75,11 +90,14 @@ const Main = () => {
                 </Button>
               </div>
             </div>
+            <div className="grid grid-cols-3 gap-2 divide-x divide-gradient-yellow-300 lg:grid-cols-6">
+              {categories.map((itme) => Category(itme))}
+            </div>
           </div>
           {/* Category Section - end */}
           {/* Food Card Section - start */}
           <div>
-            <div className="mx-5 mt-12 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+            <div className="mx-5 mt-8 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
               {foods.map((item) => Card(item))}
             </div>
           </div>
@@ -95,6 +113,23 @@ const Main = () => {
 };
 
 export default Main;
+
+function Category(itme: { title: string; icon: string }) {
+  return (
+    <div className="flex justify-center px-2">
+      <Button className="m-0 !max-w-full !grow gap-2 border-none !bg-transparent text-xs font-semibold capitalize shadow-none hover:shadow-none md:text-sm">
+        <img
+          src={itme.icon}
+          alt=""
+          className="h-5 w-5 overflow-hidden rounded-lg object-cover"
+        />
+        <p className="my-auto !bg-gradient-to-tl from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
+          {itme.title}
+        </p>
+      </Button>
+    </div>
+  );
+}
 
 // Food Card
 function Card(item: {
