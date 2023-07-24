@@ -1,11 +1,14 @@
 import Back_01 from "../../assets/images/HomePage/Back_01.svg";
 import Back_02 from "../../assets/images/HomePage/Back_02.svg";
 import Back_03 from "../../assets/images/HomePage/Back_03.svg";
+import BestMenu from "../../assets/images/HomePage/BestMenu.svg";
+import Back_05 from "../../assets/images/HomePage/CutomerReviews.svg";
 import Text_01 from "../../assets/images/HomePage/Text_01.png";
 import Text_02 from "../../assets/images/HomePage/Text_02.png";
 import Text_03 from "../../assets/images/HomePage/Text_03.png";
 import Text_04 from "../../assets/images/HomePage/Text_04.png";
 import Text_05 from "../../assets/images/HomePage/Text_05.png";
+import Text_08 from "../../assets/images/HomePage/Text_08.png";
 import OurMenu from "../../assets/images/HomePage/OurMenu.png";
 import { Button } from "../../base-components/Button";
 import { NavLink } from "react-router-dom";
@@ -18,9 +21,10 @@ import ProductBrowsingComponent from './../../components/MenuItems/index';
 import Shawarma from "../../assets/images/HomePage/Shawarma.png";
 import OurSpecial from "../../assets/images/HomePage/OurSpecial.png";
 import Burger from "../../assets/images/HomePage/Burger.png";
-import BestMenu from "../../assets/images/HomePage/BestMenu.svg";
 import OurFood from "../../assets/images/HomePage/OurFood.png";
 import ImageGallery from './../../components/ImageGallery/index';
+import ReviewCardComponent from './../../components/ReviewCardComponent/index';
+
 
 const products = [
   { name: 'our special',
@@ -45,6 +49,31 @@ const products = [
   },
   // Add more products as needed
 ];
+
+const reviews = [
+  {
+    name: 'John Doe',
+    review: 'The product is amazing!',
+    image: Burger,
+  },
+  {
+    name: 'Jane Smith',
+    review: 'Great quality and service.',
+    image: Burger,
+  },
+  {
+    name: 'Michael Johnson',
+    review: 'Highly recommend this product.',
+    image: Burger,
+  },
+  {
+    name: 'Chamod Johnson',
+    review: 'Highly recommend this product.',
+    image: Burger,
+  },
+];
+
+
 
 
 
@@ -186,6 +215,25 @@ const Main = () => {
         <div className=" h-full flex flex-col items-center justify-center">
           <img src={OurFood} alt="Our food"/><br></br>
           <ImageGallery/>
+          <br></br>
+
+        </div>
+
+
+      </div>
+
+      {/** Fourth part */}
+
+      <div
+        style={{
+          backgroundImage: `url(${Back_05})`,
+          backgroundSize: "cover",
+        }}
+        className="w-m flex h-full flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen bg-repeat"
+      >
+        <div className=" h-full flex flex-col items-center justify-center">
+          <img src={Text_08} alt="Our food"/><br></br>
+          <ReviewCardComponent reviews={reviews} />
           <br></br>
 
         </div>

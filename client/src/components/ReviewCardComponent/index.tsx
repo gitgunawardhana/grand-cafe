@@ -1,19 +1,17 @@
 import React, { useRef, useState } from "react";
+import ReviewCard from "./Card";
 
-interface Product {
+interface Review {
   name: string;
+  review: string;
   image: string;
-  content: string;
-  price: string;
 }
 
-interface ProductBrowsingComponentProps {
-  products: Product[];
+interface ReviewCardComponentProps {
+  reviews: Review[];
 }
 
-const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
-  products,
-}) => {
+const ReviewCardComponent: React.FC<ReviewCardComponentProps> = ({ reviews }) => {
   const viewerRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -23,7 +21,7 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
         left: -300,
         behavior: "smooth",
       });
-      setCurrentPage(currentPage - 1);
+      setCurrentPage((prevPage) => prevPage - 1);
     }
   };
 
@@ -33,7 +31,7 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
         left: 300,
         behavior: "smooth",
       });
-      setCurrentPage(currentPage + 1);
+      setCurrentPage((prevPage) => prevPage + 1);
     }
   };
 
@@ -41,7 +39,7 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
     <>
       <div className="grid items-center md:flex md:items-center">
         <button
-          className={` rounded-l p-5 focus:outline-none ${
+          className={`rounded-l p-5 focus:outline-none ${
             currentPage === 0 ? "cursor-not-allowed opacity-50" : ""
           }`}
           onClick={scrollLeft}
@@ -50,51 +48,33 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
           &lt;
         </button>
         <div className="flex space-x-4 overflow-hidden" ref={viewerRef}>
-          {products.map((product: Product, index: number) => (
+          {reviews.map((review: Review, index: number) => (
             <div
               key={index}
               className={`w-full lg:w-1/3 flex-none transform transition-transform ${
                 index === currentPage ? "scale-100" : "scale-90"
               }`}
             >
-              {/* Render your product component or content here */}
-              <div className="rounded-md p-4">
-                <div className="justify-center items-center flex ">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                
-                  className=" h-auto w-3/5"
-                />
-                </div>
-                <br></br>
-
-                <p className="text-amber-500 uppercase font-black tracking-widest text-2xl">{product.name}</p><br></br>
-                <p className="text-amber-100 tracking-widest">{product.content}</p><br></br>
-                <p className="text-amber-500 uppercase text-2xl -tracking-normal font-black">{product.price}</p>
-                
-              </div>
+              <ReviewCard review={review} />
             </div>
           ))}
         </div>
         <button
-          className={` rounded-r p-5 focus:outline-none ${
-            currentPage === products.length - 1
-              ? "cursor-not-allowed opacity-50"
-              : ""
+          className={`rounded-r p-5 focus:outline-none ${
+            currentPage === reviews.length - 1 ? "cursor-not-allowed opacity-50" : ""
           }`}
           onClick={scrollRight}
-          disabled={currentPage === products.length - 1}
+          disabled={currentPage === reviews.length - 1}
         >
           &gt;
         </button>
       </div>
-      <br></br>
+      <br />
       <div className="grid items-center justify-center">
         <div className="mt-2 flex space-x-2">
-          {products.map((_, index) => (
+          {reviews.map((_, index) => (
             <>
-              <br></br>
+              <br />
               <div
                 key={index}
                 className={`h-2 w-2 rounded-full ${
@@ -110,4 +90,4 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
   );
 };
 
-export default ProductBrowsingComponent;
+export default ReviewCardComponent;
