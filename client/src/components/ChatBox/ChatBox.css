@@ -1,0 +1,72 @@
+.cs-message-list,
+.cs-message-input,
+.cs-typing-indicator,
+.cs-main-container,
+.cs-chat-container {
+  background-color: #00000000 !important;
+}
+.cs-main-container,
+.cs-message-input {
+  border: none !important;
+}
+
+/* chatGPT */
+.cs-message__content {
+  background-color: #282c3400 !important;
+  border: #ff9124a8 solid 1px;
+  border-radius: 0px 10px 10px 10px !important;
+  color: #ff9124c7 !important;
+  max-width: 100% !important;
+  margin-bottom: 10px;
+  margin-left: 10px !important;
+}
+
+/* user chat field */
+.cs-message--outgoing .cs-message__content {
+  background-color: #b9803544 !important;
+  max-width: 100% !important;
+  margin-left: 5px !important;
+  margin-bottom: 10px;
+  border: #ff912494 solid 1px;
+  border-radius: 10px 0px 10px 10px !important;
+  color: #ff9224 !important;
+}
+
+/* send button and typing indicator */
+.cs-button,
+.cs-button--send,
+.cs-typing-indicator__text {
+  color: #ff9224;
+}
+
+/* Typing indicator dots */
+.cs-typing-indicator__dot {
+  background-color: #ff9224;
+}
+
+.cs-message-input__content-editor-wrapper {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 227, 83, 0.13) 0%,
+    rgba(255, 146, 36, 0.14) 100%
+  );
+  text-align: left;
+}
+
+.cs-message-input__content-editor,
+.scrollbar-container,
+.cs-message-input__content-editor-container ps {
+  background-color: #c91e1e00 !important;
+  color: #ff9224 !important;
+}
+
+.cs-message-input__content-editor[data-placeholder]:empty:before {
+  color: #ff912465 !important;
+}
+
+/* Avatar CSS */
+.cs-message__avatar {
+  margin: 0px 0px 0px 10px !important;
+  padding: 0px !important;
+  width: fit-content;
+}
