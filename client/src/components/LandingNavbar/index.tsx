@@ -15,7 +15,6 @@ function Main() {
 
   const handleToggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
-    console.log("first " + isDropdownOpen);
   };
   //* Dropdown menu handler - end
 
@@ -57,10 +56,8 @@ function Main() {
             </Button> */}
             <ProfileOptions className={CSSClasses.NAVBARICON} />
             <Button
-              data-collapse-toggle="navbar-sticky"
               type="button"
               className="inline-flex h-9 w-9 translate-y-0.5 items-center justify-center rounded-full border-2 !border-gradient-yellow-500 !bg-transparent p-2 text-sm !text-gradient-yellow-500 hover:bg-transparent md:hidden"
-              aria-controls="navbar-sticky"
               aria-expanded="false"
               onClick={handleToggleDropdown}
             >
@@ -69,10 +66,7 @@ function Main() {
             </Button>
           </div>
           {isDropdownOpen && (
-            <div
-              className="w-full items-center justify-between md:order-1 md:flex md:w-auto"
-              id="navbar-sticky"
-            >
+            <div className="w-full items-center justify-between md:order-1 md:flex md:w-auto">
               <ul className="!mt-4 flex flex-col rounded-lg border border-gradient-yellow-500 !bg-transparent bg-gray-50 p-4 font-medium backdrop-blur-md md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0">
                 {navigationLinks?.map((item, id) => (
                   <li key={id}>

@@ -7,8 +7,10 @@ import ErrorPage from "../pages/ErrorPage";
 import FirstPage from "../pages/FirstPage";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
+import ProductPage from "../pages/ProductPage";
 import Register from "../pages/Register";
 import CustomerAcc from "../pages/CustomerAccount";
+import TestPage from "../pages/TestPage";
 
 function Router() {
   const routes = [
@@ -29,11 +31,19 @@ function Router() {
       element: <Login />,
     },
     {
-      path: "/custormize-page",
+      path: "/customize-page",
       element: (
         <TopLayout>
           <CustomizePage />
         </TopLayout>
+      ),
+    },
+    {
+      path: "/product-page",
+      element: (
+        <SideMenuLayout footer>
+          <ProductPage />
+        </SideMenuLayout>
       ),
     },
     {
@@ -48,9 +58,8 @@ function Router() {
       path: "/test",
       element: (
         <SideMenuLayout>
-          <h1 className="text-5xl font-extrabold text-gradient-yellow-900">
-            Test Page
-          </h1>
+          <TestPage />
+          {/* <ProductPage /> */}
         </SideMenuLayout>
       ),
     },

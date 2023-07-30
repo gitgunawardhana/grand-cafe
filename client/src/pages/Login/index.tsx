@@ -12,14 +12,16 @@ const Main = () => {
         style={{
           backgroundImage: `url(${Sign_up})`,
           backgroundSize: "cover",
+          
         }}
-        className="w-m flex h-screen flex-col p-5 pt-[25px] text-center text-slate-900  dark:text-slate-50"
+        className="w-m flex flex-col p-5 pt-[80px] text-center text-slate-900  dark:text-slate-50 h-[48rem] md:h-screen sm:h-screen"
       >
-        <div className="grid grid-cols-2 ">
-          <div className="grid h-screen justify-center ">
-            <div className="justify-center">
+        <div className="">
+          <div className="grid h-full justify-center items-center lg:grid-cols-5">
+            <div className="grid md:col-span-3 justify-center content-center w-full">
+              <div className="">
               {/*Logo */}
-              {<Logo className="h-24 w-24" />}
+              <div className="grid justify-center items-center"><Logo className="h-24 w-24" /></div>
 
               {/*Text fields */}
               <span
@@ -150,13 +152,11 @@ const Main = () => {
 
                 </form>
               </div>
+              </div>
             </div>
-
-            <div></div>
-            <div></div>
           </div>
         </div>
-        <div></div>
+        
       </div>
     </div>
   );

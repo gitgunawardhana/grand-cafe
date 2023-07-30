@@ -22,7 +22,6 @@ function DropdownButton(props: DropdownButtonProps) {
 
   const handleToggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
-    console.log("first " + isDropdownOpen);
   };
   //* Dropdown menu handler - end
 
@@ -30,7 +29,6 @@ function DropdownButton(props: DropdownButtonProps) {
     <>
       <Button
         id="dropdownDefaultButton"
-        dataDropdownToggle="dropdown"
         className={props.buttonClassName}
         onClick={handleToggleDropdown}
       >

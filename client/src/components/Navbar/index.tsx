@@ -2,15 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import NavigationBg from "../../assets/images/NavigationBg.svg";
-import fbIcon from "../../assets/socialMediaIcon/fbIcon.svg";
-import instaIcon from "../../assets/socialMediaIcon/instaIcon.svg";
-import telegramIcon from "../../assets/socialMediaIcon/telegramIcon.svg";
-import whatsappIcon from "../../assets/socialMediaIcon/whatsappIcon.svg";
 import { Button } from "../../base-components/Button";
 import InputField from "../../base-components/FormElements/InputElement";
 import Logo from "../../base-components/Logo";
 import LucideIcon from "../../base-components/LucideIcon";
 import { ProviderContext } from "../Provider";
+import SocailMediaLinks from "../SocailMediaLinks";
 import "./Navbar.css";
 import { navigationLinks } from "./navigationLinks";
 
@@ -20,7 +17,6 @@ function Main() {
 
   const handleToggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
-    console.log("first " + isDropdownOpen);
   };
   //* Dropdown menu handler - end
 
@@ -44,23 +40,8 @@ function Main() {
       <div className="">
         <div className="z-50 flex !justify-end text-right">
           <div className="fixed top-0 z-50 my-2 mr-2">
-            <ul
-              className="list-style-none mx-auto flex flex-row pl-0"
-              data-te-navbar-nav-ref
-            >
-              <li className="px-2" data-te-nav-item-ref>
-                <img className="h-4 cursor-pointer" src={fbIcon} />
-              </li>
-              <li className="px-2" data-te-nav-item-ref>
-                <img className="h-4 cursor-pointer" src={instaIcon} />
-              </li>
-              <li className="px-2" data-te-nav-item-ref>
-                <img className="h-4 cursor-pointer" src={telegramIcon} />
-              </li>
-              <li className="px-2" data-te-nav-item-ref>
-                <img className="h-4 cursor-pointer" src={whatsappIcon} />
-              </li>
-            </ul>
+            {/* {SocailMediaLinks()} */}
+            <SocailMediaLinks />
           </div>
         </div>
       </div>
@@ -88,10 +69,8 @@ function Main() {
           </Button>
           <div className={twMerge(["flex md:order-2", clsProfileBtn])}>
             <Button
-              data-collapse-toggle="navbar-sticky"
               type="button"
               className="inline-flex h-9 w-9 translate-y-0.5 items-center justify-center rounded-full border-2 !border-gradient-yellow-500 !bg-transparent p-2 text-sm !text-gradient-yellow-500 hover:bg-transparent min-[1200px]:hidden"
-              aria-controls="navbar-sticky"
               aria-expanded="false"
               onClick={handleToggleDropdown}
             >
@@ -114,7 +93,7 @@ function Main() {
                 <form className="!my-auto content-center md:flex">
                   <InputField
                     type="search"
-                    className="placeholder-gradient-yellow-500] min-w-[210x] border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 !placeholder-opacity-25"
+                    className="min-w-[210x] border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
                     placeholder="Search here your favorites"
                   />
 
@@ -139,11 +118,8 @@ function Main() {
             </ul>
           </div>
           {isDropdownOpen && (
-            <div
-              className="ml-0 w-full items-center justify-between  md:order-1 md:flex min-[1200px]:w-auto"
-              id="navbar-sticky"
-            >
-              <ul className="max-[1200px]:border cus-navbar !mt-4 flex  w-full flex-col rounded-lg border border-gradient-yellow-500 p-5  min-[1200px]:flex-row">
+            <div className="ml-0 w-full items-center justify-between  md:order-1 md:flex min-[1200px]:w-auto">
+              <ul className="cus-navbar !mt-4 flex w-full  flex-col rounded-lg border border-gradient-yellow-500 p-5 max-[1200px]:border  min-[1200px]:flex-row">
                 {navigationLinks?.map((item, id) => (
                   <li key={id}>
                     <Button
@@ -166,7 +142,7 @@ function Main() {
                   <form className="flex !w-full">
                     <InputField
                       type="search"
-                      className="cus-nav-search-bar placeholder-gradient-yellow-500] !w-[100%] border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 !placeholder-opacity-25"
+                      className="cus-nav-search-bar !w-[100%] border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
                       placeholder="Search here your favorites"
                     />
                     <span
