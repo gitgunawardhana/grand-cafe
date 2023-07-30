@@ -8,6 +8,7 @@ import FirstPage from "../pages/FirstPage";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
 import ProductPage from "../pages/ProductPage";
+import RecipeGenerator from "../pages/RecipeGenerator";
 import Register from "../pages/Register";
 import TestPage from "../pages/TestPage";
 
@@ -42,6 +43,14 @@ function Router() {
       element: (
         <SideMenuLayout footer>
           <ProductPage />
+        </SideMenuLayout>
+      ),
+    },
+    {
+      path: "/recipe-generator",
+      element: (
+        <SideMenuLayout className="!px-0">
+          <RecipeGenerator />
         </SideMenuLayout>
       ),
     },
