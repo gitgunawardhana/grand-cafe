@@ -8,12 +8,12 @@ import {
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
-import { useState } from "react";
+import React, { useState } from "react";
 import Logo100percentage from "../../assets/images/logo100percentage.png";
 import "./ChatBox.css";
 
 // This API Key should be change
-const API_KEY = "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";
+const API_KEY = "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";
 
 const systemMessage = {
   role: "system",
