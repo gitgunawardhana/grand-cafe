@@ -13,7 +13,7 @@ import Logo100percentage from "../../assets/images/logo100percentage.png";
 import "./ChatBox.css";
 
 // This API Key should be change
-const API_KEY = "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";
+const API_KEY = process.env.API_KEY;
 
 const systemMessage = {
   role: "system",
