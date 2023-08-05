@@ -24,6 +24,10 @@ import Burger from "../../assets/images/HomePage/Burger.png";
 import OurFood from "../../assets/images/HomePage/OurFood.png";
 import ImageGallery from './../../components/ImageGallery/index';
 import ReviewCardComponent from './../../components/ReviewCardComponent/index';
+import Review_01 from "../../assets/images/HomePage/Pexels Photo by Andrea Piacquadio.png";
+import Review_02 from "../../assets/images/HomePage/Pexels Photo by Engin Akyurt.png";
+import Review_03 from "../../assets/images/HomePage/Pexels Photo by Pixabay.png";
+import rate from "../../assets/images/HomePage/stars.png";
 
 
 const products = [
@@ -52,24 +56,28 @@ const products = [
 
 const reviews = [
   {
-    name: 'John Doe',
-    review: 'The product is amazing!',
-    image: Burger,
+    name: 'Ishan Tharindu',
+    rate: rate ,
+    review: 'The food at this restaurant is absolutely incredible! Everything we tried was bursting with flavor and cooked to perfection. We especially loved the [Taco special], which was a unique and delightful combination of flavors. Well definitely be coming back for more!',
+    image: Review_02,
   },
   {
-    name: 'Jane Smith',
-    review: 'Great quality and service.',
-    image: Burger,
+    name: 'Chamod Dilpa',
+    rate: rate ,
+    review: 'I had an amazing experience at this restaurant! The food was delicious and beautifully presented, the staff was friendly and attentive, and the atmosphere was cozy and inviting. I highly recommend this place to anyone looking for a great meal and a wonderful dining experience.',
+    image: Review_03,
   },
   {
-    name: 'Michael Johnson',
-    review: 'Highly recommend this product.',
-    image: Burger,
+    name: 'Shashitha Akalanka',
+    rate: rate ,
+    review: 'I cant say enough good things about this restaurant! The service was impeccable from start to finish, and the food was out of this world. I was blown away by the creativity and attention to detail in every dish. This is definitely one of my new favorite restaurants!',
+    image: Review_03,
   },
   {
-    name: 'Chamod Johnson',
-    review: 'Highly recommend this product.',
-    image: Burger,
+    name: 'Chathura Dinushka',
+    rate: rate ,
+    review: 'The food at this restaurant is absolutely incredible! Everything we tried was bursting with flavor and cooked to perfection. We especially loved the [Taco special], which was a unique and delightful combination of flavors. Well definitely be coming back for more!',
+    image: Review_01,
   },
 ];
 
@@ -232,7 +240,7 @@ const Main = () => {
         className="w-m flex h-full flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen bg-repeat"
       >
         <div className=" h-full flex flex-col items-center justify-center">
-          <img src={Text_08} alt="Our food"/><br></br>
+          <img src={Text_08} alt="Our food"/><br></br><br></br>
           <ReviewCardComponent reviews={reviews} />
           <br></br>
 

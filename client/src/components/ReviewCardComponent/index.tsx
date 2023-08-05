@@ -3,6 +3,7 @@ import ReviewCard from "./Card";
 
 interface Review {
   name: string;
+  rate:string;
   review: string;
   image: string;
 }
