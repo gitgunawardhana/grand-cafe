@@ -10,6 +10,7 @@ import Login from "../pages/Login";
 import ProductPage from "../pages/ProductPage";
 import RecipeGenerator from "../pages/RecipeGenerator";
 import Register from "../pages/Register";
+import TableBooking from "../pages/TableBooking";
 import TestPage from "../pages/TestPage";
 
 function Router() {
@@ -55,6 +56,14 @@ function Router() {
       ),
     },
     {
+      path: "/table-booking",
+      element: (
+        <SideMenuLayout className="!px-10">
+          <TableBooking />
+        </SideMenuLayout>
+      ),
+    },
+    {
       path: "/register",
       element: <Register />,
     },
@@ -67,7 +76,6 @@ function Router() {
       element: (
         <SideMenuLayout>
           <TestPage />
-          {/* <ProductPage /> */}
         </SideMenuLayout>
       ),
     },
