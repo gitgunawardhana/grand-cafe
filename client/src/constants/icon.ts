@@ -16,6 +16,7 @@ enum Icons {
   DOLLAR = "DollarSign",
   DOWNARROW = "ChevronDown",
   UPARROW = "ChevronUp",
+  ARMCHAIR = "Armchair",
 }
 
 export default Icons;
