@@ -27,6 +27,7 @@ function Main() {
               </div>
             </div>
             <div>
+
               <img src={Svg404} className="opacity-[.04]" />
               {/* <img src="https://i.ibb.co/G9DC8S0/404-2.png" /> */}
               {/* <svg
@@ -43,7 +44,7 @@ function Main() {
                   stroke="none"
                 ></g>
               </svg> */}
-            </div>
+             </div>
           </div>
         </div>
         <div>

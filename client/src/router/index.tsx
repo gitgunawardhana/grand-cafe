@@ -11,6 +11,7 @@ import ProductPage from "../pages/ProductPage";
 import Register from "../pages/Register";
 import CustomerAcc from "../pages/CustomerAccount";
 import TestPage from "../pages/TestPage";
+import CustomerView from "../pages/CustomerView";
 
 function Router() {
   const routes = [
@@ -68,6 +69,13 @@ function Router() {
       path: "/customer-acc",
       element: (
        <CustomerAcc/>
+      ),
+    },
+
+    {
+      path: "/customer-view",
+      element: (
+        <CustomerView/>
       ),
     },
 

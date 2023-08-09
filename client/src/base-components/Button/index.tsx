@@ -40,7 +40,7 @@ export const Button = <E extends React.ElementType = "a">({
       {children}
     </Component>
   );
-};
+}; 
 
 Button.defaultProps = {
   generalStylesStatus: true,
