@@ -167,14 +167,17 @@ export default Main;
 
 function Category(item: { title: string; icon: string }) {
   return (
-    <div key={item.title} className="flex justify-center px-2">
+    <div
+      key={item.title}
+      className="group/category-item flex justify-center px-2"
+    >
       <Button className="m-0 !max-w-full !grow gap-2 border-none !bg-transparent text-xs font-semibold capitalize shadow-none hover:shadow-none md:text-sm">
         <img
           src={item.icon}
           alt=""
-          className="h-5 w-5 overflow-hidden rounded-lg object-cover"
+          className="h-5 w-5 overflow-hidden rounded-lg object-cover transition-transform duration-300 group-hover/category-item:rotate-12 group-hover/category-item:scale-125"
         />
-        <p className="my-auto !bg-gradient-to-tl from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
+        <p className="my-auto !bg-gradient-to-tl from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent transition-transform duration-500 group-hover/category-item:scale-110 group-hover/category-item:from-gradient-yellow-900 group-hover/category-item:to-gradient-yellow-500">
           {item.title}
         </p>
       </Button>
