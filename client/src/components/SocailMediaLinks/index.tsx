@@ -35,7 +35,11 @@ const SocailMediaLinks = () => {
         >
           {socialMediaLinks.map((item) => (
             <li key={item.title} className="px-2" data-te-nav-item-ref>
-              <img className="h-4 cursor-pointer" src={item.icon} />
+              <img
+                className="h-5 cursor-pointer transition-transform ease-in-out hover:rotate-6 hover:scale-125"
+                src={item.icon}
+                title={item.title}
+              />
             </li>
           ))}
         </ul>
