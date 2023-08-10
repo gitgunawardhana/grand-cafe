@@ -101,47 +101,45 @@ const Main: React.FC = () => {
 
   return (
     <>
-      <div className="h-screen py-10">
-        <MainContainer>
-          <ChatContainer>
-            <MessageList
-              scrollBehavior="smooth"
-              typingIndicator={
-                isTyping ? (
-                  <TypingIndicator
-                    content="Preparing a delicious recipe"
-                    className="ml-3"
-                  />
-                ) : null
-              }
-            >
-              {messages.map((message, i) => (
-                <Message
-                  key={i}
-                  model={message}
-                  avatarPosition={message.sender === "user" ? "tr" : "tl"}
-                  className="bg-transparent"
-                >
-                  <Avatar
-                    src={
-                      message.sender === "user"
-                        ? "https://chatscope.io/storybook/react/static/media/joe.641da105.svg"
-                        : Logo100percentage
-                    }
-                    name="Joe"
-                    size="sm"
-                  />
-                </Message>
-              ))}
-            </MessageList>
-            <MessageInput
-              attachButton={false}
-              placeholder="Type message here"
-              onSend={handleSend}
-            />
-          </ChatContainer>
-        </MainContainer>
-      </div>
+      <MainContainer>
+        <ChatContainer>
+          <MessageList
+            scrollBehavior="smooth"
+            typingIndicator={
+              isTyping ? (
+                <TypingIndicator
+                  content="Preparing a delicious recipe"
+                  className="ml-3"
+                />
+              ) : null
+            }
+          >
+            {messages.map((message, i) => (
+              <Message
+                key={i}
+                model={message}
+                avatarPosition={message.sender === "user" ? "tr" : "tl"}
+                className="bg-transparent"
+              >
+                <Avatar
+                  src={
+                    message.sender === "user"
+                      ? "https://chatscope.io/storybook/react/static/media/joe.641da105.svg"
+                      : Logo100percentage
+                  }
+                  name="Joe"
+                  size="sm"
+                />
+              </Message>
+            ))}
+          </MessageList>
+          <MessageInput
+            attachButton={false}
+            placeholder="Type message here"
+            onSend={handleSend}
+          />
+        </ChatContainer>
+      </MainContainer>
     </>
   );
 };
