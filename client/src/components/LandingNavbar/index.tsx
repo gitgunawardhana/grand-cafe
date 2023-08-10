@@ -42,8 +42,8 @@ function Main() {
       >
         <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
           <Button
-            as="a"
-            href="/"
+            as={NavLink}
+            to="/"
             className="flex items-center !border-none !bg-transparent !shadow-none"
           >
             <Logo className="!h-14 !w-14" />
