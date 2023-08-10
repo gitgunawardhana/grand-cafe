@@ -3,6 +3,8 @@ import Back_02 from "../../assets/images/HomePage/Back_02.svg";
 import Back_03 from "../../assets/images/HomePage/Back_03.svg";
 import BestMenu from "../../assets/images/HomePage/BestMenu.svg";
 import Back_05 from "../../assets/images/HomePage/CutomerReviews.svg";
+import Back_06 from "../../assets/images/HomePage/Blog.svg";
+import Back_07 from "../../assets/images/HomePage/AboutUs.svg";
 import Text_01 from "../../assets/images/HomePage/Text_01.png";
 import Text_02 from "../../assets/images/HomePage/Text_02.png";
 import Text_03 from "../../assets/images/HomePage/Text_03.png";
@@ -28,6 +30,8 @@ import Review_01 from "../../assets/images/HomePage/Pexels Photo by Andrea Piacq
 import Review_02 from "../../assets/images/HomePage/Pexels Photo by Engin Akyurt.png";
 import Review_03 from "../../assets/images/HomePage/Pexels Photo by Pixabay.png";
 import rate from "../../assets/images/HomePage/stars.png";
+import about from "../../assets/images/HomePage/about.png";
+import FormInput from './../../base-components/FormElements/FormInput/index';
 
 
 const products = [
@@ -248,6 +252,80 @@ const Main = () => {
 
 
       </div>
+
+      {/** Fifth part */}
+
+      <div
+        style={{
+          backgroundImage: `url(${Back_06})`,
+          backgroundSize: "cover",
+        }}
+        className="w-m flex h-full flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-full md:h-screen bg-repeat"
+      >
+        <div className=" h-full items-center justify-center">
+        <div className="grid h-screen grid-cols-1 sm:grid-cols-2">
+          {/* First Column */}
+          <div className="p-4 rounded-3xl bg-amber-300 bg-opacity-50 h-screen md:h-5/6 md:pb-10">
+            {/* Text at the top of the card */}
+            
+            {/* Button at the bottom of the card */}
+            <br />
+            <h2 className="uppercase text-gray-900 xs:text-[30px] sm:text-[40px] tracking-widest xs:font-black">Grand Cafe Blog</h2>
+            <br />
+
+            <p className="text-xs xs:text-lg sm:text-xl text-justify p-5 xs:p-10 text-gray-900">
+              Welcome to the Taco Grag restaurant blog, your ultimate guide to all things related to our restaurant! Here, you'll find a plethora of information about our mouth-watering food, talented chefs, exceptional customer service, and the overall quality of our restaurant. Whether you're a regular customer or a first-time visitor, our blog is the perfect place to discover everything you need to know about Taco Grag. From our menu to our reservation system, we've got you covered. So, sit back, relax, and let us take you on a journey through the world of Taco Grag!
+            </p>
+          
+            <Button
+                  as={NavLink}
+                  to="/"
+                  className={twMerge(
+                    "rounded-[15px] border-2 border-solid border-gradient-yellow-300 !bg-zinc-800 bg-opacity-50 px-[20px] py-[20px] xs:px-[120px]  sm:px-[180px] sm:py-[20px]"
+                  )}
+                >
+                  <span
+                    className={twMerge(
+                      "!text-#FFE353 text-[14px] font-[900] uppercase tracking-[2px] hover:scale-110"
+                    )}
+                  >
+                    Go to Our Blog
+                  </span>
+                </Button>
+          </div>
+          
+          {/* Second Column */}
+          <div className="p-4">
+        {/* Content of the second column */}
+      </div>
+    </div>
+         
+          
+         
+
+        </div>
+        <br></br>
+
+
+      </div>
+
+      {/**sixth part */}
+      <div
+        style={{
+          backgroundImage: `url(${Back_07})`,
+          backgroundSize: "cover",
+        }}
+        className="w-m flex h-full flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-full md:h-screen bg-repeat"
+      >
+        <div className=" h-full flex flex-col items-center justify-center">
+        <img src={about} alt="" />
+        </div>
+        <div className="">
+
+        </div>
+      </div>
+
+
       
     </div>
   );
