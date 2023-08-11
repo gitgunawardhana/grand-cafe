@@ -38,6 +38,11 @@ import google_pay from "../../assets/images/HomePage/google_pay.png";
 import get_started from "../../assets/images/HomePage/get_started.png";
 import FormInput from './../../base-components/FormElements/FormInput/index';
 import ChefDisplay from '../../components/ChefDisplay/index';
+import chef_01 from "../../assets/images/HomePage/chef_01.png";
+import chef_02 from "../../assets/images/HomePage/chef_02.png";
+import chef_03 from "../../assets/images/HomePage/chef_03.png";
+import chef_04 from "../../assets/images/HomePage/chef_04.png";
+import our_chef from "../../assets/images/HomePage/Our chefs.png";
 
 
 const products = [
@@ -416,21 +421,40 @@ const Main = () => {
         }}
         className="w-m flex h-full flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-full md:h-screen bg-repeat"
       >
-
-        
-        <div className="grid grid-cols-4">
+        <div className="grid justify-center items-center">
+        <img src={our_chef} alt="" className=""/><br/> 
+        </div>
+        <div className="grid sm:grid-cols-4 ">
           <div>
             <ChefDisplay 
-                  size={100}
+                  
                   person={{ 
                             name: 'Katsuko Saruhashi',
-                            imageId: ''
+                            imageId: chef_01
                 }} 
                 />
            </div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
+          <div><ChefDisplay 
+                  
+                  person={{ 
+                            name: 'Katsuko Saruhashi',
+                            imageId: chef_02
+                }} 
+                /></div>
+          <div><ChefDisplay 
+                  
+                  person={{ 
+                            name: 'Katsuko Saruhashi',
+                            imageId: chef_03
+                }} 
+                /></div>
+          <div><ChefDisplay 
+                 
+                  person={{ 
+                            name: 'Katsuko Saruhashi',
+                            imageId: chef_04
+                }} 
+                /></div>
 
         </div>
 
