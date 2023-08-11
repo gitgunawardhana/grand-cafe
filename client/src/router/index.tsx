@@ -5,10 +5,14 @@ import TopLayout from "../layouts/TopMenu";
 import CustomizePage from "../pages/CustomizePage";
 import ErrorPage from "../pages/ErrorPage";
 import FirstPage from "../pages/FirstPage";
+import HomePage from "../pages/HomePage";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
+import ProductPage from "../pages/ProductPage";
+import RecipeGenerator from "../pages/RecipeGenerator";
 import Register from "../pages/Register";
-import HomePage from "../pages/HomePage";
+import TableBooking from "../pages/TableBooking";
+import TestPage from "../pages/TestPage";
 
 function Router() {
   const routes = [
@@ -22,9 +26,11 @@ function Router() {
     },
     {
       path: "/home",
-      element: (<TopLayout>
-                  <HomePage />
-                </TopLayout>),
+      element: (
+        <TopLayout>
+          <HomePage />
+        </TopLayout>
+      ),
     },
     {
       path: "/first",
@@ -35,11 +41,35 @@ function Router() {
       element: <Login />,
     },
     {
-      path: "/custormize-page",
+      path: "/customize-page",
       element: (
         <TopLayout>
           <CustomizePage />
         </TopLayout>
+      ),
+    },
+    {
+      path: "/product-page",
+      element: (
+        <SideMenuLayout footer>
+          <ProductPage />
+        </SideMenuLayout>
+      ),
+    },
+    {
+      path: "/recipe-generator",
+      element: (
+        <SideMenuLayout className="!px-0">
+          <RecipeGenerator />
+        </SideMenuLayout>
+      ),
+    },
+    {
+      path: "/table-booking",
+      element: (
+        <SideMenuLayout className="!px-10">
+          <TableBooking />
+        </SideMenuLayout>
       ),
     },
     {
@@ -54,9 +84,7 @@ function Router() {
       path: "/test",
       element: (
         <SideMenuLayout>
-          <h1 className="text-5xl font-extrabold text-gradient-yellow-900">
-            Test Page
-          </h1>
+          <TestPage />
         </SideMenuLayout>
       ),
     },

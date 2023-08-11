@@ -1,3 +1,4 @@
+import { twMerge } from "tailwind-merge";
 import { AlignmentTypes } from "../../constants";
 import FormInput from "./FormInput";
 import FormLabel from "./FormLabel";
@@ -11,6 +12,7 @@ interface InputFieldProps {
   value?: string;
   required?: boolean;
   labelClassName?: string;
+  sepLabelClassName?: string;
   label?: string;
   helperText?: string;
   sepLabel?: string;
@@ -46,7 +48,14 @@ const InputField = (props: InputFieldProps) => {
             >
               <div className="text-left">
                 <div className="flex flex-wrap items-center justify-start">
-                  <div className="mr-2 font-medium">{props.sepLabel}</div>
+                  <p
+                    className={twMerge([
+                      "mr-2 font-medium",
+                      props.sepLabelClassName && props.sepLabelClassName,
+                    ])}
+                  >
+                    {props.sepLabel}
+                  </p>
                   <div
                     className={`${
                       props.required ? "mr-2" : "mr-0"
