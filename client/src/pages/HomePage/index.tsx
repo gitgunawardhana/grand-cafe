@@ -429,7 +429,7 @@ const Main = () => {
             <ChefDisplay 
                   
                   person={{ 
-                            name: 'Katsuko Saruhashi',
+                            name: 'Grant Achatz',
                             imageId: chef_01
                 }} 
                 />
@@ -437,24 +437,29 @@ const Main = () => {
           <div><ChefDisplay 
                   
                   person={{ 
-                            name: 'Katsuko Saruhashi',
+                            name: 'Ferran Adria',
                             imageId: chef_02
+                            
                 }} 
                 /></div>
           <div><ChefDisplay 
                   
                   person={{ 
-                            name: 'Katsuko Saruhashi',
+                            name: 'Nicolas Appert',
                             imageId: chef_03
                 }} 
                 /></div>
           <div><ChefDisplay 
                  
                   person={{ 
-                            name: 'Katsuko Saruhashi',
+                            name: 'Mario Batali',
                             imageId: chef_04
                 }} 
                 /></div>
+
+        </div>
+        <div className="grid grid-cols-3 justify-content items-center">
+          <div><img src={our_chef} alt="" className=""/></div>
 
         </div>
 

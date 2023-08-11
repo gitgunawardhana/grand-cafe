@@ -23,7 +23,7 @@ export default function ChefDisplay({ person }: ChefDisplayProps) {
                 width=''
                 height=''
             /><br/>
-      <p>{person.name}</p><br/>
+      <p className="uppercase tracking-widest text-[20px]">{person.name}</p><br/>
       <Button
                   as={NavLink}
                   to="/"
