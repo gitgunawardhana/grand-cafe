@@ -5,6 +5,7 @@ import BestMenu from "../../assets/images/HomePage/BestMenu.svg";
 import Back_05 from "../../assets/images/HomePage/CutomerReviews.svg";
 import Back_06 from "../../assets/images/HomePage/Blog.svg";
 import Back_07 from "../../assets/images/HomePage/AboutUs.svg";
+import Back_08 from "../../assets/images/HomePage/MobileApp.svg";
 import Text_01 from "../../assets/images/HomePage/Text_01.png";
 import Text_02 from "../../assets/images/HomePage/Text_02.png";
 import Text_03 from "../../assets/images/HomePage/Text_03.png";
@@ -31,6 +32,9 @@ import Review_02 from "../../assets/images/HomePage/Pexels Photo by Engin Akyurt
 import Review_03 from "../../assets/images/HomePage/Pexels Photo by Pixabay.png";
 import rate from "../../assets/images/HomePage/stars.png";
 import about from "../../assets/images/HomePage/about.png";
+import app_store from "../../assets/images/HomePage/app_store.png";
+import google_pay from "../../assets/images/HomePage/google_pay.png";
+import get_started from "../../assets/images/HomePage/get_started.png";
 import FormInput from './../../base-components/FormElements/FormInput/index';
 
 
@@ -325,7 +329,7 @@ const Main = () => {
 
           </div>
           <div>
-         <p className="p-5 text-[px] text-justify text-amber-400 xs:leading-7">     Welcome to our website for the Grand café restaurant, located in One Galle Face, Colombo! We are a food restaurant that is open from 6.00 pm to 1.00 am, and we take pride in offering our customers a unique and unforgettable dining experience.
+         <p className="p-5 text-[px] text-justify tracking-tight text-amber-400 xs:leading-7">     Welcome to our website for the Grand café restaurant, located in One Galle Face, Colombo! We are a food restaurant that is open from 6.00 pm to 1.00 am, and we take pride in offering our customers a unique and unforgettable dining experience.
 
                  <br/><br/><span>At Grand café, we are passionate about delivering the finest food and customer service in the industry. Our menu is carefully crafted to cater to all tastes, and we use only the freshest and highest-quality ingredients in our dishes. From delicious appetizers to mouth-watering entrees and decadent desserts, we have something to satisfy every craving.</span>
 
@@ -351,6 +355,47 @@ const Main = () => {
 
 
         </div>
+      </div>
+
+      {/**sixth part */}
+      <div
+        style={{
+          backgroundImage: `url(${Back_08})`,
+          backgroundSize: "cover",
+        }}
+        className="w-m flex h-full flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-full md:h-screen bg-repeat"
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 ">
+          <div className="flex flex-col items-center justify-center">
+            <img src={get_started} alt="" className="w-3/4"/><br/> 
+            <p className="p-5 xs:p-10   text-center tracking-wide text-amber-400 sm:leading-10">
+            Welcome to our mobile app for Taco Grag restaurant !   Our mobile app is the perfect way to stay connected with us and enjoy all of our services on the go. With our app, you can easily browse our menu, place orders for pickup or delivery, and even make reservations at our restaurant.
+            </p>
+            <Button
+                  as={NavLink}
+                  to="/"
+                  className={twMerge(
+                    "rounded-[15px] border-2 border-solid hover:text-amber-300  border-gradient-yellow-500 !bg-gradient-yellow bg-opacity-50 px-[20px] py-[20px]   sm:px-[80px] sm:py-[20px]"
+                  )}
+                >
+                  <span
+                    className={twMerge(
+                      "!text-#FFE353 text-[14px] font-[900] uppercase tracking-[2px]  "
+                    )}
+                  >
+                    Download App
+                  </span>
+                </Button>
+                <br/>
+                <div className="flex grid-cols-2 ">
+                      <div className=""> <img src={app_store} alt=""/></div>
+                      <div> <img src={google_pay} alt=""/></div>
+                </div>
+          </div>
+          <div></div>
+
+        </div>
+
       </div>
 
 
