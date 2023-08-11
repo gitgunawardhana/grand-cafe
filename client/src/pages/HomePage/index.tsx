@@ -6,6 +6,7 @@ import Back_05 from "../../assets/images/HomePage/CutomerReviews.svg";
 import Back_06 from "../../assets/images/HomePage/Blog.svg";
 import Back_07 from "../../assets/images/HomePage/AboutUs.svg";
 import Back_08 from "../../assets/images/HomePage/MobileApp.svg";
+import Back_09 from "../../assets/images/HomePage/OurChef.svg";
 import Text_01 from "../../assets/images/HomePage/Text_01.png";
 import Text_02 from "../../assets/images/HomePage/Text_02.png";
 import Text_03 from "../../assets/images/HomePage/Text_03.png";
@@ -36,6 +37,7 @@ import app_store from "../../assets/images/HomePage/app_store.png";
 import google_pay from "../../assets/images/HomePage/google_pay.png";
 import get_started from "../../assets/images/HomePage/get_started.png";
 import FormInput from './../../base-components/FormElements/FormInput/index';
+import ChefDisplay from '../../components/ChefDisplay/index';
 
 
 const products = [
@@ -88,6 +90,10 @@ const reviews = [
     image: Review_01,
   },
 ];
+
+
+
+
 
 
 
@@ -397,6 +403,34 @@ const Main = () => {
                 </div>
           </div>
           <div></div>
+
+        </div>
+
+      </div>
+
+      {/**sixth part */}
+      <div
+        style={{
+          backgroundImage: `url(${Back_09})`,
+          backgroundSize: "cover",
+        }}
+        className="w-m flex h-full flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-full md:h-screen bg-repeat"
+      >
+
+        
+        <div className="grid grid-cols-4">
+          <div>
+            <ChefDisplay 
+                  size={100}
+                  person={{ 
+                            name: 'Katsuko Saruhashi',
+                            imageId: ''
+                }} 
+                />
+           </div>
+          <div>2</div>
+          <div>3</div>
+          <div>4</div>
 
         </div>
 
