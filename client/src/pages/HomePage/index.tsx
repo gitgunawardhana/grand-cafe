@@ -387,9 +387,9 @@ const Main = () => {
                   </span>
                 </Button>
                 <br/>
-                <div className="flex grid-cols-2 ">
-                      <div className=""> <img src={app_store} alt=""/></div>
-                      <div> <img src={google_pay} alt=""/></div>
+                <div className="flex grid-cols-2 sm:mt-10">
+                      <div className="mx-4"> <img src={app_store} alt=""/></div>
+                      <div className="mx-4"> <img src={google_pay} alt=""/></div>
                 </div>
           </div>
           <div></div>
