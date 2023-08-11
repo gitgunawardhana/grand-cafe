@@ -368,7 +368,7 @@ const Main = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 ">
           <div className="flex flex-col items-center justify-center">
             <img src={get_started} alt="" className="w-3/4"/><br/> 
-            <p className="p-5 xs:p-10   text-center tracking-wide text-amber-400 sm:leading-10">
+            <p className="p-5 xs:p-10   text-center tracking-wide text-amber-400 xs:leading-7 sm:leading-10">
             Welcome to our mobile app for Taco Grag restaurant !   Our mobile app is the perfect way to stay connected with us and enjoy all of our services on the go. With our app, you can easily browse our menu, place orders for pickup or delivery, and even make reservations at our restaurant.
             </p>
             <Button
@@ -388,8 +388,12 @@ const Main = () => {
                 </Button>
                 <br/>
                 <div className="flex grid-cols-2 sm:mt-10">
-                      <div className="mx-4"> <img src={app_store} alt=""/></div>
-                      <div className="mx-4"> <img src={google_pay} alt=""/></div>
+                      <div className="mx-4"> 
+                          <img src={app_store} alt=""/>
+                      </div>
+                      <div className="mx-4"> 
+                          <img src={google_pay} alt=""/>
+                      </div>
                 </div>
           </div>
           <div></div>
