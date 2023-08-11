@@ -12,6 +12,8 @@ import RecipeGenerator from "../pages/RecipeGenerator";
 import Register from "../pages/Register";
 import TestPage from "../pages/TestPage";
 
+
+
 function Router() {
   const routes = [
     {
@@ -79,6 +81,9 @@ function Router() {
         </SimpleLayout>
       ),
     },
+
+    
+
   ];
 
   return useRoutes(routes);
