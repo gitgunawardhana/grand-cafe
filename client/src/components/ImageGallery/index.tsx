@@ -1,4 +1,3 @@
-import React from "react";
 import Grid1 from "../../assets/images/HomePage/Grid (1).png";
 import Grid2 from "../../assets/images/HomePage/Grid (2).png";
 import Grid3 from "../../assets/images/HomePage/Grid (3).png";
