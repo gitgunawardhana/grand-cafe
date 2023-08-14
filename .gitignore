@@ -5,3 +5,4 @@
 yarn.lock
 *.lock
 client/yarn.lock
+node_modules/.yarn-integrity
