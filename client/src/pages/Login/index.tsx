@@ -10,7 +10,7 @@ const Main = () => {
     <div>
       <div
         style={{
-          backgroundImage: `url(${Sign_up})`,
+          backgroundImage: `url(LKR{Sign_up})`,
           backgroundSize: "cover",
           
         }}

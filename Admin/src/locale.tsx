@@ -73,7 +73,7 @@ i18n
           salesAmount: "5,340",
           orderAmount: "3000",
           revenueAmount: "2,500",
-          currency: "$",
+          currency: "LKR",
           summaryOfSale: "Chart Of Sale",
           summaryOfRevenue: "Chart Of Revenue",
           summaryOfOrders: "Chart Of Order",

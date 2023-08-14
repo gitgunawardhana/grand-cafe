@@ -7,7 +7,7 @@ import ChatBox from "../../components/ChatBox";
 import { ProviderContext } from "../../components/Provider";
 
 const chatBoxBgStyle = {
-  backgroundImage: `url(${RecipeGeneratorBgHide})`,
+  backgroundImage: `url(LKR{RecipeGeneratorBgHide})`,
   backgroundSize: "90%",
   backgroundRepeat: "no-repeat",
   backgroundPosition: "right",
@@ -26,7 +26,7 @@ const Main = () => {
         </div>
         <div
           style={{
-            backgroundImage: `url(${RecipeGeneratorBg})`,
+            backgroundImage: `url(LKR{RecipeGeneratorBg})`,
             backgroundSize: "90%",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "right",

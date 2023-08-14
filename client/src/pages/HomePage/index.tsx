@@ -112,7 +112,7 @@ const Main = () => {
     <div>
       <div
         style={{
-          backgroundImage: `url(${Back_01})`,
+          backgroundImage: `url(LKR{Back_01})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-screen flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen"
@@ -123,7 +123,7 @@ const Main = () => {
       {/**Second Part */}
       <div
         style={{
-          backgroundImage: `url(${Back_02})`,
+          backgroundImage: `url(LKR{Back_02})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen"
@@ -165,7 +165,7 @@ const Main = () => {
       {/**Third part */}
       <div
         style={{
-          backgroundImage: `url(${Back_03})`,
+          backgroundImage: `url(LKR{Back_03})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen"
@@ -180,7 +180,7 @@ const Main = () => {
 
       <div
         style={{
-          backgroundImage: `url(${BestMenu})`,
+          backgroundImage: `url(LKR{BestMenu})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-screen md:h-full"
@@ -197,7 +197,7 @@ const Main = () => {
 
       <div
         style={{
-          backgroundImage: `url(${Back_05})`,
+          backgroundImage: `url(LKR{Back_05})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen"
@@ -215,7 +215,7 @@ const Main = () => {
 
       <div
         style={{
-          backgroundImage: `url(${Back_06})`,
+          backgroundImage: `url(LKR{Back_06})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-full md:h-screen"
@@ -273,7 +273,7 @@ const Main = () => {
       {/**sixth part */}
       <div
         style={{
-          backgroundImage: `url(${Back_07})`,
+          backgroundImage: `url(LKR{Back_07})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-full md:h-screen"
@@ -330,7 +330,7 @@ const Main = () => {
       {/**sixth part */}
       <div
         style={{
-          backgroundImage: `url(${Back_08})`,
+          backgroundImage: `url(LKR{Back_08})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-full md:h-screen"
@@ -378,7 +378,7 @@ const Main = () => {
       {/**sixth part */}
       <div
         style={{
-          backgroundImage: `url(${Back_09})`,
+          backgroundImage: `url(LKR{Back_09})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-full md:h-screen"

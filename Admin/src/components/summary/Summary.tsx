@@ -19,7 +19,7 @@ const summaryData: IsummData[] = [
     currency: "",
   },
   {
-    icon: "jam:coin",
+    icon: "",           // jam:coin
     text: "thisMonthRevenue",
     amount: "revenueAmount",
     currency: "currency",

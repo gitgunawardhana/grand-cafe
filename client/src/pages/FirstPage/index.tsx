@@ -17,7 +17,7 @@ const Main = () => {
       
       <div
         style={{
-          backgroundImage: `url(${First_Page})`,
+          backgroundImage: `url(LKR{First_Page})`,
           backgroundSize: "cover",
           
         }}

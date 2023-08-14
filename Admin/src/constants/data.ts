@@ -45,7 +45,7 @@ const data = {
       {
         username: "john doe",
         order: 490,
-        price: "$15,870",
+        price: "15,870",
       },
       {
         username: "frank iva",

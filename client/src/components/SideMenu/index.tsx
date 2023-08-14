@@ -50,7 +50,7 @@ const SidebarMenu = () => {
         <div className="max-toolbar absolute -right-6 top-2 flex h-12 w-full translate-x-24 scale-x-0 transform items-center justify-between rounded-full border-4 border-gradient-brown-900 bg-gradient-brown-500 transition duration-300 ease-in">
           <div
             style={{
-              backgroundImage: `url(${ButtonBg})`,
+              backgroundImage: `url(LKR{ButtonBg})`,
               backgroundSize: "inherit",
             }}
             className="group flex items-center space-x-3 rounded-full bg-gradient-to-r !from-gradient-green-500 !via-gradient-blue-500 !to-gradient-blue-500 py-1  pl-10 pr-2 text-gradient-yellow-500"

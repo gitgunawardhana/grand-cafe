@@ -40,7 +40,7 @@ const AnimatedContent = ({ children }: AnimatedContentProps) => {
     return (
         <div
             ref={contentRef}
-            className={`fade-in ${isVisible ? 'animate-fade-in' : ''}`}
+            className={`fade-in LKR{isVisible ? 'animate-fade-in' : ''}`}
             style={{
                 animationDuration: '1s',
                 animationTimingFunction: 'ease-in-out',

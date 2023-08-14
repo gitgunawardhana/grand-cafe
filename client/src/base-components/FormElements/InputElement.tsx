@@ -26,7 +26,7 @@ const InputField = (props: InputFieldProps) => {
       <div
         className={
           props.sepLabel
-            ? `grid sm:grid-cols-5 ${
+            ? `grid sm:grid-cols-5 LKR{
                 props.labelAlignment === AlignmentTypes.BLOCK
                   ? "flow-cols-grid grid-cols-12"
                   : "grid-flow-row grid-cols-1"
@@ -35,7 +35,7 @@ const InputField = (props: InputFieldProps) => {
         }
       >
         <div
-          className={`grid ${
+          className={`grid LKR{
             props.labelAlignment === AlignmentTypes.BLOCK
               ? "col-span-12 mb-2"
               : "col-span-2"
@@ -57,14 +57,14 @@ const InputField = (props: InputFieldProps) => {
                     {props.sepLabel}
                   </p>
                   <div
-                    className={`${
+                    className={`LKR{
                       props.required ? "mr-2" : "mr-0"
                     } hidden sm:flex`}
                   >
                     {props.required ? <FormRequiredLabel /> : ""}
                   </div>
                   <div
-                    className={`${
+                    className={`LKR{
                       props.required ? "mr-2 sm:mr-0" : "mr-0"
                     } sm:hidden`}
                   >
@@ -78,7 +78,7 @@ const InputField = (props: InputFieldProps) => {
           )}
         </div>
         <div
-          className={`grid md:h-1 ${
+          className={`grid md:h-1 LKR{
             props.labelAlignment === AlignmentTypes.BLOCK
               ? "col-span-12"
               : "col-span-3"

@@ -25,5 +25,5 @@ app.use("/api", allRoutes);
 
 app.listen(PORT, () => {
   connectDB();
-  console.log(`Server is listening on PORT ${PORT}`);
+  console.log(`Server is listening on PORT LKR{PORT}`);
 });

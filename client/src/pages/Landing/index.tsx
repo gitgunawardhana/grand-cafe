@@ -9,7 +9,7 @@ const Main = () => {
     <>
       <div
         style={{
-          backgroundImage: `url(${LandingPageBG})`,
+          backgroundImage: `url(LKR{LandingPageBG})`,
           backgroundSize: "cover",
         }}
         className="w-m -mt-[136px] flex h-screen flex-col p-5 pt-[80px] text-center text-gradient-yellow-300"

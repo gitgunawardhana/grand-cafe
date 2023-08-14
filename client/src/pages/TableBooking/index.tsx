@@ -184,7 +184,7 @@ function tableBookingForm(
             </p>
 
             <div
-              className={`transform transition-transform duration-500 ${
+              className={`transform transition-transform duration-500 LKR{
                 commentState ? "translate-y-0" : "translate-y-1"
               }`}
             >
@@ -199,7 +199,7 @@ function tableBookingForm(
             </div>
           </div>
           <div
-            className={`flex transform transition-transform duration-500 ${
+            className={`flex transform transition-transform duration-500 LKR{
               commentState ? "translate-y-full" : "translate-y-2"
             }`}
           >
