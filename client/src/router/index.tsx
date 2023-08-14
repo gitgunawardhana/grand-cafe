@@ -68,14 +68,20 @@ function Router() {
     {
       path: "/customer-acc",
       element: (
-       <CustomerAcc/>
+        <SideMenuLayout footer>
+          <CustomerAcc/>
+          </SideMenuLayout>
+       
       ),
     },
 
     {
       path: "/customer-view",
       element: (
-        <CustomerView/>
+        <SideMenuLayout footer>
+          <CustomerView/>
+        </SideMenuLayout>
+        
       ),
     },
 
