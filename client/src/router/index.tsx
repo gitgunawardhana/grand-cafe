@@ -29,7 +29,7 @@ function Router() {
     {
       path: "/home",
       element: (
-        <TopLayout>
+        <TopLayout footer>
           <HomePage />
         </TopLayout>
       ),

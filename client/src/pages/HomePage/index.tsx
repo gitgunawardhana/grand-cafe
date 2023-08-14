@@ -82,7 +82,7 @@ const reviews = [
     rate: rate,
     review:
       "The food at this restaurant is absolutely incredible! Everything we tried was bursting with flavor and cooked to perfection. We especially loved the [Taco special], which was a unique and delightful combination of flavors. Well definitely be coming back for more!",
-    image: Review_02,
+    image: Review_03,
   },
   {
     name: "Chamod Dilpa",
@@ -103,7 +103,7 @@ const reviews = [
     rate: rate,
     review:
       "The food at this restaurant is absolutely incredible! Everything we tried was bursting with flavor and cooked to perfection. We especially loved the [Taco special], which was a unique and delightful combination of flavors. Well definitely be coming back for more!",
-    image: Review_01,
+    image: Review_03,
   },
 ];
 
@@ -422,7 +422,10 @@ const Main = () => {
           </div>
         </div>
       </div>
+      <br/><br/>
     </div>
+
+  
   );
 };
 

@@ -17,21 +17,20 @@ const Main = () => {
               {/* <img src="#" className="mr-5 h-6 sm:h-9" alt="logo" /> */}
 
               <h1 className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text font-extrabold text-transparent">
-                Professional Web Design
+                Grand Cafe Restaurant
               </h1>
               <p className="mt-4 max-w-md text-sm text-gradient-yellow-300">
-                Hi! My name ia Dmitrii Rogoza and i’m an expert in web design
-                and branding. I can help you make your website more attractive
+                Hi! We are Grand Cafe restaurant. 
               </p>
               <nav className="mt-4 flex flex-col space-y-2 text-sm text-gray-500">
                 <p className="cursor-pointer text-gradient-yellow-300 hover:opacity-75">
-                  Wisconsin Ave, Suite 700 Chevy Chase, Maryland 20815
+                  Main Street, Basalkumbura
                 </p>
                 <p className="cursor-pointer text-gradient-yellow-300 hover:opacity-75">
-                  support@figma.com
+                  grandcafe@cafe.com
                 </p>
                 <p className="cursor-pointer text-gradient-yellow-300 hover:opacity-75">
-                  +1 800 854-36-80
+                  055 222 22 22
                 </p>
               </nav>
             </div>
@@ -178,7 +177,7 @@ const Main = () => {
             </div>
           </div>
           <p className="mb-8 mt-5 text-xs text-gradient-yellow-300 md:mb-0">
-            © 2022 Comany Name
+            © 2023 
           </p>
           <div className="absolute bottom-1 left-0 w-full">
             <div className="flex justify-center">
