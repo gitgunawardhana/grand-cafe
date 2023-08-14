@@ -23,9 +23,9 @@ import Review_03 from "../../assets/images/HomePage/Pexels Photo by Pixabay.png"
 import Shawarma from "../../assets/images/HomePage/Shawarma.png";
 import Text_01 from "../../assets/images/HomePage/Text_01.png";
 import Text_02 from "../../assets/images/HomePage/Text_02.png";
-import Text_03 from "../../assets/images/HomePage/Text_03.png";
-import Text_04 from "../../assets/images/HomePage/Text_04.png";
-import Text_05 from "../../assets/images/HomePage/Text_05.png";
+// import Text_03 from "../../assets/images/HomePage/Text_03.png";
+// import Text_04 from "../../assets/images/HomePage/Text_04.png";
+// import Text_05 from "../../assets/images/HomePage/Text_05.png";
 import Text_08 from "../../assets/images/HomePage/Text_08.png";
 import about from "../../assets/images/HomePage/about.png";
 import app_store from "../../assets/images/HomePage/app_store.png";
@@ -42,6 +42,7 @@ import DeliveryCards from "../../components/HomePageOrderDiv";
 import ImageGallery from "./../../components/ImageGallery/index";
 import ProductBrowsingComponent from "./../../components/MenuItems/index";
 import ReviewCardComponent from "./../../components/ReviewCardComponent/index";
+import HomeBlog from "./../../components/HomeBlog/index";
 
 const products = [
   {
@@ -116,56 +117,8 @@ const Main = () => {
         }}
         className="w-m flex h-screen flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen"
       >
-        <div className="grid h-screen items-center p-5 md:grid-cols-3 ">
-          <div className="flex flex-col items-center justify-center">
-            <img src={Text_03} alt="" />
-            <br></br>
-            <img src={Text_04} alt="" />
-            <br></br>
-            <img src={Text_05} alt="" />
-            <br></br>
-            <br></br>
-            <div className="flex flex-col sm:grid-cols-2 sm:flex-row">
-              <div>
-                <Button
-                  as={NavLink}
-                  to="/"
-                  className={twMerge(
-                    "rounded-[15px] border-2 border-solid border-amber-500 !bg-transparent px-[30px] py-[20px] lg:px-[45px] lg:py-[10.141px]"
-                  )}
-                >
-                  <span
-                    className={twMerge(
-                      "text-[14px] font-[900] uppercase tracking-[2px] !text-amber-500 hover:scale-110"
-                    )}
-                  >
-                    Book A Table
-                  </span>
-                </Button>
-              </div>
-              &nbsp;&nbsp;
-              <div>
-                <Button
-                  as={NavLink}
-                  to="/"
-                  className={twMerge(
-                    "rounded-[15px] border-2 border-solid border-gradient-yellow-300 !bg-amber-500 px-[20px] py-[20px] lg:px-[50px] lg:py-[10.141px]"
-                  )}
-                >
-                  <span
-                    className={twMerge(
-                      "!text-#FFE353 text-[14px] font-[900] uppercase tracking-[2px] hover:scale-110"
-                    )}
-                  >
-                    See Menu
-                  </span>
-                </Button>
-              </div>
-            </div>
-          </div>
-          <div></div>
-          <div></div>
-        </div>
+        <HomeBlog/>
+        
       </div>
       {/**Second Part */}
       <div
