@@ -52,7 +52,7 @@ const Main = () => {
               <div>
                 <Button
                   as={NavLink}
-                  to="/"
+                  to="/sign-in"
                   className={twMerge(
                     "rounded-[10px] border-2 border-solid border-gradient-yellow-300 !bg-amber-500 px-[20px] py-[10px] lg:px-[40px] lg:py-[10.141px]"
                   )}

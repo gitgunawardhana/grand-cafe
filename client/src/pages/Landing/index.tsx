@@ -19,7 +19,7 @@ const Main = () => {
             <img src={LandingPageText} />
             <Button
               as={NavLink}
-              to="/"
+              to="/first"
               className={twMerge(
                 "rounded-[125.148px] border-2 border-solid border-gradient-yellow-300 !bg-transparent px-[25px] py-[15.141px] lg:px-[40px] lg:py-[20.141px]"
               )}

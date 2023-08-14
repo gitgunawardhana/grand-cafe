@@ -73,7 +73,7 @@ const index = () => {
                 <div>
                   <Button
                     as={NavLink}
-                    to="/"
+                    to="/table-booking"
                     className={twMerge(
                       "rounded-[15px] border-2 border-solid border-amber-500 !bg-transparent px-[30px] py-[20px] lg:px-[45px] lg:py-[10.141px]"
                     )}
@@ -91,7 +91,7 @@ const index = () => {
                 <div>
                   <Button
                     as={NavLink}
-                    to="/"
+                    to="/product-page"
                     className={twMerge(
                       "rounded-[15px] border-2 border-solid border-gradient-yellow-300 !bg-amber-500 px-[20px] py-[20px] lg:px-[50px] lg:py-[10.141px]"
                     )}
