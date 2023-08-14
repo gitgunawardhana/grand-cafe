@@ -2,6 +2,8 @@ import { useRoutes } from "react-router-dom";
 import SideMenuLayout from "../layouts/SideMenuLayout";
 import SimpleLayout from "../layouts/SimpleLayout";
 import TopLayout from "../layouts/TopMenu";
+import CustomerAcc from "../pages/CustomerAccount";
+import CustomerView from "../pages/CustomerView";
 import CustomizePage from "../pages/CustomizePage";
 import ErrorPage from "../pages/ErrorPage";
 import FirstPage from "../pages/FirstPage";
@@ -88,6 +90,25 @@ function Router() {
         </SideMenuLayout>
       ),
     },
+
+    {
+      path: "/customer-acc",
+      element: (
+        <SideMenuLayout footer>
+          <CustomerAcc />
+        </SideMenuLayout>
+      ),
+    },
+
+    {
+      path: "/customer-view",
+      element: (
+        <SideMenuLayout footer>
+          <CustomerView />
+        </SideMenuLayout>
+      ),
+    },
+
     {
       path: "/*",
       element: (

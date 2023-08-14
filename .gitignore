@@ -10,3 +10,4 @@ client/.env
 server/.env
 .env
 server/.env
+node_modules/.yarn-integrity
