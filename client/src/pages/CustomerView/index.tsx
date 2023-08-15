@@ -27,17 +27,35 @@ const Main = () => {
         </div>
         <div className="lg:text-lg md:text-md sm:text-sm lg:ml-16 sm:ml-16 pb-64 mb-16 mt-0 grid grid-cols-2 md:grid-rows-2 font-medium text-gradient-yellow-900 text-left gap-1 md:mt-0 lg:mt-0">
 
-            <h3 className="">First Name</h3>
-            
-            <h3 className="">Last Name</h3>
+            {/* <p className="">First Name</p>            
+            <p className="">Last Name</p>
+            <span className="flex-wrap text-green-400  font-thin"><p>Nayomi</p></span>
+            <span className="flex-wrap text-green-400  font-thin"><p>Siriwardhana</p></span>
             
             <hr className="border-green-600" />
-            <hr className="border-green-600" />
+            <hr className="border-green-600" /> */}
+
+            <div className="mt-8 grid col-span-2">
+              <div className="flex gap-16">
+                <span className=" text-start flex-shrink"><p>First Name</p></span>
+                <span className="flex-wrap text-green-400  font-thin"><p>Nayomi</p></span>
+              </div>
+                <hr className="border-green-600" /> 
+            </div>
+
             
-            <div className="mt-3 grid col-span-2">
+            <div className="mt-8 grid col-span-2">
+              <div className="flex gap-16">
+                <span className=" text-start flex-shrink"><p>Last Name</p></span>
+                <span className="flex-wrap text-green-400  font-thin"><p>Siriwardhana</p></span>
+              </div>
+                <hr className="border-green-600" /> 
+            </div>
+
+            <div className="mt-8 grid col-span-2">
               <div className="flex gap-16">
                 <span className=" text-start flex-shrink"><p>User Name</p></span>
-                <span className="flex-wrap text-green-400  font-thin"><p>frfyilpl</p></span>
+                <span className="flex-wrap text-green-400  font-thin"><p>Nayomisiriwardhana_34</p></span>
                 </div>
                 <hr className="border-green-600" /> 
             </div>
@@ -45,7 +63,7 @@ const Main = () => {
             <div className="mt-8 grid col-span-2">
               <div className="flex gap-16">
                 <span className=" text-start flex-shrink"><p>E mail</p></span>
-                <span className="flex-wrap text-green-400  font-thin"><p></p></span>
+                <span className="flex-wrap text-green-400  font-thin"><p>Nayomisiriwardhana@gmail.com</p></span>
                 </div>
                 <hr className="border-green-600" /> 
             </div>
@@ -53,7 +71,7 @@ const Main = () => {
             <div className="mt-8 grid col-span-2">
               <div className="flex gap-16">
                 <span className="flex-shrink text-start"><p>Mobile</p></span>
-                <span className="flex-wrap text-green-400 font-thin "><p>+94765254352</p></span>
+                <span className="flex-wrap text-green-400 font-thin "><p>++94 769407603</p></span>
                 </div>
                 <hr className="border-green-600" /> 
             </div>
@@ -61,7 +79,7 @@ const Main = () => {
             <div className="mt-8 grid col-span-2">
               <div className="flex gap-16">
                 <span className=" text-start flex-shrink"><p>Gender</p></span>
-                <span className="flex-wrap text-green-400  font-thin"><p></p></span>
+                <span className="flex-wrap text-green-400  font-thin"><p>Female</p></span>
                 </div>
                 <hr className="border-green-600 " /> 
             </div>
@@ -69,7 +87,7 @@ const Main = () => {
             <div className="mt-8 grid col-span-2">
               <div className="flex gap-16">
                 <span className=" text-start flex-shrink"><p>Residential Address</p></span>
-                <span className="flex-wrap text-green-400  font-thin"><p></p></span>
+                <span className="flex-wrap text-green-400  font-thin"><p>21/32, okandhawatta, Panthiya Mathugama.</p></span>
                 </div>
                 <hr className="border-green-600" /> 
             </div>
