@@ -4,8 +4,11 @@ import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
 
+
 import allRoutes from "./routes/index.js";
 import { connectDB } from "./utils/dbConnection.js";
+
+
 
 const app = express();
 dotenv.config();

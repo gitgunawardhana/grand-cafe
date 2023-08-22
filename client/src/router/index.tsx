@@ -15,6 +15,7 @@ import RecipeGenerator from "../pages/RecipeGenerator";
 import Register from "../pages/Register";
 import TableBooking from "../pages/TableBooking";
 import TestPage from "../pages/TestPage";
+import ProductDetailsPage from "../pages/ProductDetails";
 
 function Router() {
   const routes = [
@@ -85,11 +86,14 @@ function Router() {
     {
       path: "/test",
       element: (
-        <SideMenuLayout>
-          <TestPage />
-        </SideMenuLayout>
+        // <SideMenuLayout>
+        //   <TestPage />
+        // </SideMenuLayout>
+        <TestPage/>
       ),
+      
     },
+    
 
     {
       path: "/customer-acc",
@@ -117,6 +121,26 @@ function Router() {
         </SimpleLayout>
       ),
     },
+    {
+      path:`/product/:productName`,
+      element: (
+        <SideMenuLayout  >
+          <TopLayout footer>
+            <ProductDetailsPage />
+          </TopLayout>
+          
+        </SideMenuLayout >
+      ),
+    },
+    {
+      path:`/customize-page/:productName`,
+      element: (
+        <TopLayout>
+          <CustomizePage />
+        </TopLayout>
+      ),
+    },
+    
   ];
 
   return useRoutes(routes);

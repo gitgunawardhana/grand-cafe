@@ -35,7 +35,7 @@ const Main = (props: CheckBoxSetResponsiveProps) => {
               <input
                 id={item.id}
                 type={props.type}
-                value={item.value}
+                value={props.value}
                 name={props.name}
                 className={twMerge([
                   "h-4 w-4 transform-cpu bg-[#fadf85] checked:text-gradient-yellow-900 hover:scale-125 focus:ring-0 focus:ring-transparent",

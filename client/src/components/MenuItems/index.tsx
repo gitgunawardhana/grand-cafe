@@ -1,9 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { Link } from "react-router-dom";
+import { ProviderContext } from "../Provider";
 
 interface Product {
   name: string;
   image: string;
-  content: string;
+  description: string;
   price: string;
 }
 
@@ -40,6 +42,7 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
   return (
     <>
       <div className="grid items-center md:flex md:items-center">
+        {/* Scroll left button */}
         <button
           className={` rounded-l p-5 focus:outline-none ${
             currentPage === 0 ? "cursor-not-allowed opacity-50" : ""
@@ -49,6 +52,8 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
         >
           &lt;
         </button>
+        
+        {/* Product viewer */}
         <div className="flex space-x-4 overflow-hidden" ref={viewerRef}>
           {products.map((product: Product, index: number) => (
             <div
@@ -58,25 +63,27 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
               }`}
             >
               {/* Render your product component or content here */}
-              <div className="rounded-md p-4">
-                <div className="justify-center items-center flex ">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                
-                  className=" h-auto w-3/5"
-                />
+              <div className="rounded-md p-4 justify-center items-center grid">
+                <div className="justify-center items-center flex">
+                  <img
+                    src={`data:image/jpeg;base64,${product.image}`}
+                    alt={product.name}
+                    className="h-auto w-4/6 rounded-full"
+                  />
                 </div>
                 <br></br>
-
+                <Link to={`/product/${encodeURIComponent(product.name)}`}>
                 <p className="text-amber-500 uppercase font-black tracking-widest text-2xl">{product.name}</p><br></br>
-                <p className="text-amber-100 tracking-widest">{product.content}</p><br></br>
+                </Link>
+               
+                <p className="text-amber-100 tracking-widest">{product.description}</p><br></br>
                 <p className="text-amber-500 uppercase text-2xl -tracking-normal font-black">{product.price}</p>
-                
               </div>
             </div>
           ))}
         </div>
+        
+        {/* Scroll right button */}
         <button
           className={` rounded-r p-5 focus:outline-none ${
             currentPage === products.length - 1
@@ -89,6 +96,8 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
           &gt;
         </button>
       </div>
+      
+      {/* Pagination dots */}
       <br></br>
       <div className="grid items-center justify-center">
         <div className="mt-2 flex space-x-2">
@@ -110,4 +119,31 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
   );
 };
 
-export default ProductBrowsingComponent;
+function App() {
+  // const [products, setProducts] = useState<Product[]>([]);
+
+  // const fetchData = async () => {
+  //   try {
+  //     const res = await fetch("http://localhost:8000/api/products/product");
+  //     const json = await res.json();
+  //     setProducts(json.data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+
+  
+  const { products } = useContext(ProviderContext);
+
+  return (
+    <div>
+      <ProductBrowsingComponent products={products} />
+    </div>
+  );
+}
+
+export default App;
