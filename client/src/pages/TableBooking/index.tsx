@@ -14,8 +14,7 @@ import { AlignmentTypes } from "../../constants";
 // const seatsInitialState: Seat[] = seatsBackend;
 
 const Main = () => {
-  const { seatsInitialState, setSeatsInitialState } =
-    useContext(ProviderContext);
+  const { seatsInitialState } = useContext(ProviderContext);
 
   const seatsBackend = seatsInitialState;
 
@@ -113,8 +112,8 @@ function tableBookingForm(
     setSelectedTime(time);
   };
 
-  // console.log("time ", dayjs(selectedTime).format("HH:mm"));
-  // console.log("date ", dayjs(selectedDate).format("YYYY-MM-DD"));
+  console.log("time ", dayjs(selectedTime).format("HH:mm"));
+  console.log("date ", dayjs(selectedDate).format("YYYY-MM-DD"));
 
   return (
     <div className="m-auto flex px-2 pb-20">
