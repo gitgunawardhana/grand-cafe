@@ -1,20 +1,31 @@
 import dayjs from "dayjs";
-import { useState } from "react";
+
+import { useContext, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import TableBookingHeadingTitle from "../../assets/images/tableBookingHeadingTitle.svg";
 import { Button } from "../../base-components/Button";
 import InputField from "../../base-components/FormElements/InputElement";
 import MuiDateTimePicker from "../../components/MuiDateTimePicker";
+import { ProviderContext } from "../../components/Provider";
 import ChairIcon, { Seat } from "../../components/TableBooking/ChairIcon";
 import TableNumber from "../../components/TableBooking/TableNumber";
 import { AlignmentTypes } from "../../constants";
-import { seatsBackend } from "./seatsBackend";
 
-const seatsInitialState: Seat[] = seatsBackend;
+// const seatsInitialState: Seat[] = seatsBackend;
 
 const Main = () => {
+  const { seatsInitialState, setSeatsInitialState } =
+    useContext(ProviderContext);
+
+  const seatsBackend = seatsInitialState;
+
   const [commentState, setCommentState] = useState<boolean>(false);
-  const [seats, setSeats] = useState<Seat[]>(seatsInitialState);
+  const [seats, setSeats] = useState<Seat[]>(seatsBackend);
+
+  useEffect(() => {
+    setSeats(seatsBackend);
+  }, [seatsInitialState, seatsBackend]);
+
   const [currentSeatsBooking, setCurrentSeatsBooking] = useState<string[]>([]);
 
   const getSeatByNumber = (seatList: Seat[], seatNumber: string) => {
@@ -71,7 +82,8 @@ const Main = () => {
                 handleCurrentSeatsBooking,
                 handleSeatAvailableClick,
                 getSeatByNumber,
-                seats
+                seats,
+                seatsInitialState
               )}
             </div>
           </div>
@@ -101,8 +113,8 @@ function tableBookingForm(
     setSelectedTime(time);
   };
 
-  console.log("time ", dayjs(selectedTime).format("HH:mm"));
-  console.log("date ", dayjs(selectedDate).format("YYYY-MM-DD"));
+  // console.log("time ", dayjs(selectedTime).format("HH:mm"));
+  // console.log("date ", dayjs(selectedDate).format("YYYY-MM-DD"));
 
   return (
     <div className="m-auto flex px-2 pb-20">
@@ -219,7 +231,8 @@ function RestaurantMap(
   handleCurrentSeatsBooking: (seatNumber: string) => void,
   handleSeatAvailableClick: (seatNumber: string) => void,
   getSeatByNumber: (seatList: Seat[], seatNumber: string) => Seat | undefined,
-  seats: Seat[]
+  seats: Seat[],
+  seatsInitialState: Seat[]
 ) {
   return (
     <div className="grid select-none grid-cols-8">
