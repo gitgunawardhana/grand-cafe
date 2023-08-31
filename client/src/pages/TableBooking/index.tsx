@@ -1,21 +1,76 @@
 import dayjs from "dayjs";
-import { useState } from "react";
+
+import { useContext, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import TableBookingHeadingTitle from "../../assets/images/tableBookingHeadingTitle.svg";
 import { Button } from "../../base-components/Button";
 import InputField from "../../base-components/FormElements/InputElement";
 import MuiDateTimePicker from "../../components/MuiDateTimePicker";
+import { ProviderContext } from "../../components/Provider";
 import ChairIcon, { Seat } from "../../components/TableBooking/ChairIcon";
 import TableNumber from "../../components/TableBooking/TableNumber";
 import { AlignmentTypes } from "../../constants";
-import { seatsBackend } from "./seatsBackend";
 
-const seatsInitialState: Seat[] = seatsBackend;
+// const seatsInitialState: Seat[] = seatsBackend;
 
 const Main = () => {
+  const { axiosJWT } = useContext(ProviderContext);
+
+  const [seatsInitialState, setSeatsInitialState] = useState<Seat[]>([]);
+  const getAllSeats = async () => {
+    try {
+      const res = await axiosJWT.get("user/get-all-seats", {
+        headers: {
+          authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+        },
+      });
+      setSeatsInitialState(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getAllSeats();
+  }, [
+    sessionStorage.getItem("accessToken"),
+    sessionStorage.getItem("refreshToken"),
+  ]);
+
+  const seatsBackend = seatsInitialState;
+
   const [commentState, setCommentState] = useState<boolean>(false);
-  const [seats, setSeats] = useState<Seat[]>(seatsInitialState);
+  const [seats, setSeats] = useState<Seat[]>(seatsBackend);
+
+  useEffect(() => {
+    setSeats(seatsBackend);
+  }, [seatsInitialState, seatsBackend]);
+
   const [currentSeatsBooking, setCurrentSeatsBooking] = useState<string[]>([]);
+  const [currentUserSeatsBooking, setUserCurrentSeatsBooking] = useState<
+    string[]
+  >([]);
+
+  const getBookingSeatNumbersByUserId = async () => {
+    try {
+      const res = await axiosJWT.get(
+        "user/get-all-seat-booking-by-user?snumber=true",
+        {
+          headers: {
+            authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+          },
+        }
+      );
+
+      setUserCurrentSeatsBooking(res.data.flat());
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getBookingSeatNumbersByUserId();
+  }, [seatsInitialState]);
 
   const getSeatByNumber = (seatList: Seat[], seatNumber: string) => {
     return seatList.find((seat) => seat.number === seatNumber);
@@ -44,6 +99,7 @@ const Main = () => {
         setCurrentSeatsBooking([...currentSeatsBooking, seatNumber]);
     }
   };
+  // console.log("currentSeatsBooking ", currentSeatsBooking);
 
   return (
     <div className="-mb-5 min-h-screen select-none !bg-transparent">
@@ -62,7 +118,8 @@ const Main = () => {
               {tableBookingForm(
                 currentSeatsBooking,
                 setCommentState,
-                commentState
+                commentState,
+                currentUserSeatsBooking
               )}
             </div>
             {/* second column */}
@@ -71,7 +128,8 @@ const Main = () => {
                 handleCurrentSeatsBooking,
                 handleSeatAvailableClick,
                 getSeatByNumber,
-                seats
+                seats,
+                seatsInitialState
               )}
             </div>
           </div>
@@ -86,8 +144,10 @@ export default Main;
 function tableBookingForm(
   currentSeatsBooking: string[],
   setCommentState: (value: boolean) => void,
-  commentState: boolean
+  commentState: boolean,
+  currentUserSeatsBooking: string[]
 ) {
+  const { axiosJWT } = useContext(ProviderContext);
   const [selectedDate, setSelectedDate] = useState<any>(dayjs());
   const [selectedTime, setSelectedTime] = useState<any>(dayjs());
 
@@ -101,8 +161,45 @@ function tableBookingForm(
     setSelectedTime(time);
   };
 
-  console.log("time ", dayjs(selectedTime).format("HH:mm"));
-  console.log("date ", dayjs(selectedDate).format("YYYY-MM-DD"));
+  const createSeatBooking = async () => {
+    try {
+      const res = await axiosJWT.post(
+        "user/create-seat-booking",
+        {
+          dateTime: `${dayjs(selectedDate).format("YYYY-MM-DD")}T${dayjs(
+            selectedTime
+          ).format("HH:mm:ss")}Z`,
+          bookingSeats: currentSeatsBooking,
+        },
+        {
+          headers: {
+            authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+          },
+        }
+      );
+      console.log(res.data);
+      location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const deleteSeatBookingByUser = async () => {
+    try {
+      const res = await axiosJWT.delete("user/delete-seats-booking-by-user", {
+        headers: {
+          authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+        },
+      });
+      console.log(res.data);
+      location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // console.log("time ", dayjs(selectedTime).format("HH:mm:ss"));
+  // console.log("date ", dayjs(selectedDate).format("YYYY-MM-DD"));
 
   return (
     <div className="m-auto flex px-2 pb-20">
@@ -160,7 +257,12 @@ function tableBookingForm(
               Seat number
             </p>
             <div className="flex flex-wrap gap-2">
-              {currentSeatsBooking?.map((item) => (
+              {[
+                ...new Set([
+                  ...currentSeatsBooking,
+                  ...currentUserSeatsBooking,
+                ]),
+              ]?.map((item) => (
                 <div
                   key={item}
                   className="m-0 !mb-2 !mt-1 !rounded-md border-none !bg-opacity-20 !bg-gradient-to-b from-gradient-yellow-900-6 to-gradient-yellow-900-2 !px-2 !py-2 text-xs font-semibold uppercase md:!px-2 md:py-2 md:text-sm"
@@ -199,13 +301,30 @@ function tableBookingForm(
             </div>
           </div>
           <div
+            className={`!mb-5 flex transform transition-transform duration-500 ${
+              commentState ? "translate-y-full" : "translate-y-2"
+            }`}
+          >
+            <Button
+              className="m-0 !mx-auto min-w-[300px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-16 !py-4 text-xs font-semibold uppercase text-black hover:text-black md:!px-20 md:!py-5 md:text-sm"
+              onClick={createSeatBooking}
+            >
+              <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
+                Make Reservation
+              </p>
+            </Button>
+          </div>
+          <div
             className={`flex transform transition-transform duration-500 ${
               commentState ? "translate-y-full" : "translate-y-2"
             }`}
           >
-            <Button className="m-0 !mx-auto !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-16 !py-4 text-xs font-semibold uppercase text-black hover:text-black md:!px-20 md:!py-5 md:text-sm">
+            <Button
+              className="m-0 !mx-auto min-w-[300px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-16 !py-4 text-xs font-semibold uppercase text-black hover:text-black hover:shadow-[0_4px_18px_0_rgba(212,71,0,0.2)] md:!px-20 md:!py-5 md:text-sm"
+              onClick={deleteSeatBookingByUser}
+            >
               <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
-                Make Reservation
+                Delete Reservation
               </p>
             </Button>
           </div>
@@ -219,7 +338,8 @@ function RestaurantMap(
   handleCurrentSeatsBooking: (seatNumber: string) => void,
   handleSeatAvailableClick: (seatNumber: string) => void,
   getSeatByNumber: (seatList: Seat[], seatNumber: string) => Seat | undefined,
-  seats: Seat[]
+  seats: Seat[],
+  seatsInitialState: Seat[]
 ) {
   return (
     <div className="grid select-none grid-cols-8">

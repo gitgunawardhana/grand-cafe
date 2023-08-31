@@ -20,6 +20,14 @@ export const register = async (req, res, next) => {
   }
 
   try {
+    const user = await User.findOne({ email: email });
+
+    if (user) {
+      return next(
+        createError({ status: 404, message: "Email is already exits!" })
+      );
+    }
+
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);
 
@@ -88,7 +96,7 @@ export const login = async (req, res, next) => {
 };
 
 export const logout = async (req, res) => {
-  const refreshToken = req.body.token;
+  const refreshToken = req.body.refreshToken;
   if (!refreshTokens.includes(refreshToken)) {
     return res.status(403).json("Refresh token is not valid!");
   }
@@ -99,7 +107,7 @@ export const logout = async (req, res) => {
 };
 
 export const refresh = async (req, res) => {
-  const refreshToken = req.body.token;
+  const refreshToken = req.body.refreshToken;
 
   if (!refreshToken) return res.status(401).json("You are not authenticated!");
 
