@@ -50,7 +50,7 @@ export const sideNavigationLinks = [
   },
   {
     icon: SideLogout,
-    title: "Logout",
-    to: "/sign-out",
+    title: sessionStorage.getItem("accessToken") ? "Logout" : "Login",
+    to: sessionStorage.getItem("accessToken") ? "" : "sign-in",
   },
 ];
