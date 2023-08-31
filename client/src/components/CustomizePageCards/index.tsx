@@ -43,7 +43,7 @@ const Main = () => {
       <div className="mb-10 grid w-full grid-cols-3 gap-2 ">
         <div
           style={{
-            backgroundImage: `url(${Card1})`,
+            backgroundImage: `url(LKR{Card1})`,
             backgroundSize: "cover",
           }}
           className={twMerge([
@@ -55,7 +55,7 @@ const Main = () => {
         ></div>
         <div
           style={{
-            backgroundImage: `url(${Card2})`,
+            backgroundImage: `url(LKR{Card2})`,
             backgroundSize: "cover",
           }}
           className={twMerge([
@@ -67,7 +67,7 @@ const Main = () => {
         ></div>
         <div
           style={{
-            backgroundImage: `url(${Card3})`,
+            backgroundImage: `url(LKR{Card3})`,
             backgroundSize: "cover",
           }}
           className={twMerge([

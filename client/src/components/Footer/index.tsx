@@ -6,7 +6,7 @@ const Main = () => {
     <>
       <footer
         style={{
-          backgroundImage: `url(${FooterBG})`,
+          backgroundImage: `url(LKR{FooterBG})`,
           backgroundSize: "cover",
         }}
         className="bg-gradient-to-r from-gray-100 via-[#bce1ff] to-gray-100 pb-5"

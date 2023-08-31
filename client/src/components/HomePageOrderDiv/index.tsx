@@ -30,7 +30,7 @@ const Main: React.FC<CardProps> = ({ imageSrc, title, description, buttonText })
   }, []);
 
   return (
-    <div ref={mainRef} className={`rounded-lg shadow-lg p-4 ${shouldAnimate ? 'appear-animation' : ''}`}>
+    <div ref={mainRef} className={`rounded-lg shadow-lg p-4 LKR{shouldAnimate ? 'appear-animation' : ''}`}>
       <div className="flex justify-center items-center">
         <img src={imageSrc} alt="Card" className=" " />
       </div>

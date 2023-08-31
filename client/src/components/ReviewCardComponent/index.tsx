@@ -40,7 +40,7 @@ const ReviewCardComponent: React.FC<ReviewCardComponentProps> = ({ reviews }) =>
     <>
       <div className="grid items-center md:flex md:items-center">
         <button
-          className={`rounded-l p-5 focus:outline-none ${
+          className={`rounded-l p-5 focus:outline-none LKR{
             currentPage === 0 ? "cursor-not-allowed opacity-50" : ""
           }`}
           onClick={scrollLeft}
@@ -52,7 +52,7 @@ const ReviewCardComponent: React.FC<ReviewCardComponentProps> = ({ reviews }) =>
           {reviews.map((review: Review, index: number) => (
             <div
               key={index}
-              className={`w-full lg:w-1/3 flex-none transform transition-transform ${
+              className={`w-full lg:w-1/3 flex-none transform transition-transform LKR{
                 index === currentPage ? "scale-100" : "scale-90"
               }`}
             >
@@ -61,7 +61,7 @@ const ReviewCardComponent: React.FC<ReviewCardComponentProps> = ({ reviews }) =>
           ))}
         </div>
         <button
-          className={`rounded-r p-5 focus:outline-none ${
+          className={`rounded-r p-5 focus:outline-none LKR{
             currentPage === reviews.length - 1 ? "cursor-not-allowed opacity-50" : ""
           }`}
           onClick={scrollRight}
@@ -78,7 +78,7 @@ const ReviewCardComponent: React.FC<ReviewCardComponentProps> = ({ reviews }) =>
               <br />
               <div
                 key={index}
-                className={`h-2 w-2 rounded-full ${
+                className={`h-2 w-2 rounded-full LKR{
                   index === currentPage ? "bg-black" : "bg-gray-900"
                 }`}
                 onClick={() => setCurrentPage(index)}

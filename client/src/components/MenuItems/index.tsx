@@ -41,7 +41,7 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
     <>
       <div className="grid items-center md:flex md:items-center">
         <button
-          className={` rounded-l p-5 focus:outline-none ${
+          className={` rounded-l p-5 focus:outline-none LKR{
             currentPage === 0 ? "cursor-not-allowed opacity-50" : ""
           }`}
           onClick={scrollLeft}
@@ -53,7 +53,7 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
           {products.map((product: Product, index: number) => (
             <div
               key={index}
-              className={`w-full lg:w-1/3 flex-none transform transition-transform ${
+              className={`w-full lg:w-1/3 flex-none transform transition-transform LKR{
                 index === currentPage ? "scale-100" : "scale-90"
               }`}
             >
@@ -78,7 +78,7 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
           ))}
         </div>
         <button
-          className={` rounded-r p-5 focus:outline-none ${
+          className={` rounded-r p-5 focus:outline-none LKR{
             currentPage === products.length - 1
               ? "cursor-not-allowed opacity-50"
               : ""
@@ -97,7 +97,7 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
               <br></br>
               <div
                 key={index}
-                className={`h-2 w-2 rounded-full ${
+                className={`h-2 w-2 rounded-full LKR{
                   index === currentPage ? "bg-black" : "bg-gray-900"
                 }`}
                 onClick={() => setCurrentPage(index)}
