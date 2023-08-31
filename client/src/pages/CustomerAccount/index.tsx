@@ -7,6 +7,7 @@ import cam from "../../assets/images/CustomerAccount/vector3.svg"
 
 
 const gender = [
+  
   {
     id: "male",
     label: "Male",
@@ -23,7 +24,7 @@ const gender = [
 const Main = () => {
   return (
     <>  
-      <div className="ml-[325px] mr-52 mt-0!m-auto flex flex-col justify-center object-cover px-12 text-center text-gradient-yellow-300 md:px-28 lg:px-32">
+      <div className="ml-[100px] mr-52 mt-0!m-auto flex flex-col justify-center object-cover px-12 text-center text-gradient-yellow-300 md:px-28 lg:px-32">
         
         <div className="ml-6 col-span-2 mt-5 justify-start text-start text-[20px] font-black text-gradient-yellow-900 sm:text-[20px] md:text-[30px] lg:text-[40px]">
             <h1>Account Settings</h1>
@@ -36,7 +37,7 @@ const Main = () => {
             </img>
           </div>
           <div className="flex-shrink">
-              <button className="pt-3 pr-[540px] h-0 ">
+              <button className="pt-3 pr-[670px] h-0 ">
                 <img src={cam} className="overflow-auto ml-36 bg-yellow-300 rounded-full px-1 py-1 mt-32 opacity-70 mb-0"></img>
               </button>
           <div className="flex-row">
@@ -51,7 +52,7 @@ const Main = () => {
           
         </div> 
        
-        <div className="pb-64 mb-16 mt-0 grid grid-cols-2  items-center justify-start gap-1 md:mt-0 lg:mt-0 lg:flex-row">
+        <div className="pb-4 mb-10 mt-0 grid grid-cols-2  items-center justify-start gap-1 md:mt-0 lg:mt-0 lg:flex-row">
         
 
           <div className="mt-20 ml-20 col-span-2 justify-start text-start sm:col-span-1">
