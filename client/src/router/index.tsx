@@ -1,4 +1,6 @@
 import { useRoutes } from "react-router-dom";
+import PrivateRouteInverse from "../components/PrivateRouteInverse";
+import PrivateRoutes from "../components/PrivateRoutes";
 import SideMenuLayout from "../layouts/SideMenuLayout";
 import SimpleLayout from "../layouts/SimpleLayout";
 import TopLayout from "../layouts/TopMenu";
@@ -19,12 +21,74 @@ import TestPage from "../pages/TestPage";
 function Router() {
   const routes = [
     {
-      path: "/",
-      element: (
-        <TopLayout landing>
-          <Landing />
-        </TopLayout>
-      ),
+      element: <PrivateRoutes />,
+      children: [
+        {
+          path: "/customize-page",
+          element: (
+            <TopLayout>
+              <CustomizePage />
+            </TopLayout>
+          ),
+        },
+        {
+          path: "/table-booking",
+          element: (
+            <SideMenuLayout className="!px-10">
+              <TableBooking />
+            </SideMenuLayout>
+          ),
+        },
+        {
+          path: "/customer-acc",
+          element: (
+            <SideMenuLayout footer>
+              <CustomerAcc />
+            </SideMenuLayout>
+          ),
+        },
+        {
+          path: "/customer-view",
+          element: (
+            <SideMenuLayout footer>
+              <CustomerView />
+            </SideMenuLayout>
+          ),
+        },
+        {
+          path: "/recipe-generator",
+          element: (
+            <SideMenuLayout className="!px-0">
+              <RecipeGenerator />
+            </SideMenuLayout>
+          ),
+        },
+      ],
+    },
+    {
+      element: <PrivateRouteInverse />,
+      children: [
+        {
+          path: "/",
+          element: (
+            <TopLayout landing>
+              <Landing />
+            </TopLayout>
+          ),
+        },
+        {
+          path: "/sign-in",
+          element: <Login />,
+        },
+        {
+          path: "/sign-up",
+          element: <Register />,
+        },
+        {
+          path: "/register",
+          element: <Register />,
+        },
+      ],
     },
     {
       path: "/home",
@@ -39,44 +103,12 @@ function Router() {
       element: <FirstPage />,
     },
     {
-      path: "/sign-in",
-      element: <Login />,
-    },
-    {
-      path: "/customize-page",
-      element: (
-        <TopLayout>
-          <CustomizePage />
-        </TopLayout>
-      ),
-    },
-    {
       path: "/product-page",
       element: (
         <SideMenuLayout footer>
           <ProductPage />
         </SideMenuLayout>
       ),
-    },
-    {
-      path: "/recipe-generator",
-      element: (
-        <SideMenuLayout className="!px-0">
-          <RecipeGenerator />
-        </SideMenuLayout>
-      ),
-    },
-    {
-      path: "/table-booking",
-      element: (
-        <SideMenuLayout className="!px-10">
-          <TableBooking />
-        </SideMenuLayout>
-      ),
-    },
-    {
-      path: "/register",
-      element: <Register />,
     },
     {
       path: "/error-page",
@@ -90,25 +122,6 @@ function Router() {
         </SideMenuLayout>
       ),
     },
-
-    {
-      path: "/customer-acc",
-      element: (
-        <SideMenuLayout footer>
-          <CustomerAcc />
-        </SideMenuLayout>
-      ),
-    },
-
-    {
-      path: "/customer-view",
-      element: (
-        <SideMenuLayout footer>
-          <CustomerView />
-        </SideMenuLayout>
-      ),
-    },
-
     {
       path: "/*",
       element: (

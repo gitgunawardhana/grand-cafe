@@ -1,8 +1,11 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ButtonBg from "../../assets/images/ButtonBg.svg";
 import { Button } from "../../base-components/Button";
 import Logo from "../../base-components/Logo";
 
+import { useContext } from "react";
+import { handleLogout } from "../../services/auth";
+import { ProviderContext } from "../Provider";
 import SocailMediaLinks from "../SocailMediaLinks";
 import { sideNavigationLinks } from "./navigationLinks";
 
@@ -43,6 +46,11 @@ const SidebarMenu = () => {
       content?.classList.add("ml-12");
     }
   };
+
+  const navigate = useNavigate();
+
+  const { axiosJWT } = useContext(ProviderContext);
+
   return (
     <div className="bg-gradient-brown-900">
       <aside className="fixed z-50 flex h-screen w-60 -translate-x-48 transform rounded-r-lg bg-gradient-brown-500 transition duration-1000 ease-in-out">
@@ -89,10 +97,15 @@ const SidebarMenu = () => {
           {sideNavigationLinks?.map((linkItem) => (
             <div key={linkItem.title}>
               <Button
-                as={NavLink}
+                as={linkItem.title !== "Logout" ? NavLink : undefined}
                 to={linkItem.to}
                 generalStylesStatus={false}
                 className="flex !w-full transform flex-row items-center space-x-3 rounded-full border-none bg-gradient-brown-500 !p-2 !px-8 text-gradient-yellow-500 shadow-none duration-300 ease-in-out hover:ml-4 hover:!text-gradient-yellow-900"
+                onClick={
+                  linkItem.title === "Logout"
+                    ? (e) => handleLogout(e, axiosJWT, navigate)
+                    : undefined
+                }
               >
                 <img src={linkItem.icon} className="h-4" alt="" />
                 <div>{linkItem.title}</div>
@@ -114,10 +127,15 @@ const SidebarMenu = () => {
           {sideNavigationLinks?.map((linkItem) => (
             <div key={linkItem.title}>
               <Button
-                as={NavLink}
+                as={linkItem.title !== "Logout" ? NavLink : undefined}
                 to={linkItem.to}
                 generalStylesStatus={false}
                 className="flex !w-full transform justify-end !rounded-full bg-gradient-brown-500 !p-3 !pr-5 text-gradient-yellow-500 duration-300 ease-in-out hover:ml-4 hover:!text-gradient-yellow-900"
+                onClick={
+                  linkItem.title === "Logout"
+                    ? (e) => handleLogout(e, axiosJWT, navigate)
+                    : undefined
+                }
               >
                 <img src={linkItem.icon} className="h-4" alt="" />
               </Button>

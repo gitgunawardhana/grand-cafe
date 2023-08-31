@@ -1,17 +1,20 @@
 import { useContext, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import NavigationBg from "../../assets/images/NavigationBg.svg";
 import { Button } from "../../base-components/Button";
 import InputField from "../../base-components/FormElements/InputElement";
 import Logo from "../../base-components/Logo";
 import LucideIcon from "../../base-components/LucideIcon";
+import { handleLogout } from "../../services/auth";
 import { ProviderContext } from "../Provider";
 import SocailMediaLinks from "../SocailMediaLinks";
 import "./Navbar.css";
 import { navigationLinks } from "./navigationLinks";
 
 function Main() {
+  const navigate = useNavigate();
+
   //* Dropdown menu handler - start
   const [isDropdownOpen, setIsDropdownOpen] = useState(true);
 
@@ -22,7 +25,7 @@ function Main() {
 
   //* Set class name according to window width - start
   const [clsProfileBtn, setClsProfileBtn] = useState("");
-  const { windowSize } = useContext(ProviderContext);
+  const { windowSize, axiosJWT } = useContext(ProviderContext);
 
   useEffect(() => {
     if (windowSize.width < 1200) {
@@ -111,8 +114,19 @@ function Main() {
               </li>
 
               <li className="px-2" data-te-nav-item-ref>
-                <Button className="!rounded-[10px] border-none !bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 !px-10 !py-2 text-sm font-medium uppercase text-black hover:text-black">
-                  Login
+                <Button
+                  as={
+                    sessionStorage.getItem("accessToken") ? undefined : NavLink
+                  }
+                  to="/sign-in"
+                  className="!rounded-[10px] border-none !bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 !px-10 !py-2 text-sm font-medium uppercase text-black hover:text-black"
+                  onClick={
+                    sessionStorage.getItem("accessToken")
+                      ? (e) => handleLogout(e, axiosJWT, navigate)
+                      : undefined
+                  }
+                >
+                  {sessionStorage.getItem("accessToken") ? "Logout" : "Login"}
                 </Button>
               </li>
             </ul>
@@ -160,7 +174,7 @@ function Main() {
 
                 <li className="!-mt-1 min-[1195px]:hidden" data-te-nav-item-ref>
                   <Button className="!rounded-[10px] border-none !bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 !px-10 !py-2 text-sm font-medium uppercase text-black hover:text-black">
-                    Login
+                    {sessionStorage.getItem("accessToken") ? "Logout" : "Login"}
                   </Button>
                 </li>
               </ul>
