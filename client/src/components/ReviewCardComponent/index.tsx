@@ -3,7 +3,7 @@ import ReviewCard from "./Card";
 
 interface Review {
   name: string;
-  rate:string;
+  rate: string;
   review: string;
   image: string;
 }
@@ -12,7 +12,9 @@ interface ReviewCardComponentProps {
   reviews: Review[];
 }
 
-const ReviewCardComponent: React.FC<ReviewCardComponentProps> = ({ reviews }) => {
+const ReviewCardComponent: React.FC<ReviewCardComponentProps> = ({
+  reviews,
+}) => {
   const viewerRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -40,7 +42,7 @@ const ReviewCardComponent: React.FC<ReviewCardComponentProps> = ({ reviews }) =>
     <>
       <div className="grid items-center md:flex md:items-center">
         <button
-          className={`rounded-l p-5 focus:outline-none LKR{
+          className={`rounded-l p-5 focus:outline-none ${
             currentPage === 0 ? "cursor-not-allowed opacity-50" : ""
           }`}
           onClick={scrollLeft}
@@ -52,18 +54,22 @@ const ReviewCardComponent: React.FC<ReviewCardComponentProps> = ({ reviews }) =>
           {reviews.map((review: Review, index: number) => (
             <div
               key={index}
-              className={`w-full lg:w-1/3 flex-none transform transition-transform LKR{
+              className={`${
                 index === currentPage ? "scale-100" : "scale-90"
-              }`}
+              } w-full flex-none transform transition-transform
+              lg:w-1/3`}
             >
               <ReviewCard review={review} />
             </div>
           ))}
         </div>
         <button
-          className={`rounded-r p-5 focus:outline-none LKR{
-            currentPage === reviews.length - 1 ? "cursor-not-allowed opacity-50" : ""
-          }`}
+          className={`${
+            currentPage === reviews.length - 1
+              ? "cursor-not-allowed opacity-50"
+              : ""
+          } rounded-r p-5
+          focus:outline-none`}
           onClick={scrollRight}
           disabled={currentPage === reviews.length - 1}
         >
@@ -78,9 +84,10 @@ const ReviewCardComponent: React.FC<ReviewCardComponentProps> = ({ reviews }) =>
               <br />
               <div
                 key={index}
-                className={`h-2 w-2 rounded-full LKR{
+                className={`${
                   index === currentPage ? "bg-black" : "bg-gray-900"
-                }`}
+                } h-2 w-2
+                rounded-full`}
                 onClick={() => setCurrentPage(index)}
               ></div>
             </>

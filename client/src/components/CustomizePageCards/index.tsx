@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Card1 from "../../assets/images/CustomizePage/Card1.png";
-import Card2 from "../../assets/images/CustomizePage/Card2.png";
-import Card3 from "../../assets/images/CustomizePage/Card3.png";
 
 const Main = () => {
   const [isHovered1, setIsHovered1] = useState(false);
@@ -43,7 +41,7 @@ const Main = () => {
       <div className="mb-10 grid w-full grid-cols-3 gap-2 ">
         <div
           style={{
-            backgroundImage: `url(LKR{Card1})`,
+            backgroundImage: `url(${Card1})`,
             backgroundSize: "cover",
           }}
           className={twMerge([
@@ -55,7 +53,7 @@ const Main = () => {
         ></div>
         <div
           style={{
-            backgroundImage: `url(LKR{Card2})`,
+            backgroundImage: `url(${Card2})`,
             backgroundSize: "cover",
           }}
           className={twMerge([
@@ -67,7 +65,7 @@ const Main = () => {
         ></div>
         <div
           style={{
-            backgroundImage: `url(LKR{Card3})`,
+            backgroundImage: `url(${Card3})`,
             backgroundSize: "cover",
           }}
           className={twMerge([
