@@ -1,6 +1,12 @@
 import axios, { AxiosInstance } from "axios";
 import jwt_decode from "jwt-decode";
-import { createContext, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useEffect,
+  useState,
+} from "react";
 import { getWindowSize } from "../../utils";
 
 type WindowSize = {
@@ -8,6 +14,12 @@ type WindowSize = {
   height: number;
 };
 
+export interface Product {
+  name: string;
+  image: string;
+  description: string;
+  price: string;
+}
 // interface User {
 //   email: string;
 //   accessToken: string;
@@ -20,6 +32,8 @@ export interface ProviderContextInterface {
   // setSeatsInitialState: Dispatch<SetStateAction<Seat[]>>;
   // user: User | null;
   // setUser: Dispatch<SetStateAction<User | null>>;
+  products: Product[];
+  setProducts: Dispatch<SetStateAction<Product[]>>;
   axiosJWT: AxiosInstance;
 }
 
@@ -28,6 +42,7 @@ const defaultState = {
     width: 0,
     height: 0,
   },
+  setProducts: (products: Product[]) => {},
   // setSeatsInitialState: (seatsInitialState: Seat[]) => {},
   // setUser: (user: User) => {},
 } as ProviderContextInterface;
@@ -101,6 +116,29 @@ const Provider = (props: ProviderProps) => {
   });
 
   getWindowSize(setWindowSize);
+
+  const [products, setProducts] = useState<Product[]>([]);
+
+  const fetchData = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/products/product");
+      const json = await res.json();
+      setProducts(json.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // const contextValue: ContextValue = {
+  //   windowSize,
+  //   products,
+  //   setProducts,
+  // };
+
   return (
     <ProviderContext.Provider
       value={{
@@ -109,6 +147,8 @@ const Provider = (props: ProviderProps) => {
         // setSeatsInitialState,
         // user,
         // setUser,
+        products,
+        setProducts,
         axiosJWT,
       }}
     >

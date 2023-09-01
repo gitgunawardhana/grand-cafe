@@ -47,7 +47,7 @@ const Main = () => {
             backgroundSize: "cover",
           }}
           className={twMerge([
-            "col-span-1 h-[220px] translate-x-1/2 translate-y-6 cursor-pointer rounded-2xl opacity-[1] duration-300 ease-in hover:border hover:border-gradient-yellow-900 hover:opacity-[1] md:h-[400px] md:min-w-[230px] lg:h-[450px]",
+            "col-span-1 h-[220px] translate-x-1/2 cursor-pointer rounded-2xl opacity-[1] duration-300 ease-in hover:border hover:border-gradient-yellow-900 hover:opacity-[1] md:h-[400px] md:min-w-[230px] lg:h-[450px]",
             isHovered1 ? "blur-[2px]" : "",
           ])}
           onMouseEnter={handleHover1}
@@ -71,7 +71,7 @@ const Main = () => {
             backgroundSize: "cover",
           }}
           className={twMerge([
-            "col-span-1 h-[220px] -translate-x-1/3 -translate-y-6 cursor-pointer rounded-2xl opacity-[1] duration-300 ease-in hover:border hover:border-gradient-yellow-900 hover:opacity-[1] md:h-[400px] md:min-w-[230px] md:-translate-y-14 lg:h-[450px]",
+            "col-span-1 h-[220px] -translate-x-1/3 cursor-pointer rounded-2xl opacity-[1] duration-300 ease-in hover:border hover:border-gradient-yellow-900 hover:opacity-[1] md:h-[400px] md:min-w-[230px] md:-translate-y-14 lg:h-[450px]",
             isHovered3 ? "blur-[2px]" : "",
           ])}
           onMouseEnter={handleHover3}

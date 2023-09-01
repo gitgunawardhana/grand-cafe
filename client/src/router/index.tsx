@@ -12,6 +12,7 @@ import FirstPage from "../pages/FirstPage";
 import HomePage from "../pages/HomePage";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
+import ProductDetailsPage from "../pages/ProductDetails";
 import ProductPage from "../pages/ProductPage";
 import RecipeGenerator from "../pages/RecipeGenerator";
 import Register from "../pages/Register";
@@ -117,9 +118,10 @@ function Router() {
     {
       path: "/test",
       element: (
-        <SideMenuLayout>
-          <TestPage />
-        </SideMenuLayout>
+        // <SideMenuLayout>
+        //   <TestPage />
+        // </SideMenuLayout>
+        <TestPage />
       ),
     },
     {
@@ -128,6 +130,24 @@ function Router() {
         <SimpleLayout className="bg-[#362B19]">
           <ErrorPage />
         </SimpleLayout>
+      ),
+    },
+    {
+      path: `/product/:productName`,
+      element: (
+        <SideMenuLayout>
+          <TopLayout footer>
+            <ProductDetailsPage />
+          </TopLayout>
+        </SideMenuLayout>
+      ),
+    },
+    {
+      path: `/customize-page/:productName`,
+      element: (
+        <TopLayout>
+          <CustomizePage />
+        </TopLayout>
       ),
     },
   ];

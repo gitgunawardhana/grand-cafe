@@ -2,6 +2,9 @@ import { Button } from "../../base-components/Button";
 import InputField from "../../base-components/FormElements/InputElement";
 import CheckBoxSetResponsive from "../../components/CheckBoxSetResponsive";
 import CustomizePageCards from "../../components/CustomizePageCards";
+import React, { useContext } from "react";
+import { useParams } from "react-router-dom";
+import { Product, ProviderContext } from "../../components/Provider";
 
 const vegetableSlicesDataset = [
   {
@@ -84,6 +87,20 @@ const addFrenchFries = [
 ];
 
 const Main = () => {
+  const { products } = useContext(ProviderContext);
+  const { productName } = useParams<{ productName?: string }>();
+
+  if (!productName) {
+    return <div>Product not found.</div>;
+  }
+
+  const selectedProduct = products.find(
+    (product: Product) => product.name === decodeURIComponent(productName)
+  );
+
+  if (!selectedProduct) {
+    return <div>Product not found.</div>;
+  }
   return (
     <>
       <div className="!m-auto flex flex-col justify-center object-cover px-12 text-center text-gradient-yellow-300 md:px-28 lg:px-32">
@@ -95,7 +112,8 @@ const Main = () => {
             <div className="col-span-2 justify-start text-start sm:col-span-1">
               <InputField
                 className="border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
-                label="Chicken Flavor"
+                label="Meal Item"
+                value={selectedProduct.name}
                 labelClassName="!bg-main-background !text-gradient-yellow-900 text-xs p-1 pr-16"
                 placeholder="Crispy Chicken"
               />
@@ -131,6 +149,7 @@ const Main = () => {
                 dataset={vegetableSlicesDataset}
                 type="checkbox"
                 name="vegetable-slices"
+                
               />
             </div>
             <div className="col-span-2 justify-start text-start">
