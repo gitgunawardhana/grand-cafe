@@ -360,7 +360,7 @@ function HeaderSection() {
   return (
     <div
       style={{
-        backgroundImage: `url(LKR{ProductPageBg})`,
+        backgroundImage: `url(${ProductPageBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

@@ -6,7 +6,7 @@ const Main = () => {
     <>
       <footer
         style={{
-          backgroundImage: `url(LKR{FooterBG})`,
+          backgroundImage: `url(${FooterBG})`,
           backgroundSize: "cover",
         }}
         className="bg-gradient-to-r from-gray-100 via-[#bce1ff] to-gray-100 pb-5"
@@ -20,7 +20,7 @@ const Main = () => {
                 Grand Cafe Restaurant
               </h1>
               <p className="mt-4 max-w-md text-sm text-gradient-yellow-300">
-                Hi! We are Grand Cafe restaurant. 
+                Hi! We are Grand Cafe restaurant.
               </p>
               <nav className="mt-4 flex flex-col space-y-2 text-sm text-gray-500">
                 <p className="cursor-pointer text-gradient-yellow-300 hover:opacity-75">
@@ -177,7 +177,7 @@ const Main = () => {
             </div>
           </div>
           <p className="mb-8 mt-5 text-xs text-gradient-yellow-300 md:mb-0">
-            © 2023 
+            © 2023
           </p>
           <div className="absolute bottom-1 left-0 w-full">
             <div className="flex justify-center">

@@ -286,7 +286,7 @@ function tableBookingForm(
             </p>
 
             <div
-              className={`transform transition-transform duration-500 LKR{
+              className={`transform transition-transform duration-500 ${
                 commentState ? "translate-y-0" : "translate-y-1"
               }`}
             >

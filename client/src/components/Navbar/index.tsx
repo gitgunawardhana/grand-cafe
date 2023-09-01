@@ -51,7 +51,7 @@ function Main() {
 
       <nav
         style={{
-          backgroundImage: `url(LKR{NavigationBg})`,
+          backgroundImage: `url(${NavigationBg})`,
           backgroundSize: "cover",
           objectFit: "cover",
         }}

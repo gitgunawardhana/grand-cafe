@@ -38,7 +38,7 @@ const Main = () => {
     <div>
       <div
         style={{
-          backgroundImage: `url(LKR{Sign_up})`,
+          backgroundImage: `url(${Sign_up})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-[48rem] flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen"

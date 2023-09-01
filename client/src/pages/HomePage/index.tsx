@@ -34,10 +34,10 @@ import rate from "../../assets/images/HomePage/stars.png";
 import { Button } from "../../base-components/Button";
 import ChefDisplay from "../../components/ChefDisplay/index";
 import DeliveryCards from "../../components/HomePageOrderDiv";
+import HomeBlog from "./../../components/HomeBlog/index";
 import ImageGallery from "./../../components/ImageGallery/index";
 import ProductBrowsingComponent from "./../../components/MenuItems/index";
 import ReviewCardComponent from "./../../components/ReviewCardComponent/index";
-import HomeBlog from "./../../components/HomeBlog/index";
 
 const reviews = [
   {
@@ -75,18 +75,17 @@ const Main = () => {
     <div>
       <div
         style={{
-          backgroundImage: `url(LKR{Back_01})`,
+          backgroundImage: `url(${Back_01})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-screen flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen"
       >
-        <HomeBlog/>
-        
+        <HomeBlog />
       </div>
       {/**Second Part */}
       <div
         style={{
-          backgroundImage: `url(LKR{Back_02})`,
+          backgroundImage: `url(${Back_02})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen"
@@ -128,7 +127,7 @@ const Main = () => {
       {/**Third part */}
       <div
         style={{
-          backgroundImage: `url(LKR{Back_03})`,
+          backgroundImage: `url(${Back_03})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen"
@@ -143,7 +142,7 @@ const Main = () => {
 
       <div
         style={{
-          backgroundImage: `url(LKR{BestMenu})`,
+          backgroundImage: `url(${BestMenu})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-screen md:h-full"
@@ -160,7 +159,7 @@ const Main = () => {
 
       <div
         style={{
-          backgroundImage: `url(LKR{Back_05})`,
+          backgroundImage: `url(${Back_05})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen"
@@ -178,7 +177,7 @@ const Main = () => {
 
       <div
         style={{
-          backgroundImage: `url(LKR{Back_06})`,
+          backgroundImage: `url(${Back_06})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-full md:h-screen"
@@ -236,7 +235,7 @@ const Main = () => {
       {/**sixth part */}
       <div
         style={{
-          backgroundImage: `url(LKR{Back_07})`,
+          backgroundImage: `url(${Back_07})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-full md:h-screen"
@@ -293,7 +292,7 @@ const Main = () => {
       {/**sixth part */}
       <div
         style={{
-          backgroundImage: `url(LKR{Back_08})`,
+          backgroundImage: `url(${Back_08})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-full md:h-screen"
@@ -341,7 +340,7 @@ const Main = () => {
       {/**sixth part */}
       <div
         style={{
-          backgroundImage: `url(LKR{Back_09})`,
+          backgroundImage: `url(${Back_09})`,
           backgroundSize: "cover",
         }}
         className="w-m flex h-full flex-col bg-repeat p-5 pt-[80px]  text-center text-slate-900 dark:text-slate-50 sm:h-full md:h-screen"
@@ -385,10 +384,9 @@ const Main = () => {
           </div>
         </div>
       </div>
-      <br/><br/>
+      <br />
+      <br />
     </div>
-
-  
   );
 };
 

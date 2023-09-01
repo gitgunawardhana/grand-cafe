@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProviderContext } from "../Provider";
 
@@ -44,7 +44,7 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
       <div className="grid items-center md:flex md:items-center">
         {/* Scroll left button */}
         <button
-          className={` rounded-l p-5 focus:outline-none LKR{
+          className={` rounded-l p-5 focus:outline-none ${
             currentPage === 0 ? "cursor-not-allowed opacity-50" : ""
           }`}
           onClick={scrollLeft}
@@ -52,19 +52,20 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
         >
           &lt;
         </button>
-        
+
         {/* Product viewer */}
         <div className="flex space-x-4 overflow-hidden" ref={viewerRef}>
           {products.map((product: Product, index: number) => (
             <div
               key={index}
-              className={`w-full lg:w-1/3 flex-none transform transition-transform LKR{
+              className={`${
                 index === currentPage ? "scale-100" : "scale-90"
-              }`}
+              } w-full flex-none transform transition-transform
+              lg:w-1/3`}
             >
               {/* Render your product component or content here */}
-              <div className="rounded-md p-4 justify-center items-center grid">
-                <div className="justify-center items-center flex">
+              <div className="grid items-center justify-center rounded-md p-4">
+                <div className="flex items-center justify-center">
                   <img
                     src={`data:image/jpeg;base64,${product.image}`}
                     alt={product.name}
@@ -73,30 +74,40 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
                 </div>
                 <br></br>
                 <Link to={`/product/${encodeURIComponent(product.name)}`}>
-                <p className="text-amber-500 uppercase font-black tracking-widest text-2xl">{product.name}</p><br></br>
+                  <p className="text-2xl font-black uppercase tracking-widest text-amber-500">
+                    {product.name}
+                  </p>
+                  <br></br>
                 </Link>
-               
-                <p className="text-amber-100 tracking-widest">{product.description}</p><br></br>
-                <p className="text-amber-500 uppercase text-2xl -tracking-normal font-black">{product.price}</p>
+
+                <p className="tracking-widest text-amber-100">
+                  {product.description}
+                </p>
+                <br></br>
+                <p className="text-2xl font-black uppercase -tracking-normal text-amber-500">
+                  {product.price}
+                </p>
               </div>
             </div>
           ))}
         </div>
-        
+
         {/* Scroll right button */}
         <button
-          className={` rounded-r p-5 focus:outline-none LKR{
+          className={` ${
             currentPage === products.length - 1
               ? "cursor-not-allowed opacity-50"
               : ""
-          }`}
+          }
+              rounded-r p-5
+          focus:outline-none`}
           onClick={scrollRight}
           disabled={currentPage === products.length - 1}
         >
           &gt;
         </button>
       </div>
-      
+
       {/* Pagination dots */}
       <br></br>
       <div className="grid items-center justify-center">
@@ -106,9 +117,10 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
               <br></br>
               <div
                 key={index}
-                className={`h-2 w-2 rounded-full LKR{
+                className={`${
                   index === currentPage ? "bg-black" : "bg-gray-900"
-                }`}
+                } h-2 w-2
+                rounded-full`}
                 onClick={() => setCurrentPage(index)}
               ></div>
             </>
@@ -136,7 +148,6 @@ function App() {
   //   fetchData();
   // }, []);
 
-  
   const { products } = useContext(ProviderContext);
 
   return (
