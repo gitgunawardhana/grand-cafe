@@ -6,7 +6,7 @@ import TableBookingHeadingTitle from "../../assets/images/tableBookingHeadingTit
 import { Button } from "../../base-components/Button";
 import InputField from "../../base-components/FormElements/InputElement";
 import MuiDateTimePicker from "../../components/MuiDateTimePicker";
-import { ProviderContext } from "../../components/Provider";
+import { ProviderContext, refreshToken } from "../../components/Provider";
 import ChairIcon, { Seat } from "../../components/TableBooking/ChairIcon";
 import TableNumber from "../../components/TableBooking/TableNumber";
 import { AlignmentTypes } from "../../constants";
@@ -19,6 +19,7 @@ const Main = () => {
   const [seatsInitialState, setSeatsInitialState] = useState<Seat[]>([]);
   const getAllSeats = async () => {
     try {
+      refreshToken();
       const res = await axiosJWT.get("user/get-all-seats", {
         headers: {
           authorization: "Bearer " + sessionStorage.getItem("accessToken"),

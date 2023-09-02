@@ -55,6 +55,22 @@ interface ProviderProps {
   children: React.ReactElement | React.ReactElement[];
 }
 
+export const refreshToken = async () => {
+  try {
+    const res = await axios.post("http://localhost:8000/api/auth/refresh", {
+      refreshToken: sessionStorage.getItem("refreshToken"),
+    });
+    const newTokens = res.data;
+
+    sessionStorage.setItem("accessToken", newTokens.accessToken);
+    sessionStorage.setItem("refreshToken", newTokens.refreshToken);
+    return newTokens;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 const Provider = (props: ProviderProps) => {
   // const [user, setUser] = useState<User | null>(null);
   // const [seatsInitialState, setSeatsInitialState] = useState<Seat[]>([]);
@@ -63,22 +79,6 @@ const Provider = (props: ProviderProps) => {
     width: 0,
     height: 0,
   });
-
-  const refreshToken = async () => {
-    try {
-      const res = await axios.post("http://localhost:8000/api/auth/refresh", {
-        refreshToken: sessionStorage.getItem("refreshToken"),
-      });
-      const newTokens = res.data;
-
-      sessionStorage.setItem("accessToken", newTokens.accessToken);
-      sessionStorage.setItem("refreshToken", newTokens.refreshToken);
-      return newTokens;
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  };
 
   const axiosJWT = axios.create({
     baseURL: "http://localhost:8000/api",
