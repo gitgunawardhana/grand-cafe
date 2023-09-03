@@ -16,6 +16,7 @@ import Register from "../pages/Register";
 import TableBooking from "../pages/TableBooking";
 import TestPage from "../pages/TestPage";
 import ProductDetailsPage from "../pages/ProductDetails";
+import Cart from "../pages/Cart";
 
 function Router() {
   const routes = [
@@ -60,6 +61,14 @@ function Router() {
       ),
     },
     {
+      path: "/cart",
+      element: (
+        <SideMenuLayout footer>
+          <Cart />
+        </SideMenuLayout>
+      ),
+    },
+    {
       path: "/recipe-generator",
       element: (
         <SideMenuLayout className="!px-0">
@@ -89,11 +98,9 @@ function Router() {
         // <SideMenuLayout>
         //   <TestPage />
         // </SideMenuLayout>
-        <TestPage/>
+        <TestPage />
       ),
-      
     },
-    
 
     {
       path: "/customer-acc",
@@ -122,25 +129,23 @@ function Router() {
       ),
     },
     {
-      path:`/product/:productName`,
+      path: `/product/:productName`,
       element: (
-        <SideMenuLayout  >
+        <SideMenuLayout>
           <TopLayout footer>
             <ProductDetailsPage />
           </TopLayout>
-          
-        </SideMenuLayout >
+        </SideMenuLayout>
       ),
     },
     {
-      path:`/customize-page/:productName`,
+      path: `/customize-page/:productName`,
       element: (
         <TopLayout>
           <CustomizePage />
         </TopLayout>
       ),
     },
-    
   ];
 
   return useRoutes(routes);

@@ -7,6 +7,7 @@ export interface Product {
   image: string;
   description: string;
   price: string;
+  rate: number;
 }
 
 // type ProductType = Product;
@@ -20,6 +21,9 @@ type ContextValue = {
   windowSize: { width: number; height: number };
   products: Product[];
   setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  total: number; 
+  setTotal: React.Dispatch<React.SetStateAction<number>>; 
+
 };
 
 // export const ProviderContext = createContext({
@@ -53,6 +57,7 @@ const Provider = (props: ProviderProps) => {
 
   
   const [products, setProducts] = useState<Product[]>([]);
+  const [total, setTotal] = useState(0);
 
   const fetchData = async () => {
     try {
@@ -72,8 +77,13 @@ const Provider = (props: ProviderProps) => {
     windowSize,
     products,
     setProducts,
+    total, 
+    setTotal,
   };
 
+
+
+  
   return (
     
     <ProviderContext.Provider

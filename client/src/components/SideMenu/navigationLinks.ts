@@ -21,7 +21,7 @@ export const sideNavigationLinks = [
   {
     icon: SideOrderMenu,
     title: "Order menu",
-    to: "/order-menu",
+    to: "/product-page",
   },
   {
     icon: SideFavorite,
