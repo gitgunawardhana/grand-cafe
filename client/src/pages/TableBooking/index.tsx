@@ -15,12 +15,59 @@ import { AlignmentTypes } from "../../constants";
 
 const Main = () => {
   const { axiosJWT } = useContext(ProviderContext);
+  const [selectedInDate, setSelectedInDate] = useState<any>(dayjs());
+  const [selectedInTime, setSelectedInTime] = useState<any>(dayjs());
+  const [selectedOutDate, setSelectedOutDate] = useState<any>(dayjs());
+  const [selectedOutTime, setSelectedOutTime] = useState<any>(dayjs());
+
+  // Handle the in-date change
+  const handleInDateChange = (date: any) => {
+    setSelectedInDate(date);
+  };
+
+  // Handle the in-time change
+  const handleInTimeChange = (time: any) => {
+    setSelectedInTime(time);
+  };
+
+  // Handle the out-date change
+  const handleOutDateChange = (date: any) => {
+    setSelectedOutDate(date);
+  };
+
+  // Handle the out-time change
+  const handleOutTimeChange = (time: any) => {
+    setSelectedOutTime(time);
+  };
+
+  console.log(
+    "in-time ",
+    dayjs(selectedInTime).add(1, "minute").format("HH:mm:ss")
+  );
+  console.log(
+    "out-time ",
+    dayjs(selectedOutTime).subtract(1, "minute").format("HH:mm:ss")
+  );
+  console.log("in-date ", dayjs(selectedInDate).format("YYYY-MM-DD"));
+  console.log("out-date ", dayjs(selectedOutDate).format("YYYY-MM-DD"));
 
   const [seatsInitialState, setSeatsInitialState] = useState<Seat[]>([]);
   const getAllSeats = async () => {
     try {
       refreshToken();
-      const res = await axiosJWT.get("user/get-all-seats", {
+      const res = await axiosJWT.get("user/get-available-seats", {
+        params: {
+          inDateTime: `${dayjs(selectedInDate).format("YYYY-MM-DD")}T${dayjs(
+            selectedInTime
+          )
+            .add(1, "minute")
+            .format("HH:mm:ss")}Z`,
+          outDateTime: `${dayjs(selectedOutDate).format("YYYY-MM-DD")}T${dayjs(
+            selectedOutTime
+          )
+            .subtract(1, "minute")
+            .format("HH:mm:ss")}Z`,
+        },
         headers: {
           authorization: "Bearer " + sessionStorage.getItem("accessToken"),
         },
@@ -36,6 +83,10 @@ const Main = () => {
   }, [
     sessionStorage.getItem("accessToken"),
     sessionStorage.getItem("refreshToken"),
+    selectedInDate,
+    selectedInTime,
+    selectedOutDate,
+    selectedOutTime,
   ]);
 
   const seatsBackend = seatsInitialState;
@@ -120,7 +171,15 @@ const Main = () => {
                 currentSeatsBooking,
                 setCommentState,
                 commentState,
-                currentUserSeatsBooking
+                currentUserSeatsBooking,
+                selectedInDate,
+                selectedInTime,
+                handleInDateChange,
+                handleInTimeChange,
+                selectedOutDate,
+                selectedOutTime,
+                handleOutDateChange,
+                handleOutTimeChange
               )}
             </div>
             {/* second column */}
@@ -146,29 +205,28 @@ function tableBookingForm(
   currentSeatsBooking: string[],
   setCommentState: (value: boolean) => void,
   commentState: boolean,
-  currentUserSeatsBooking: string[]
+  currentUserSeatsBooking: string[],
+  selectedInDate: any,
+  selectedInTime: any,
+  handleInDateChange: any,
+  handleInTimeChange: any,
+  selectedOutDate: any,
+  selectedOutTime: any,
+  handleOutDateChange: any,
+  handleOutTimeChange: any
 ) {
   const { axiosJWT } = useContext(ProviderContext);
-  const [selectedDate, setSelectedDate] = useState<any>(dayjs());
-  const [selectedTime, setSelectedTime] = useState<any>(dayjs());
-
-  // Handle the date change
-  const handleDateChange = (date: any) => {
-    setSelectedDate(date);
-  };
-
-  // Handle the time change
-  const handleTimeChange = (time: any) => {
-    setSelectedTime(time);
-  };
 
   const createSeatBooking = async () => {
     try {
       const res = await axiosJWT.post(
         "user/create-seat-booking",
         {
-          dateTime: `${dayjs(selectedDate).format("YYYY-MM-DD")}T${dayjs(
-            selectedTime
+          inDateTime: `${dayjs(selectedInDate).format("YYYY-MM-DD")}T${dayjs(
+            selectedInTime
+          ).format("HH:mm:ss")}Z`,
+          outDateTime: `${dayjs(selectedOutDate).format("YYYY-MM-DD")}T${dayjs(
+            selectedOutTime
           ).format("HH:mm:ss")}Z`,
           bookingSeats: currentSeatsBooking,
         },
@@ -199,8 +257,8 @@ function tableBookingForm(
     }
   };
 
-  // console.log("time ", dayjs(selectedTime).format("HH:mm:ss"));
-  // console.log("date ", dayjs(selectedDate).format("YYYY-MM-DD"));
+  // console.log("time ", dayjs(selectedInTime).format("HH:mm:ss"));
+  // console.log("date ", dayjs(selectedInDate).format("YYYY-MM-DD"));
 
   return (
     <div className="m-auto flex px-2 pb-20">
@@ -212,22 +270,44 @@ function tableBookingForm(
         <div className="flex gap-2">
           <div className="">
             <h2 className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text !text-sm font-extrabold text-transparent md:!text-base">
-              Booking date
+              Booking in-date
             </h2>
             <MuiDateTimePicker
               variant="desktop"
               time={false}
-              onDateChange={handleDateChange}
+              onDateChange={handleInDateChange}
             />
           </div>
           <div className="">
             <h2 className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text !text-sm font-extrabold text-transparent md:!text-base">
-              Time
+              In-time
             </h2>
             <MuiDateTimePicker
               variant="desktop"
               date={false}
-              onTimeChange={handleTimeChange}
+              onTimeChange={handleInTimeChange}
+            />
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <div className="">
+            <h2 className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text !text-sm font-extrabold text-transparent md:!text-base">
+              Booking out-date
+            </h2>
+            <MuiDateTimePicker
+              variant="desktop"
+              time={false}
+              onDateChange={handleOutDateChange}
+            />
+          </div>
+          <div className="">
+            <h2 className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text !text-sm font-extrabold text-transparent md:!text-base">
+              In-time
+            </h2>
+            <MuiDateTimePicker
+              variant="desktop"
+              date={false}
+              onTimeChange={handleOutTimeChange}
             />
           </div>
         </div>

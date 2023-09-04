@@ -37,7 +37,7 @@ export const updateSeats = async (req, res) => {
 
 // ? Create a new seat booking with user id
 export const createSeatBooking = async (req, res) => {
-  const { dateTime, bookingSeats } = req.body; // ! bookingSeats: string[] = ["T1S2", "T1S3"]
+  const { inDateTime, outDateTime, bookingSeats } = req.body; // ! bookingSeats: string[] = ["T1S2", "T1S3"]
 
   try {
     // Find the corresponding Seat documents using the provided seat numbers
@@ -48,15 +48,16 @@ export const createSeatBooking = async (req, res) => {
 
     const newSeatBooking = new SeatBooking({
       user: req.user.id,
-      dateTime,
+      inDateTime,
+      outDateTime,
       bookingSeats: seatIds,
     });
 
     // Update the availability of booked seats to false
-    await Seat.updateMany(
-      { _id: { $in: seatIds } },
-      { $set: { available: false } }
-    );
+    // await Seat.updateMany(
+    //   { _id: { $in: seatIds } },
+    //   { $set: { available: false } }
+    // );
 
     const savedSeatBooking = await newSeatBooking.save();
     res.status(200).json(savedSeatBooking);
@@ -65,7 +66,7 @@ export const createSeatBooking = async (req, res) => {
   }
 };
 
-// * Get all seat booking without filtering
+// ? Get all seat booking without filtering
 export const getAllSeatBooking = async (req, res) => {
   try {
     const seatBookings = await SeatBooking.find().populate("user bookingSeats");
@@ -118,13 +119,13 @@ export const deleteSeatBookingById = async (req, res) => {
       return res.status(404).json({ error: "Booking not found" });
     }
 
-    const seatIds = booking.bookingSeats;
+    // const seatIds = booking.bookingSeats;
 
     // Update the availability of booked seats to true
-    await Seat.updateMany(
-      { _id: { $in: seatIds } },
-      { $set: { available: true } }
-    );
+    // await Seat.updateMany(
+    //   { _id: { $in: seatIds } },
+    //   { $set: { available: true } }
+    // );
 
     // Delete the booking using deleteOne()
     await SeatBooking.deleteOne({ _id: bookingId });
@@ -149,20 +150,71 @@ export const deleteSeatBookingByUser = async (req, res) => {
         .json({ error: "Bookings not found for this user" });
     }
 
-    for (const booking of bookings) {
-      const seatIds = booking.bookingSeats;
+    // for (const booking of bookings) {
+    //   const seatIds = booking.bookingSeats;
 
-      // Update the availability of booked seats to true
-      await Seat.updateMany(
-        { _id: { $in: seatIds } },
-        { $set: { available: true } }
-      );
-    }
+    //   // Update the availability of booked seats to true
+    //   await Seat.updateMany(
+    //     { _id: { $in: seatIds } },
+    //     { $set: { available: true } }
+    //   );
+    // }
 
     // Delete the bookings by user ID
     await SeatBooking.deleteMany({ user: userId });
 
     res.status(200).json({ message: "Bookings deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// Function to get available seats based on inDateTime and outDateTime
+export const getAvailableSeats = async (req, res) => {
+  const { inDateTime, outDateTime } = req.query;
+
+  try {
+    // Parse the query parameters into Date objects
+    const inDate = new Date(inDateTime);
+    const outDate = new Date(outDateTime);
+
+    // Find all seat bookings that overlap with the specified time range
+    const overlappingBookings = await SeatBooking.find({
+      $or: [
+        {
+          inDateTime: { $lte: inDate },
+          outDateTime: { $gte: inDate },
+        },
+        {
+          inDateTime: { $lte: outDate },
+          outDateTime: { $gte: outDate },
+        },
+        {
+          inDateTime: { $gte: inDate },
+          outDateTime: { $lte: outDate },
+        },
+      ],
+    });
+
+    // Extract the seat IDs from the overlapping bookings
+    const bookedSeatIds = overlappingBookings.flatMap(
+      (booking) => booking.bookingSeats
+    );
+
+    // Find all seats and mark them as available or not available
+    const allSeats = await Seat.find();
+
+    // Create the response in the desired format
+    const response = allSeats.map((seat) => ({
+      _id: seat._id,
+      number: seat.number,
+      available: !bookedSeatIds.some((bookedSeatId) =>
+        bookedSeatId.equals(seat._id)
+      ),
+    }));
+
+    res.status(200).json(response);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
