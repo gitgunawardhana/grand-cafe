@@ -54,10 +54,10 @@ export const createSeatBooking = async (req, res) => {
     });
 
     // Update the availability of booked seats to false
-    await Seat.updateMany(
-      { _id: { $in: seatIds } },
-      { $set: { available: false } }
-    );
+    // await Seat.updateMany(
+    //   { _id: { $in: seatIds } },
+    //   { $set: { available: false } }
+    // );
 
     const savedSeatBooking = await newSeatBooking.save();
     res.status(200).json(savedSeatBooking);
@@ -119,13 +119,13 @@ export const deleteSeatBookingById = async (req, res) => {
       return res.status(404).json({ error: "Booking not found" });
     }
 
-    const seatIds = booking.bookingSeats;
+    // const seatIds = booking.bookingSeats;
 
     // Update the availability of booked seats to true
-    await Seat.updateMany(
-      { _id: { $in: seatIds } },
-      { $set: { available: true } }
-    );
+    // await Seat.updateMany(
+    //   { _id: { $in: seatIds } },
+    //   { $set: { available: true } }
+    // );
 
     // Delete the booking using deleteOne()
     await SeatBooking.deleteOne({ _id: bookingId });
@@ -150,15 +150,15 @@ export const deleteSeatBookingByUser = async (req, res) => {
         .json({ error: "Bookings not found for this user" });
     }
 
-    for (const booking of bookings) {
-      const seatIds = booking.bookingSeats;
+    // for (const booking of bookings) {
+    //   const seatIds = booking.bookingSeats;
 
-      // Update the availability of booked seats to true
-      await Seat.updateMany(
-        { _id: { $in: seatIds } },
-        { $set: { available: true } }
-      );
-    }
+    //   // Update the availability of booked seats to true
+    //   await Seat.updateMany(
+    //     { _id: { $in: seatIds } },
+    //     { $set: { available: true } }
+    //   );
+    // }
 
     // Delete the bookings by user ID
     await SeatBooking.deleteMany({ user: userId });
