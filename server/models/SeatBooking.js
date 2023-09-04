@@ -9,7 +9,11 @@ const seatBookingSchema = new Schema(
       ref: "User",
       required: true,
     },
-    dateTime: {
+    inDateTime: {
+      type: Date,
+      required: true,
+    },
+    outDateTime: {
       type: Date,
       required: true,
     },
