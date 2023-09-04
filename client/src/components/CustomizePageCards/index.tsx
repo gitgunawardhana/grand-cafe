@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Card1 from "../../assets/images/CustomizePage/Card1.png";
+import Card2 from "../../assets/images/CustomizePage/Card2.png";
+import Card3 from "../../assets/images/CustomizePage/Card3.png";
 
 const Main = () => {
   const [isHovered1, setIsHovered1] = useState(false);
