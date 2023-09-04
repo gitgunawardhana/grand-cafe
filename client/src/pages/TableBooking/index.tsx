@@ -289,7 +289,7 @@ function tableBookingForm(
             />
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="mt-5 flex gap-2">
           <div className="">
             <h2 className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text !text-sm font-extrabold text-transparent md:!text-base">
               Booking out-date
@@ -313,26 +313,6 @@ function tableBookingForm(
         </div>
         <br />
         <div className="">
-          <InputField
-            className="border !border-gradient-yellow-900 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
-            sepLabel="Name"
-            placeholder="Enter your name"
-            sepLabelClassName="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text !text-sm font-extrabold text-transparent md:!text-base"
-            labelAlignment={AlignmentTypes.BLOCK}
-          />
-          <br />
-          <br />
-          <br />
-          <InputField
-            className="border !border-gradient-yellow-900 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
-            sepLabel="Table number"
-            placeholder="Enter booking Table number"
-            sepLabelClassName="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text !text-sm font-extrabold text-transparent md:!text-base"
-            labelAlignment={AlignmentTypes.BLOCK}
-          />
-          <br />
-          <br />
-          <br />
           <>
             <p className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text !text-sm font-extrabold text-transparent md:!text-base">
               Seat number
