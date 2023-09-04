@@ -4,6 +4,7 @@ import PrivateRoutes from "../components/PrivateRoutes";
 import SideMenuLayout from "../layouts/SideMenuLayout";
 import SimpleLayout from "../layouts/SimpleLayout";
 import TopLayout from "../layouts/TopMenu";
+import Cart from "../pages/Cart";
 import CustomerAcc from "../pages/CustomerAccount";
 import CustomerView from "../pages/CustomerView";
 import CustomizePage from "../pages/CustomizePage";
@@ -24,14 +25,6 @@ function Router() {
     {
       element: <PrivateRoutes />,
       children: [
-        {
-          path: "/customize-page",
-          element: (
-            <TopLayout>
-              <CustomizePage />
-            </TopLayout>
-          ),
-        },
         {
           path: "/table-booking",
           element: (
@@ -112,6 +105,18 @@ function Router() {
       ),
     },
     {
+      path: "/cart",
+      element: (
+        <SideMenuLayout footer>
+          <Cart />
+        </SideMenuLayout>
+      ),
+    },
+    {
+      path: "/register",
+      element: <Register />,
+    },
+    {
       path: "/error-page",
       element: <ErrorPage />,
     },
@@ -140,6 +145,14 @@ function Router() {
             <ProductDetailsPage />
           </TopLayout>
         </SideMenuLayout>
+      ),
+    },
+    {
+      path: "/customize-page",
+      element: (
+        <TopLayout>
+          <CustomizePage />
+        </TopLayout>
       ),
     },
     {

@@ -19,6 +19,7 @@ export interface Product {
   image: string;
   description: string;
   price: string;
+  rate: number;
 }
 // interface User {
 //   email: string;
@@ -35,6 +36,8 @@ export interface ProviderContextInterface {
   products: Product[];
   setProducts: Dispatch<SetStateAction<Product[]>>;
   axiosJWT: AxiosInstance;
+  total: number;
+  setTotal: Dispatch<SetStateAction<number>>;
 }
 
 const defaultState = {
@@ -43,6 +46,7 @@ const defaultState = {
     height: 0,
   },
   setProducts: (products: Product[]) => {},
+  setTotal: (total: number) => {},
   // setSeatsInitialState: (seatsInitialState: Seat[]) => {},
   // setUser: (user: User) => {},
 } as ProviderContextInterface;
@@ -118,6 +122,7 @@ const Provider = (props: ProviderProps) => {
   getWindowSize(setWindowSize);
 
   const [products, setProducts] = useState<Product[]>([]);
+  const [total, setTotal] = useState<number>(0);
 
   const fetchData = async () => {
     try {
@@ -150,6 +155,8 @@ const Provider = (props: ProviderProps) => {
         products,
         setProducts,
         axiosJWT,
+        total,
+        setTotal,
       }}
     >
       {props.children}
