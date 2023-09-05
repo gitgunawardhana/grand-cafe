@@ -6,7 +6,6 @@ import Back_02 from "../../assets/images/HomePage/Back_02.svg";
 import Back_03 from "../../assets/images/HomePage/Back_03.svg";
 import BestMenu from "../../assets/images/HomePage/BestMenu.svg";
 import Back_06 from "../../assets/images/HomePage/Blog.svg";
-import Burger from "../../assets/images/HomePage/Burger.png";
 import Back_05 from "../../assets/images/HomePage/CutomerReviews.svg";
 import Delivery_01 from "../../assets/images/HomePage/Delivery_01.png";
 import Delivery_02 from "../../assets/images/HomePage/Delivery_02.png";
@@ -16,11 +15,7 @@ import our_chef from "../../assets/images/HomePage/Our chefs.png";
 import Back_09 from "../../assets/images/HomePage/OurChef.svg";
 import OurFood from "../../assets/images/HomePage/OurFood.png";
 import OurMenu from "../../assets/images/HomePage/OurMenu.png";
-import OurSpecial from "../../assets/images/HomePage/OurSpecial.png";
-import Review_01 from "../../assets/images/HomePage/Pexels Photo by Andrea Piacquadio.png";
-import Review_02 from "../../assets/images/HomePage/Pexels Photo by Engin Akyurt.png";
 import Review_03 from "../../assets/images/HomePage/Pexels Photo by Pixabay.png";
-import Shawarma from "../../assets/images/HomePage/Shawarma.png";
 import Text_01 from "../../assets/images/HomePage/Text_01.png";
 import Text_02 from "../../assets/images/HomePage/Text_02.png";
 // import Text_03 from "../../assets/images/HomePage/Text_03.png";
@@ -39,42 +34,10 @@ import rate from "../../assets/images/HomePage/stars.png";
 import { Button } from "../../base-components/Button";
 import ChefDisplay from "../../components/ChefDisplay/index";
 import DeliveryCards from "../../components/HomePageOrderDiv";
+import HomeBlog from "./../../components/HomeBlog/index";
 import ImageGallery from "./../../components/ImageGallery/index";
 import ProductBrowsingComponent from "./../../components/MenuItems/index";
 import ReviewCardComponent from "./../../components/ReviewCardComponent/index";
-import HomeBlog from "./../../components/HomeBlog/index";
-
-const products = [
-  {
-    name: "our special",
-    image: OurSpecial,
-    content:
-      "Rice, spices, and Chicken, lamb, beef, or sweet chicken dish, Cardamom, see foods and Special dish",
-    price: "rs  2200.00",
-  },
-  {
-    name: "burger submarine ",
-    image: Burger,
-    content:
-      "Crispy chicken, two types of  cheeses, Tomato, potato, Ham, flavor submarine bun and Lettuce ",
-    price: "rs  1200.00",
-  },
-  {
-    name: "Shawarma",
-    image: Shawarma,
-    content:
-      "Shawarma Roti, chicken, beef, muton, vegetables , customizing flavors with French fries    ",
-    price: "rs  2300.00",
-  },
-  {
-    name: "our special",
-    image: OurSpecial,
-    content:
-      "Rice, spices, and Chicken, lamb, beef, or sweet chicken dish, Cardamom, see foods and Special dish",
-    price: "rs  2200.00",
-  },
-  // Add more products as needed
-];
 
 const reviews = [
   {
@@ -117,8 +80,7 @@ const Main = () => {
         }}
         className="w-m flex h-screen flex-col p-5 pt-[80px] text-center  text-slate-900 dark:text-slate-50 sm:h-screen md:h-screen"
       >
-        <HomeBlog/>
-        
+        <HomeBlog />
       </div>
       {/**Second Part */}
       <div
@@ -173,7 +135,7 @@ const Main = () => {
         <div className="flex flex-col items-center justify-center">
           <img src={OurMenu} alt="" />
           <br></br>
-          <ProductBrowsingComponent products={products} />
+          <ProductBrowsingComponent />
         </div>
       </div>
       {/** Third part */}
@@ -422,10 +384,9 @@ const Main = () => {
           </div>
         </div>
       </div>
-      <br/><br/>
+      <br />
+      <br />
     </div>
-
-  
   );
 };
 

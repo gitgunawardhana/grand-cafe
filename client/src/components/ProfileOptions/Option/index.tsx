@@ -1,6 +1,9 @@
-import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../../../base-components/Button";
+import { handleLogout } from "../../../services/auth";
+import { ProviderContext } from "../../Provider";
 
 interface OptionProps {
   onClick?: () => void;
@@ -11,18 +14,23 @@ interface OptionProps {
 }
 
 const Option = (props: OptionProps) => {
+  const navigate = useNavigate();
+  const { axiosJWT } = useContext(ProviderContext);
   return (
     <>
       <Button
-        as={NavLink}
+        as={props.label !== "Sign Out" ? NavLink : undefined}
         to={props.to}
-        onClick={props.onClick}
         className={twMerge([
           "text-medium m-0 rounded-none",
           "!shadow-none",
-          // theme === Modes.DARK && "border-orange-600",
           props.className,
         ])}
+        onClick={
+          props.label === "Sign Out"
+            ? (e) => handleLogout(e, axiosJWT, navigate)
+            : undefined
+        }
       >
         <div className="group relative flex justify-start text-center">
           <div className="left-1 mr-2 justify-start">{props.icon}</div>

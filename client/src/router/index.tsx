@@ -1,7 +1,10 @@
 import { useRoutes } from "react-router-dom";
+import PrivateRouteInverse from "../components/PrivateRouteInverse";
+import PrivateRoutes from "../components/PrivateRoutes";
 import SideMenuLayout from "../layouts/SideMenuLayout";
 import SimpleLayout from "../layouts/SimpleLayout";
 import TopLayout from "../layouts/TopMenu";
+import Cart from "../pages/Cart";
 import CustomerAcc from "../pages/CustomerAccount";
 import CustomerView from "../pages/CustomerView";
 import CustomizePage from "../pages/CustomizePage";
@@ -10,6 +13,7 @@ import FirstPage from "../pages/FirstPage";
 import HomePage from "../pages/HomePage";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
+import ProductDetailsPage from "../pages/ProductDetails";
 import ProductPage from "../pages/ProductPage";
 import RecipeGenerator from "../pages/RecipeGenerator";
 import Register from "../pages/Register";
@@ -20,12 +24,66 @@ import Payment from "../pages/Payment";
 function Router() {
   const routes = [
     {
-      path: "/",
-      element: (
-        <TopLayout landing>
-          <Landing />
-        </TopLayout>
-      ),
+      element: <PrivateRoutes />,
+      children: [
+        {
+          path: "/table-booking",
+          element: (
+            <SideMenuLayout className="!px-10">
+              <TableBooking />
+            </SideMenuLayout>
+          ),
+        },
+        {
+          path: "/customer-acc",
+          element: (
+            <SideMenuLayout footer>
+              <CustomerAcc />
+            </SideMenuLayout>
+          ),
+        },
+        {
+          path: "/customer-view",
+          element: (
+            <SideMenuLayout footer>
+              <CustomerView />
+            </SideMenuLayout>
+          ),
+        },
+        {
+          path: "/recipe-generator",
+          element: (
+            <SideMenuLayout className="!px-0">
+              <RecipeGenerator />
+            </SideMenuLayout>
+          ),
+        },
+      ],
+    },
+    {
+      element: <PrivateRouteInverse />,
+      children: [
+        {
+          path: "/",
+          element: (
+            <TopLayout landing>
+              <Landing />
+            </TopLayout>
+          ),
+        },
+        {
+          path: "/sign-in",
+          element: <Login />,
+        },
+        {
+          path: "/sign-up",
+          element: <Register />,
+        },
+        {
+          path: "/register",
+          element: <Register />,
+        },
+      ],
     },
     {
       path: "/home",
@@ -40,18 +98,6 @@ function Router() {
       element: <FirstPage />,
     },
     {
-      path: "/sign-in",
-      element: <Login />,
-    },
-    {
-      path: "/customize-page",
-      element: (
-        <TopLayout>
-          <CustomizePage />
-        </TopLayout>
-      ),
-    },
-    {
       path: "/product-page",
       element: (
         <SideMenuLayout footer>
@@ -60,18 +106,10 @@ function Router() {
       ),
     },
     {
-      path: "/recipe-generator",
+      path: "/cart",
       element: (
-        <SideMenuLayout className="!px-0">
-          <RecipeGenerator />
-        </SideMenuLayout>
-      ),
-    },
-    {
-      path: "/table-booking",
-      element: (
-        <SideMenuLayout className="!px-10">
-          <TableBooking />
+        <SideMenuLayout footer>
+          <Cart />
         </SideMenuLayout>
       ),
     },
@@ -86,30 +124,12 @@ function Router() {
     {
       path: "/test",
       element: (
-        <SideMenuLayout>
-          <TestPage />
-        </SideMenuLayout>
+        // <SideMenuLayout>
+        //   <TestPage />
+        // </SideMenuLayout>
+        <TestPage />
       ),
     },
-
-    {
-      path: "/customer-acc",
-      element: (
-        <SideMenuLayout footer>
-          <CustomerAcc />
-        </SideMenuLayout>
-      ),
-    },
-
-    {
-      path: "/customer-view",
-      element: (
-        <SideMenuLayout footer>
-          <CustomerView />
-        </SideMenuLayout>
-      ),
-    },
-
     {
       path:"/payment",
       element:(
@@ -124,6 +144,32 @@ function Router() {
         <SimpleLayout className="bg-[#362B19]">
           <ErrorPage />
         </SimpleLayout>
+      ),
+    },
+    {
+      path: `/product/:productName`,
+      element: (
+        <SideMenuLayout>
+          <TopLayout footer>
+            <ProductDetailsPage />
+          </TopLayout>
+        </SideMenuLayout>
+      ),
+    },
+    {
+      path: "/customize-page",
+      element: (
+        <TopLayout>
+          <CustomizePage />
+        </TopLayout>
+      ),
+    },
+    {
+      path: `/customize-page/:productName`,
+      element: (
+        <TopLayout>
+          <CustomizePage />
+        </TopLayout>
       ),
     },
   ];

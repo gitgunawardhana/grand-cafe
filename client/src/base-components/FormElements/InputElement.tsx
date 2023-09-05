@@ -35,11 +35,12 @@ const InputField = (props: InputFieldProps) => {
         }
       >
         <div
-          className={`grid ${
+          className={`${
             props.labelAlignment === AlignmentTypes.BLOCK
               ? "col-span-12 mb-2"
               : "col-span-2"
-          }`}
+          }
+          grid`}
         >
           {props.sepLabel ? (
             <FormLabel
@@ -78,11 +79,12 @@ const InputField = (props: InputFieldProps) => {
           )}
         </div>
         <div
-          className={`grid md:h-1 ${
+          className={`${
             props.labelAlignment === AlignmentTypes.BLOCK
               ? "col-span-12"
               : "col-span-3"
-          }`}
+          } grid
+          md:h-1`}
         >
           <FormInput
             id={props.id && props.id}

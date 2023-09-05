@@ -1,57 +1,56 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
 import Text_03 from "../../assets/images/HomePage/Text_03.png";
 import Text_04 from "../../assets/images/HomePage/Text_04.png";
 import Text_05 from "../../assets/images/HomePage/Text_05.png";
-import { NavLink } from "react-router-dom";
-import { twMerge } from "tailwind-merge";
 import { Button } from "../../base-components/Button";
 
 interface AnimatedContentProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 const AnimatedContent = ({ children }: AnimatedContentProps) => {
-    const contentRef = useRef<HTMLDivElement | null>(null);
-    const [isVisible, setIsVisible] = useState(false);
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                } else {
-                    setIsVisible(false);
-                }
-            },
-            { threshold: 0.5 }
-        );
-
-        if (contentRef.current) {
-            observer.observe(contentRef.current);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        } else {
+          setIsVisible(false);
         }
-
-        return () => {
-            if (contentRef.current) {
-                observer.unobserve(contentRef.current);
-            }
-        };
-    }, []);
-
-    return (
-        <div
-            ref={contentRef}
-            className={`fade-in ${isVisible ? 'animate-fade-in' : ''}`}
-            style={{
-                animationDuration: '1s',
-                animationTimingFunction: 'ease-in-out',
-                animationFillMode: 'forwards',
-            }}
-        >
-            {children}
-        </div>
+      },
+      { threshold: 0.5 }
     );
-};
 
+    if (contentRef.current) {
+      observer.observe(contentRef.current);
+    }
+
+    return () => {
+      if (contentRef.current) {
+        observer.unobserve(contentRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div
+      ref={contentRef}
+      className={`fade-in ${isVisible ? "animate-fade-in" : ""}`}
+      style={{
+        animationDuration: "1s",
+        animationTimingFunction: "ease-in-out",
+        animationFillMode: "forwards",
+      }}
+    >
+      {children}
+    </div>
+  );
+};
 
 const index = () => {
   return (

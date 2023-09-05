@@ -7,15 +7,6 @@ import PastaIcon from "../../assets/categoryIcon/PastaIcon.svg";
 import Cart from "../../assets/icons/Cart.svg";
 import DecreaseButton from "../../assets/icons/DecreaseButton.svg";
 import IncreaseButton from "../../assets/icons/IncreaseButton.svg";
-import Food1 from "../../assets/images/Foods/Food1.svg";
-import Food2 from "../../assets/images/Foods/Food2.svg";
-import Food3 from "../../assets/images/Foods/Food3.svg";
-import Food4 from "../../assets/images/Foods/Food4.svg";
-import Food5 from "../../assets/images/Foods/Food5.svg";
-import Food6 from "../../assets/images/Foods/Food6.svg";
-import Food7 from "../../assets/images/Foods/Food7.svg";
-import Food8 from "../../assets/images/Foods/Food8.svg";
-import Food9 from "../../assets/images/Foods/Food9.svg";
 import Order1 from "../../assets/images/Orders/Order1.svg";
 import ProductPageBg from "../../assets/images/ProductPageBg.svg";
 import SpeciealDescount from "../../assets/images/SpeciealDescount.svg";
@@ -23,67 +14,24 @@ import { Button } from "../../base-components/Button";
 import InputField from "../../base-components/FormElements/InputElement";
 import MuiRating from "../../components/MuiRating";
 import TextLimit from "../../components/TextLimit";
+import { ProviderContext } from "../../components/Provider";
+import { useContext, useState } from "react";
+import {  NavLink } from "react-router-dom";
+import ReactModal from "react-modal";
+import axios from "axios";
+
+interface CartItem {
+  _id: string;
+  name: string;
+  price: number;
+  image: string;
+  quantity: number;
+}
+
+let subTotal = 0;
 
 const Main = () => {
-  const foods = [
-    {
-      title: "Skewer (Beef or Chicken)",
-      starting_from: "1200.00",
-      image: Food2,
-      rateValue: 3.5,
-    },
-    {
-      title: "Grilled chicken",
-      starting_from: "1350.00",
-      image: Food3,
-      rateValue: 5,
-    },
-    {
-      title: "oxtail soup",
-      starting_from: "1050.00",
-      image: Food4,
-      rateValue: 4.5,
-    },
-    {
-      title: "benachin",
-      starting_from: "1300.00",
-      image: Food5,
-      rateValue: 5,
-    },
-    {
-      title: "Sawarma",
-      starting_from: "1350.00",
-      image: Food6,
-      rateValue: 3.5,
-    },
-    {
-      title: "beef Dishes",
-      starting_from: "1850.00",
-      image: Food1,
-      rateValue: 4.5,
-    },
-  ];
-
-  const popularDashers = [
-    {
-      title: "Special chicken Rice",
-      starting_from: "1300.00",
-      image: Food7,
-      rateValue: 4.9,
-    },
-    {
-      title: "burger  with French fries",
-      starting_from: "1350.00",
-      image: Food8,
-      rateValue: 4.2,
-    },
-    {
-      title: "our Special",
-      starting_from: "2200.00",
-      image: Food9,
-      rateValue: 5,
-    },
-  ];
+  const { products } = useContext(ProviderContext);
 
   const categories = [
     { title: "Our Specials", icon: OurSpecialsIcon },
@@ -93,6 +41,17 @@ const Main = () => {
     { title: "Meat", icon: MeatIcon },
     { title: "Pasta", icon: PastaIcon },
   ];
+
+  const filteredProducts = products.filter(
+    (item: {
+      _id: string;
+      name: string;
+      price: string;
+      image: string;
+      rate: number;
+    }) => item.rate > 3.0
+  );
+
   return (
     <>
       <div className="grid grid-cols-12">
@@ -124,7 +83,15 @@ const Main = () => {
           {/* Food Card Section1 - start */}
           <div>
             <div className="mx-5 mb-8 mt-8 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
-              {foods.map((item) => Card(item))}
+              {products.map(
+                (item: {
+                  _id: string;
+                  name: string;
+                  price: string;
+                  image: string;
+                  rate: number;
+                }) => Card(item)
+              )}
             </div>
           </div>
           {/* Food Card Section1 - end */}
@@ -133,7 +100,7 @@ const Main = () => {
             <div className="mx-5 flex content-center justify-between">
               <div className="my-auto">
                 <h1 className="mb-2 !bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text !text-sm font-extrabold uppercase text-transparent md:!text-lg">
-                  popular dashers
+                  popular dishes
                 </h1>
               </div>
               <div className="my-auto min-[1650px]:mr-6">
@@ -149,7 +116,11 @@ const Main = () => {
           {/* Food Card Section2 - start */}
           <div>
             <div className="mx-5 mb-8 mt-8 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
-              {popularDashers.map((item) => Card(item))}
+              {filteredProducts
+                .sort((a: any, b: any) => b.rate - a.rate)
+                .slice(0, 3)
+                .map((item: any) => Card(item))}
+              //changed
             </div>
           </div>
           {/* Food Card Section2 - end */}
@@ -187,44 +158,200 @@ function Category(item: { title: string; icon: string }) {
 
 // Food Card
 function Card(item: {
-  title: string;
-  starting_from: string;
+  _id: string;
+  name: string;
+  price: string;
   image: string;
-  rateValue: number;
+  rate: number;
 }) {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  // counter on card
+  const [count, setCount] = useState(1);
+
+  const increment = () => {
+    setCount(count + 1);
+  };
+
+  const decrement = () => {
+    if (count > 1) {
+      setCount(count - 1);
+    }
+  };
+
+  const customStyles = {
+    overlay: {
+      backgroundColor: "rgba(0, 0, 0, 0.7)", // Add background overlay color and opacity
+      zIndex: 800, // Higher zIndex to bring overlay to the front
+    },
+    content: {
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      padding: "20px",
+      border: "2px", // Remove border
+      borderRadius: "10px", // Apply border radius
+      boxShadow: "0 4px 6px rgba(0, 0, 1, 1)",
+      background:
+        "linear-gradient(to bottom, rgba(255, 212, 83, 0.7), rgba(255, 146, 36, 0.5))",
+      zIndex: 1500,
+    },
+  };
+  const { total, setTotal } = useContext(ProviderContext);
+  subTotal = total;
+  const fetchCartData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/add_cart/getCart"
+      );
+      if (response.data.data) {
+        const totalPrice = response.data.data.reduce(
+          (accumulator: number, item: CartItem) =>
+            accumulator + item.quantity * item.price,
+          0
+        );
+        setTotal(totalPrice);
+      }
+    } catch (error) {
+      console.error("Error fetching cart data:", error);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    // Send API request to add item to cart
+    const response = await fetch("http://localhost:8000/api/add_cart/cart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        _id: item._id,
+        name: item.name,
+        price: item.price,
+        image: item.image,
+        quantity: count,
+      }),
+    });
+    if (response.status === 201) {
+      // Handle success
+      closeModal();
+      fetchCartData();
+      console.log("Success");
+      alert("Product added to the cart!");
+    } else {
+      // Handle error
+      if (response.status === 400) {
+        alert("Item is already in the cart. You can change quantity by cart");
+        console.error("Error adding item to the cart");
+      }
+
+      console.error("Error adding item to the cart");
+    }
+  };
+
   return (
     <div
-      key={item.title}
+      key={item.name}
       className="mb-0 max-w-sm overflow-hidden rounded-xl !bg-opacity-25 bg-gradient-to-b from-gradient-yellow-100-15 to-gradient-yellow-900-10 text-center shadow-lg"
     >
-      <img className="w-full" src={item.image} alt={item.title} />
+      <img
+        className="w-full"
+        src={`data:image/jpeg;base64,${item.image}`}
+        alt={item.name}
+      />
       <div className="mb-0 ml-5 mt-2 flex">
-        <MuiRating rateValue={item.rateValue} />
+        <MuiRating rateValue={item.rate} />
       </div>
       <div className="px-6 pb-4 pt-2">
         <h1 className="mb-2 !bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text font-extrabold !capitalize text-transparent md:text-lg">
-          {item.title}
+          {item.name}
         </h1>
         <div>
           <p className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-sm font-normal text-transparent">
             Starting from
           </p>
           <p className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-base font-semibold  text-transparent md:text-lg">
-            Rs {item.starting_from}
+            Rs {item.price}
           </p>
         </div>
         <div className="mt-2">
-          <Button className="m-0 !mb-2 !mt-1 min-w-[200px] !rounded-[10px] border-none !bg-opacity-20 !bg-gradient-to-b from-gradient-yellow-900-6 to-gradient-yellow-900-2 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm">
+          <Button
+            as={NavLink}
+            to={`/customize-page/${item.name}`}
+            className="m-0 !mb-2 !mt-1 min-w-[200px] !rounded-[10px] border-none !bg-opacity-20 !bg-gradient-to-b from-gradient-yellow-900-6 to-gradient-yellow-900-2 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
+          >
             <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
               customize
             </p>
           </Button>
           <br />
-          <Button className="m-0 min-w-[200px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm">
+          <Button
+            onClick={openModal}
+            className="m-0 min-w-[200px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
+          >
             <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
               Add to cart
             </p>
           </Button>
+          <ReactModal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            style={customStyles}
+            contentLabel="Add to Cart Modal"
+          >
+            <div className="flex flex-col items-center justify-center text-center">
+              <h2 className="!bg-gradient-to-r from-gradient-brown-900 to-gradient-brown-400 bg-clip-text font-extrabold !capitalize text-transparent md:text-xl">
+                Add items to the cart
+              </h2>
+              <br />
+              <img
+                src={`data:image/jpeg;base64,${item.image}`}
+                className="rounded-2xl border opacity-[1] duration-300 ease-in hover:border-gradient-yellow-900 hover:opacity-[1] md:h-[80px] md:min-w-[40px] lg:h-[135px]"
+              />
+
+              <div className="flex items-center space-x-4 p-2">
+                <button
+                  className="rounded-full border-yellow-600 !bg-opacity-20 !bg-gradient-to-b from-gradient-yellow-900-6 to-gradient-yellow-900-2 p-2 transition duration-300 hover:bg-gray-300"
+                  onClick={decrement}
+                >
+                  <span className="text-xl font-bold">-</span>
+                </button>
+                <span className="text-2xl font-semibold">{count}</span>
+                <button
+                  className="rounded-full !bg-opacity-20 !bg-gradient-to-b from-gradient-yellow-900-6 to-gradient-yellow-900-2 p-2 transition duration-300 hover:bg-gray-300"
+                  onClick={increment}
+                >
+                  <span className="text-xl font-bold">+</span>
+                </button>
+              </div>
+              <Button
+                onClick={handleAddToCart}
+                as={NavLink}
+                to={""}
+                className="m-0 !mb-2 !mt-1 min-w-[200px] !rounded-[10px] border-none !bg-opacity-20 !bg-gradient-to-b from-gradient-yellow-900-6 to-gradient-yellow-900-2 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
+              >
+                <p className="!bg-gradient-to-b from-gradient-brown-400 to-gradient-brown-400 bg-clip-text text-transparent">
+                  Add to Cart
+                </p>
+              </Button>
+              <Button
+                onClick={closeModal}
+                className="m-0 min-w-[200px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
+              >
+                <p className="!bg-gradient-to-b from-gradient-brown-400 to-gradient-brown-400 bg-clip-text text-transparent">
+                  Close
+                </p>
+              </Button>
+            </div>
+          </ReactModal>
         </div>
       </div>
     </div>
@@ -254,7 +381,7 @@ function OrderMenuSection() {
               Total Amount
             </h1>
             <p className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-base font-semibold text-transparent md:text-lg">
-              Rs {"2300.00"}
+              Rs {subTotal}
             </p>
           </div>
         </div>
@@ -348,7 +475,7 @@ function Order() {
       </div>
       <div>
         <p className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-xs font-black text-transparent md:text-sm">
-          Rs {"2300.00"}
+          Rs {"2300"}
         </p>
       </div>
     </div>
