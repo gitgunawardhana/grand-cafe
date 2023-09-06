@@ -20,7 +20,7 @@ const Option = (props: OptionProps) => {
     <>
       <Button
         as={props.label !== "Sign Out" ? NavLink : undefined}
-        to={props.to}
+        to={`/${props.to}`}
         className={twMerge([
           "text-medium m-0 rounded-none",
           "!shadow-none",

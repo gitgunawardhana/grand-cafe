@@ -71,7 +71,7 @@ export const handleLogin = async (
       showConfirmButton: false,
       timer: 3000,
     });
-    navigate("/home");
+    window.location.href = "/home";
   } catch (err) {
     console.log(err);
     Swal.fire({
@@ -87,7 +87,7 @@ export const handleLogin = async (
 };
 
 export const handleLogout = async (
-  e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+  e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement, MouseEvent>,
   axiosJWT: AxiosInstance,
   navigate: NavigateFunction
 ) => {
