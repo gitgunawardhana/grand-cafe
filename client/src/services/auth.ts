@@ -29,7 +29,9 @@ export const handleRegistration = async (
       showConfirmButton: false,
       timer: 3000,
     });
-    navigate("/sign-in");
+    setTimeout(() => {
+      navigate("/sign-in");
+    }, 2000);
   } catch (err) {
     console.log(err);
     Swal.fire({
@@ -71,7 +73,9 @@ export const handleLogin = async (
       showConfirmButton: false,
       timer: 3000,
     });
-    window.location.href = "/home";
+    setTimeout(() => {
+      window.location.href = "/home";
+    }, 2000);
   } catch (err) {
     console.log(err);
     Swal.fire({
@@ -116,7 +120,9 @@ export const handleLogout = async (
       showConfirmButton: false,
       timer: 5000,
     });
-    navigate("/");
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 2000);
   } catch (err) {
     console.log(err);
     Swal.fire({
