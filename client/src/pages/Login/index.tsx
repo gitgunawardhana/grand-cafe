@@ -129,7 +129,7 @@ const Main = () => {
                           "text-[18px] font-[500] uppercase tracking-[1.226px] !text-gradient-yellow-500"
                         )}
                       >
-                        Sign Up
+                        Sign In
                       </span>
                     </Button>
                     <br></br>
