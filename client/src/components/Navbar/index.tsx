@@ -72,15 +72,34 @@ function Main() {
             </span>
           </Button>
           <div className={twMerge(["flex md:order-2", clsProfileBtn])}>
-            <div className="flex h-5 translate-y-1 content-center justify-center min-[1200px]:!hidden">
-              <div className="m-auto">
-                <ProfileDropdown />
+            {sessionStorage.getItem("accessToken") ? (
+              <div className="flex h-5 translate-y-1 content-center justify-center min-[1200px]:!hidden">
+                <div className="m-auto">
+                  <ProfileDropdown />
+                </div>
+                <span className="relative flex h-3 w-3 -translate-x-2 translate-y-1">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#56ff6d] opacity-75"></span>
+                  <span className="relative inline-flex h-3 w-3 rounded-full bg-[#35c048]"></span>
+                </span>
               </div>
-              <span className="relative flex h-3 w-3 -translate-x-2 translate-y-1">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#56ff6d] opacity-75"></span>
-                <span className="relative inline-flex h-3 w-3 rounded-full bg-[#35c048]"></span>
-              </span>
-            </div>
+            ) : (
+              <div className="mr-3 mt-1 min-[1200px]:!hidden">
+                <Button
+                  as={
+                    sessionStorage.getItem("accessToken") ? undefined : NavLink
+                  }
+                  to="/sign-in"
+                  className="!rounded-[10px] border-none !bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 !px-10 !py-2 text-sm font-medium uppercase text-black hover:text-black"
+                  onClick={
+                    sessionStorage.getItem("accessToken")
+                      ? (e) => handleLogout(e, axiosJWT, navigate)
+                      : undefined
+                  }
+                >
+                  {sessionStorage.getItem("accessToken") ? "Logout" : "Login"}
+                </Button>
+              </div>
+            )}
             <div className="flex h-12 w-12 translate-y-[5px] content-center justify-center rounded-full border-2 !border-gradient-yellow-500 min-[1200px]:hidden">
               <Button
                 type="button"
