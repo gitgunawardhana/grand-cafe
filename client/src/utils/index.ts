@@ -1,4 +1,4 @@
-import { capitalize } from "./capitalize";
 import getWindowSize from "./getWindowSize";
+import { isLoggedInUser } from "./isLoggedInUser";
 
-export { capitalize, getWindowSize };
+export { getWindowSize, isLoggedInUser };

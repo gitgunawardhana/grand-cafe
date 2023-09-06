@@ -9,6 +9,7 @@ type ButtonOwnProps<E extends React.ElementType> = {
   as?: E;
   to?: string;
   generalStylesStatus?: boolean;
+  disabled?: boolean;
 };
 
 type ButtonProps<E extends React.ElementType> = ButtonOwnProps<E> &
@@ -40,7 +41,7 @@ export const Button = <E extends React.ElementType = "a">({
       {children}
     </Component>
   );
-}; 
+};
 
 Button.defaultProps = {
   generalStylesStatus: true,

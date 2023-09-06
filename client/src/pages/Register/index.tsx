@@ -1,10 +1,24 @@
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import Sign_up from "../../assets/images/Sign_up.svg";
 import { Button } from "../../base-components/Button";
 import Logo from "../../base-components/Logo";
+import { handleRegistration } from "../../services/auth";
 
 const Main = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const registrationData = {
+    email,
+    password,
+    confirmPassword,
+  };
+
   return (
     <div>
       <div
@@ -43,7 +57,11 @@ const Main = () => {
                 <br></br>
                 {/*Form */}
                 <div>
-                  <form>
+                  <form
+                    onSubmit={(e) =>
+                      handleRegistration(e, registrationData, navigate)
+                    }
+                  >
                     <label htmlFor="email" className="sr-only">
                       Email address
                     </label>
@@ -53,6 +71,10 @@ const Main = () => {
                       id="email"
                       name="email"
                       placeholder="E-mail Address"
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                      }}
                     ></input>
                     <br></br>
                     <input
@@ -61,6 +83,10 @@ const Main = () => {
                       id="password"
                       name="password"
                       placeholder="Password"
+                      value={password}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
                     ></input>
                     <br></br>
                     <input
@@ -69,6 +95,10 @@ const Main = () => {
                       id="password-confirm"
                       name="password-confirm"
                       placeholder="Confirm Password"
+                      value={confirmPassword}
+                      onChange={(e) => {
+                        setConfirmPassword(e.target.value);
+                      }}
                     ></input>
                     <br></br>
                     <div className="place-items-start">
@@ -90,8 +120,7 @@ const Main = () => {
                       <br></br>
                     </div>
                     <Button
-                      as={NavLink}
-                      to="/"
+                      type="submit"
                       className={twMerge(
                         "rounded-[10px] border-2 border-solid border-gradient-yellow-300 !bg-transparent px-[25px] py-[15.141px] lg:px-[60px] lg:py-[10.141px]"
                       )}

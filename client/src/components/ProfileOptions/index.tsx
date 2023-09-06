@@ -42,8 +42,8 @@ const ProfileOptions = (props: ProfileOptionsProps) => {
           ])}
         />
       ),
-      text: "Sign Out",
-      to: "sign-out",
+      text: "Sign Up",
+      to: "sign-up",
     },
   ];
   return (
