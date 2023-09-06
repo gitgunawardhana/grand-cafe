@@ -97,6 +97,7 @@ const SidebarMenu = () => {
           {sideNavigationLinks?.map((linkItem) => (
             <div key={linkItem.title}>
               <Button
+                title={linkItem.title}
                 as={linkItem.title !== "Logout" ? NavLink : undefined}
                 to={linkItem.to}
                 generalStylesStatus={false}
@@ -127,6 +128,7 @@ const SidebarMenu = () => {
           {sideNavigationLinks?.map((linkItem) => (
             <div key={linkItem.title}>
               <Button
+                title={linkItem.title}
                 as={linkItem.title !== "Logout" ? NavLink : undefined}
                 to={linkItem.to}
                 generalStylesStatus={false}
