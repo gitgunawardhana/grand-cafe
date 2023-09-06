@@ -9,7 +9,8 @@ export interface CheckBoxSetResponsiveProps {
   value?: string;
   price?: number;
   name?: string;
-  onOptionChange?: (optionPrice: number, isSelected: boolean) => void;
+  selectedOption?: string | string[] | null; // Change the type to string or null
+  onOptionChange?: (optionValue: string, checked: boolean) => void; 
   inputClassName?: string;
   labelClassName?: string;
   type?: "radio" | "checkbox";
@@ -46,13 +47,14 @@ const Main = (props: CheckBoxSetResponsiveProps) => {
                 type={type} 
                 value={item.value} 
                 name={name}
+                
                 className={twMerge([
                   "h-4 w-4 transform-cpu bg-[#fadf85] checked:text-gradient-yellow-900 hover:scale-125 focus:ring-0 focus:ring-transparent",
                   props.inputClassName && props.inputClassName,
                 ])}
                 onChange={(e) => {
                   if (props.onOptionChange) {
-                    props.onOptionChange(item.price, e.target.checked);
+                    props.onOptionChange(String(item.price), e.target.checked);
                   }
                 }}
                
