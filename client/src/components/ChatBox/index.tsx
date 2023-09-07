@@ -68,6 +68,71 @@ const Main: React.FC = () => {
       return { role: role, content: messageObject.message };
     });
 
+    const recipeKeywords = [
+      "recipe",
+      "cook",
+      "food",
+      "meal",
+      "dish",
+      "ingredient",
+      "cooking",
+      "kitchen",
+      "menu",
+      "chef",
+      "tasty",
+      "delicious",
+      "homemade",
+      "restaurant",
+      "eat",
+      "prepare",
+      "dinner",
+      "lunch",
+      "breakfast",
+      "snack",
+      "bake",
+      "grill",
+      "roast",
+      "boil",
+      "fry",
+      "saute",
+      "stir-fry",
+      "eat",
+      "healthy",
+      "vegetarian",
+      "vegan",
+      "gluten-free",
+      "spices",
+      "herbs",
+      "sauce",
+      "flavor",
+    ];
+
+    // Check if the last two messages contain recipe-related keywords
+    const userMessage1 =
+      chatMessages[chatMessages.length - 1]?.message?.toLowerCase() || "";
+    const userMessage2 =
+      chatMessages[chatMessages.length - 2]?.message?.toLowerCase() || "";
+    const isRecipeRelated =
+      recipeKeywords.some((keyword) => userMessage1?.includes(keyword)) &&
+      recipeKeywords.some((keyword) => userMessage2?.includes(keyword));
+
+    console.log(isRecipeRelated);
+
+    if (!isRecipeRelated) {
+      setMessages([
+        ...chatMessages,
+        {
+          message:
+            "I'm here to help with recipe generating. What type of recipe are you interested in?",
+          sender: "ChatGPT",
+          direction: "incoming",
+          position: "normal",
+        },
+      ]);
+      setIsTyping(false);
+      return;
+    }
+
     const apiRequestBody = {
       model: "gpt-3.5-turbo",
       messages: [systemMessage, ...apiMessages],
