@@ -1,10 +1,11 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import Text_03 from "../../assets/images/HomePage/Text_03.png";
 import Text_04 from "../../assets/images/HomePage/Text_04.png";
 import Text_05 from "../../assets/images/HomePage/Text_05.png";
 import { Button } from "../../base-components/Button";
+import { isLoggedInUser } from "../../utils";
 
 interface AnimatedContentProps {
   children: ReactNode;
@@ -53,6 +54,8 @@ const AnimatedContent = ({ children }: AnimatedContentProps) => {
 };
 
 const index = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <div>
@@ -71,11 +74,10 @@ const index = () => {
               <div className="flex flex-col sm:grid-cols-2 sm:flex-row">
                 <div>
                   <Button
-                    as={NavLink}
-                    to="/table-booking"
                     className={twMerge(
                       "rounded-[15px] border-2 border-solid border-amber-500 !bg-transparent px-[30px] py-[20px] lg:px-[45px] lg:py-[10.141px]"
                     )}
+                    onClick={() => isLoggedInUser(navigate, "/table-booking")}
                   >
                     <span
                       className={twMerge(

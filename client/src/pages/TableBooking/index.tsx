@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-
 import { useContext, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { twMerge } from "tailwind-merge";
 import TableBookingHeadingTitle from "../../assets/images/tableBookingHeadingTitle.svg";
 import { Button } from "../../base-components/Button";
@@ -236,10 +236,29 @@ function tableBookingForm(
           },
         }
       );
-      console.log(res.data);
-      location.reload();
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        text: "Your table has been successfully booked. We look forward to serving you.",
+        background: "#2A200A",
+        color: "#F19328",
+        showConfirmButton: false,
+        timer: 5000,
+      });
+      setTimeout(() => {
+        location.reload();
+      }, 3000);
     } catch (err) {
       console.log(err);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        text: "Sorry, we couldn't book your table at this time. Please try again or contact us for assistance.",
+        background: "#2A200A",
+        color: "#F19328",
+        showConfirmButton: false,
+        timer: 3000,
+      });
     }
   };
 
@@ -250,10 +269,29 @@ function tableBookingForm(
           authorization: "Bearer " + sessionStorage.getItem("accessToken"),
         },
       });
-      console.log(res.data);
-      location.reload();
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        text: "Your reservation has been successfully canceled. We hope to see you again soon!",
+        background: "#2A200A",
+        color: "#F19328",
+        showConfirmButton: false,
+        timer: 5000,
+      });
+      setTimeout(() => {
+        location.reload();
+      }, 3000);
     } catch (err) {
       console.log(err);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        text: "Sorry, we couldn't cancel your reservation at this time. Please try again or contact us for assistance.",
+        background: "#2A200A",
+        color: "#F19328",
+        showConfirmButton: false,
+        timer: 3000,
+      });
     }
   };
 
@@ -367,8 +405,13 @@ function tableBookingForm(
             }`}
           >
             <Button
-              className="m-0 !mx-auto min-w-[300px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-16 !py-4 text-xs font-semibold uppercase text-black hover:text-black md:!px-20 md:!py-5 md:text-sm"
+              className={twMerge([
+                "m-0 !mx-auto min-w-[300px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-16 !py-4 text-xs font-semibold uppercase text-black hover:text-black md:!px-20 md:!py-5 md:text-sm",
+                currentSeatsBooking.length === 0 &&
+                  "cursor-not-allowed opacity-40",
+              ])}
               onClick={createSeatBooking}
+              disabled={currentSeatsBooking.length === 0}
             >
               <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
                 Make Reservation
@@ -381,8 +424,13 @@ function tableBookingForm(
             }`}
           >
             <Button
-              className="m-0 !mx-auto min-w-[300px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-16 !py-4 text-xs font-semibold uppercase text-black hover:text-black hover:shadow-[0_4px_18px_0_rgba(212,71,0,0.2)] md:!px-20 md:!py-5 md:text-sm"
+              className={twMerge([
+                "m-0 !mx-auto min-w-[300px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-16 !py-4 text-xs font-semibold uppercase text-black hover:text-black hover:shadow-[0_4px_18px_0_rgba(212,71,0,0.2)] md:!px-20 md:!py-5 md:text-sm",
+                currentUserSeatsBooking.length === 0 &&
+                  "cursor-not-allowed opacity-40",
+              ])}
               onClick={deleteSeatBookingByUser}
+              disabled={currentUserSeatsBooking.length === 0}
             >
               <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
                 Delete Reservation

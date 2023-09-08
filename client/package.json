@@ -15,6 +15,7 @@
     "@chatscope/chat-ui-kit-styles": "^1.4.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@headlessui/react": "^1.7.17",
     "@kommunicate/kommunicate-chatbot-plugin": "^0.0.6",
     "@mui/material": "^5.14.1",
     "@mui/x-date-pickers": "^6.11.0",
@@ -30,9 +31,9 @@
     "lucide-react": "^0.258.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sweetalert2": "^11.7.27",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.15.0",
+    "sweetalert2": "^11.7.27",
     "tailwind-merge": "^1.12.0",
     "tailwind-scrollbar": "^3.0.4"
   },
