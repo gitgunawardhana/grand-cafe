@@ -2,7 +2,7 @@ import images from "./images";
 
 const data = {
   user: {
-    name: "Shashitha Akalanka",
+    name: "Chamod Gunarathna",
     img: images.avt,
   },
   summary: [
@@ -37,7 +37,7 @@ const data = {
       "Nov",
       "Dec",
     ],
-    data: [250, 200, 300, 280, 100, 220, 310, 190, 200, 120, 250, 350],
+    data: [250, 600, 300, 280, 100, 220, 310, 190, 200, 120, 250, 350],
   },
   topCustomers: {
     head: ["customer", "totalOrders", "totalSpending"],
@@ -49,7 +49,7 @@ const data = {
       },
       {
         username: "frank iva",
-        order: 250,
+        order: 950,
         price: "$12,251",
       },
       {
