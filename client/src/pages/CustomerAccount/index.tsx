@@ -36,12 +36,8 @@ const Main = () => {
             className="absolute ml-[25px] mt-9 w-[154px] h-[154px] object-cover" src={Image1}>
             </img>
           </div>
-          <div className="flex-shrink" >
-            
+          <div className="flex-shrink">
               <button className="pt-3 pr-[670px] h-0 ">
-              <input type="file"  className="w-5
-            
-               mr-36 bg-yellow-300 rounded-full mt-32 opacity-100"/>
                 <img src={cam} className="overflow-auto ml-36 bg-yellow-300 rounded-full px-1 py-1 mt-32 opacity-70 mb-0"></img>
               </button>
           <div className="flex-row">
@@ -52,7 +48,8 @@ const Main = () => {
               <Button className=" bg-black hover:text-none justify-items-start border hover:bg-inherit !border-gradient-yellow-900 text-sm mt-0 ml-7 px-4 py-2 text-gradient-yellow-900 ">Delete Avatar</Button>
             </span>
           </div>
-          </div>  
+          </div>
+          
         </div> 
        
         <div className="pb-4 mb-10 mt-0 grid grid-cols-2  items-center justify-start gap-1 md:mt-0 lg:mt-0 lg:flex-row">
@@ -86,7 +83,7 @@ const Main = () => {
                   placeholder="nayomisiriwardhana@gmail.com"
                 />
           </div>
-
+          
           <div className="mt-[70px] ml-20  col-span-2 justify-start text-start sm:col-span-1">
             <label className="pb-[20px]  text-gradient-yellow-900">Gender</label>
                 <CheckBoxSetResponsive
