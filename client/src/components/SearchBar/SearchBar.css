@@ -1,0 +1,26 @@
+.hide-scrollbar-custom {
+  height: auto;
+  max-height: 210px;
+  border-radius: 0px;
+  overflow-y: scroll;
+}
+
+/* Hide the scrollbar */
+.hide-scrollbar-custom::-webkit-scrollbar {
+  width: 0;
+}
+
+/* Track */
+.hide-scrollbar-custom::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.hide-scrollbar-custom::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.hide-scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
