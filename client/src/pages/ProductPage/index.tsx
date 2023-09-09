@@ -496,7 +496,7 @@ function HeaderSection(products: Product[]) {
     >
       <SearchBar dataSet={products}></SearchBar>
 
-      <div className="relative -z-[1] h-auto p-5 md:mt-10">
+      <div className="relative h-auto p-5 md:mt-10">
         <img
           src={SpeciealDescount}
           className="rounded-[8px] md:rounded-[20px]"
