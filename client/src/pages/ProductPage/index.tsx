@@ -1,3 +1,7 @@
+import axios from "axios";
+import { useContext, useState } from "react";
+import ReactModal from "react-modal";
+import { NavLink } from "react-router-dom";
 import BeveragesIcon from "../../assets/categoryIcon/BeveragesIcon.svg";
 import BurgerIcon from "../../assets/categoryIcon/BurgerIcon.svg";
 import MeatIcon from "../../assets/categoryIcon/MeatIcon.svg";
@@ -13,12 +17,9 @@ import SpeciealDescount from "../../assets/images/SpeciealDescount.svg";
 import { Button } from "../../base-components/Button";
 import InputField from "../../base-components/FormElements/InputElement";
 import MuiRating from "../../components/MuiRating";
+import { Product, ProviderContext } from "../../components/Provider";
 import TextLimit from "../../components/TextLimit";
-import { ProviderContext } from "../../components/Provider";
-import { useContext, useState } from "react";
-import {  NavLink } from "react-router-dom";
-import ReactModal from "react-modal";
-import axios from "axios";
+import SearchBar from "./../../components/SearchBar/SearchBar";
 
 interface CartItem {
   _id: string;
@@ -56,7 +57,7 @@ const Main = () => {
     <>
       <div className="grid grid-cols-12">
         <div className="col-span-9">
-          {HeaderSection()}
+          {HeaderSection(products)}
           {/* Category Section1 - start */}
           <div>
             <div className="mx-5 flex content-center justify-between">
@@ -483,7 +484,7 @@ function Order() {
 }
 
 // Header Section
-function HeaderSection() {
+function HeaderSection(products: Product[]) {
   return (
     <div
       style={{
@@ -493,13 +494,9 @@ function HeaderSection() {
       }}
       className="h-auto"
     >
-      <div className="px-6 pt-5">
-        <InputField
-          className="mx-auto !max-w-[500px] border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
-          placeholder="WHAT DO YOU WANTS TO EAT TODAY"
-        />
-      </div>
-      <div className="relative h-auto p-5 md:mt-10">
+      <SearchBar dataSet={products}></SearchBar>
+
+      <div className="relative -z-[1] h-auto p-5 md:mt-10">
         <img
           src={SpeciealDescount}
           className="rounded-[8px] md:rounded-[20px]"
