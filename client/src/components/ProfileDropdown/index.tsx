@@ -2,11 +2,14 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
+import profileIcon from "../../assets/icons/profileIcon.png";
 import { handleLogout } from "../../services/auth";
 import { ProviderContext } from "../Provider";
+import { UserProviderContext } from "../Provider/UserProvider";
 
 const ProfileDropdwon = () => {
   const { axiosJWT } = useContext(ProviderContext);
+  const { user } = useContext(UserProviderContext);
   const navigate = useNavigate();
   return (
     <>
@@ -17,7 +20,7 @@ const ProfileDropdwon = () => {
             <span className="sr-only">Open user menu</span>
             <img
               className="h-12 w-12 rounded-full"
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              src={user.avatar ? user.avatar : profileIcon}
               alt=""
             />
           </Menu.Button>
