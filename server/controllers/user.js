@@ -1,5 +1,85 @@
 import Seat from "../models/Seat.js";
 import SeatBooking from "../models/SeatBooking.js";
+import User from "../models/User.js";
+
+// ? Get all user details
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+// ? Get current user
+export const getCurrentUser = async (req, res) => {
+  const userId = req.user.id;
+  try {
+    // Query the database to find the user based on the criteria
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      // If the user is not found, return a 404 status code
+      res.status(404).json({ message: "User not found" });
+    } else {
+      // If the user is found, return the user data
+      res.status(200).json(user);
+    }
+  } catch (err) {
+    // Handle any errors that occur during the process
+    res.status(500).json(err);
+  }
+};
+
+// ? Update current user
+export const updateCurrentUser = async (req, res) => {
+  const userId = req.user.id;
+  const userData = req.body;
+  try {
+    // Query the database to find the user based on the criteria
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      // If the user is not found, return a 404 status code
+      res.status(404).json({ message: "User not found" });
+    } else {
+      // If the user is found, update the user data and return the updated user
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: userId },
+        userData,
+        { new: true }
+      );
+      res.status(200).json(updatedUser);
+    }
+  } catch (err) {
+    // Handle any errors that occur during the process
+    res.status(500).json(err);
+  }
+};
+
+// ? Get user by email
+export const getUserByEmail = async (req, res) => {
+  try {
+    const { email } = req.body; // Get the criteria from the request body
+
+    // Query the database to find the user based on the criteria
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      // If the user is not found, return a 404 status code
+      res.status(404).json({ message: "User not found" });
+    } else {
+      // If the user is found, return the user data
+      res.status(200).json(user);
+    }
+  } catch (err) {
+    // Handle any errors that occur during the process
+    res.status(500).json(err);
+  }
+};
+
+// ! Table booking related --------------------------------------------------------------
 
 // ? Get all seat details
 export const getAllSeats = async (req, res) => {
