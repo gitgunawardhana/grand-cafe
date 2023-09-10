@@ -15,7 +15,7 @@ const ProfileDropdwon = () => {
     <>
       <Menu as="div" className="relative">
         <div>
-          <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm ring-1 focus:outline-none focus:ring-1 focus:ring-gradient-yellow-900 focus:ring-offset-2 focus:ring-offset-gray-800">
+          <Menu.Button className="relative flex rounded-full text-sm ring-1 ring-gradient-yellow-900 ring-offset-2 ring-offset-gradient-yellow-900 focus:outline-none focus:ring-1 focus:ring-gradient-yellow-900 focus:ring-offset-2">
             <span className="absolute -inset-1.5" />
             <span className="sr-only">Open user menu</span>
             <img
