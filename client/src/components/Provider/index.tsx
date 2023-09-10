@@ -15,25 +15,15 @@ type WindowSize = {
 };
 
 export interface Product {
-  _id:string;
+  _id: string;
   name: string;
   image: string;
   description: string;
   price: string;
   rate: number;
 }
-// interface User {
-//   email: string;
-//   accessToken: string;
-//   refreshToken: string;
-// }
-
 export interface ProviderContextInterface {
   windowSize: WindowSize;
-  // seatsInitialState: Seat[];
-  // setSeatsInitialState: Dispatch<SetStateAction<Seat[]>>;
-  // user: User | null;
-  // setUser: Dispatch<SetStateAction<User | null>>;
   products: Product[];
   setProducts: Dispatch<SetStateAction<Product[]>>;
   axiosJWT: AxiosInstance;
@@ -48,8 +38,6 @@ const defaultState = {
   },
   setProducts: (products: Product[]) => {},
   setTotal: (total: number) => {},
-  // setSeatsInitialState: (seatsInitialState: Seat[]) => {},
-  // setUser: (user: User) => {},
 } as ProviderContextInterface;
 
 // Todo: when add new one, change above interface and defaultState
@@ -77,9 +65,6 @@ export const refreshToken = async () => {
 };
 
 const Provider = (props: ProviderProps) => {
-  // const [user, setUser] = useState<User | null>(null);
-  // const [seatsInitialState, setSeatsInitialState] = useState<Seat[]>([]);
-
   const [windowSize, setWindowSize] = useState({
     width: 0,
     height: 0,
@@ -139,20 +124,10 @@ const Provider = (props: ProviderProps) => {
     fetchData();
   }, []);
 
-  // const contextValue: ContextValue = {
-  //   windowSize,
-  //   products,
-  //   setProducts,
-  // };
-
   return (
     <ProviderContext.Provider
       value={{
         windowSize,
-        // seatsInitialState,
-        // setSeatsInitialState,
-        // user,
-        // setUser,
         products,
         setProducts,
         axiosJWT,
