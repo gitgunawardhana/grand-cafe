@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import NavigationBg from "../../assets/images/NavigationBg.svg";
 import { Button } from "../../base-components/Button";
 import InputField from "../../base-components/FormElements/InputElement";
 import Logo from "../../base-components/Logo";
 import LucideIcon from "../../base-components/LucideIcon";
+import { Icons } from "../../constants";
 import { handleLogout } from "../../services/auth";
 import ProfileDropdown from "../ProfileDropdown";
 import { ProviderContext } from "../Provider";
@@ -108,7 +109,7 @@ function Main() {
                 onClick={handleToggleDropdown}
               >
                 <span className="sr-only">Open</span>
-                <LucideIcon icon="MoreVertical" strokeWidth={2} />
+                <LucideIcon icon={Icons.MOREVERTICAL} strokeWidth={2} />
               </Button>
             </div>
           </div>
@@ -130,17 +131,31 @@ function Main() {
                     className="min-w-[210x] border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
                     placeholder="Search here your favorites"
                   />
-
                   <span
-                    className="input-group-text my-[8px] flex items-center whitespace-nowrap rounded px-3 text-center text-base font-normal text-neutral-700 dark:text-neutral-200"
+                    className="input-group-text my-[8px] flex cursor-pointer items-center whitespace-nowrap rounded px-3 text-center text-base font-normal text-neutral-700 dark:text-neutral-200"
                     id="basic-addon2"
                   >
                     <LucideIcon
-                      icon="Search"
+                      icon={Icons.SEARCH}
                       strokeWidth={2}
                       className="text-gradient-yellow-900"
                     />
                   </span>
+                  &nbsp;
+                  {sessionStorage.getItem("accessToken") && (
+                    <span
+                      className="input-group-text my-[8px] flex cursor-pointer items-center whitespace-nowrap rounded px-3 text-center text-base font-normal text-neutral-700 dark:text-neutral-200"
+                      id="basic-addon2"
+                    >
+                      <Link to="/cart">
+                        <LucideIcon
+                          icon={Icons.BAGGAGECLAIM}
+                          strokeWidth={2}
+                          className="text-gradient-yellow-900"
+                        ></LucideIcon>
+                      </Link>
+                    </span>
+                  )}
                 </form>
               </li>
 
@@ -209,7 +224,7 @@ function Main() {
                       id="basic-addon2"
                     >
                       <LucideIcon
-                        icon="Search"
+                        icon={Icons.SEARCH}
                         strokeWidth={2}
                         className="text-gradient-yellow-900"
                       />
