@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import * as Yup from "yup";
 import Sign_up from "../../assets/images/Sign_up.svg";
@@ -82,7 +82,9 @@ const Main = () => {
               <div className="">
                 {/*Logo */}
                 <div className="grid items-center justify-center">
-                  <Logo className="h-24 w-24" />
+                  <Link to={"/"}>
+                    <Logo className="h-24 w-24" />
+                  </Link>
                 </div>
 
                 {/*Text fields */}
