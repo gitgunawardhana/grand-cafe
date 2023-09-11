@@ -16,18 +16,14 @@ export const getAllUsers = async (req, res) => {
 export const getCurrentUser = async (req, res) => {
   const userId = req.user.id;
   try {
-    // Query the database to find the user based on the criteria
     const user = await User.findOne({ _id: userId });
 
     if (!user) {
-      // If the user is not found, return a 404 status code
       res.status(404).json({ message: "User not found" });
     } else {
-      // If the user is found, return the user data
       res.status(200).json(user);
     }
   } catch (err) {
-    // Handle any errors that occur during the process
     res.status(500).json(err);
   }
 };
@@ -61,20 +57,34 @@ export const updateCurrentUser = async (req, res) => {
 // ? Get user by email
 export const getUserByEmail = async (req, res) => {
   try {
-    const { email } = req.body; // Get the criteria from the request body
+    const { email } = req.body;
 
-    // Query the database to find the user based on the criteria
     const user = await User.findOne({ email });
 
     if (!user) {
-      // If the user is not found, return a 404 status code
       res.status(404).json({ message: "User not found" });
     } else {
-      // If the user is found, return the user data
       res.status(200).json(user);
     }
   } catch (err) {
-    // Handle any errors that occur during the process
+    res.status(500).json(err);
+  }
+};
+
+// ? Delete user by email
+export const deleteUserByEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+    } else {
+      await User.findOneAndDelete({ email });
+      res.status(200).json({ message: "User deleted successfully" });
+    }
+  } catch (err) {
     res.status(500).json(err);
   }
 };
