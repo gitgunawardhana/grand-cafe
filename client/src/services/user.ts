@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 
 export const getCurrentUser = async (
   axiosJWT: AxiosInstance,
+  user: any,
   setState: any
 ) => {
   try {
@@ -13,6 +14,7 @@ export const getCurrentUser = async (
     });
 
     setState({
+      ...user,
       firstName: res.data.firstName,
       lastName: res.data.lastName,
       email: res.data.email,
