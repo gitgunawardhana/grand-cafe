@@ -16,6 +16,7 @@ function AddProduct() {
   const [productData, setProductData] = useState({
     name: "",
     price: "",
+    rate: 0.0,
     description: "",
     imageBase64: "",
   });
@@ -65,6 +66,7 @@ function AddProduct() {
       name: productData.name,
       category: selectedCategory,
       price: productData.price,
+      rate:productData.rate,
       description: productData.description,
       image: productData.imageBase64,
     };
