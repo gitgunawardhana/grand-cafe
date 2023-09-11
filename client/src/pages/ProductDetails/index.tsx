@@ -103,7 +103,7 @@ const ProductDetails: React.FC = () => {
         <div className="m-6  flex items-center justify-center p-12">
           <img
             className="w-full   cursor-pointer rounded-2xl border opacity-[1] duration-300 ease-in hover:border-gradient-yellow-900 hover:opacity-[1] md:h-[400px] md:min-w-[230px] lg:h-[450px]"
-            src={`data:image/jpeg;base64,${selectedProduct.image}`}
+            src={selectedProduct.image}
             alt={selectedProduct.name}
           />
         </div>

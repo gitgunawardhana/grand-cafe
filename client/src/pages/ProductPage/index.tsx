@@ -19,7 +19,15 @@ import InputField from "../../base-components/FormElements/InputElement";
 import MuiRating from "../../components/MuiRating";
 import { Product, ProviderContext } from "../../components/Provider";
 import TextLimit from "../../components/TextLimit";
+<<<<<<< Updated upstream
 import SearchBar from "./../../components/SearchBar/SearchBar";
+=======
+import { Product, ProviderContext } from "../../components/Provider";
+import { useContext } from "react";
+import { NavLink } from "react-router-dom";
+import ReactModal from "react-modal";
+import axios from "axios";
+>>>>>>> Stashed changes
 
 interface CartItem {
   _id: string;
@@ -27,20 +35,23 @@ interface CartItem {
   price: number;
   image: string;
   quantity: number;
+  category: string;
 }
 
 let subTotal = 0;
 
 const Main = () => {
-  const { products } = useContext(ProviderContext);
+  const { products, selectedCategory } = useContext(ProviderContext);
 
   const categories = [
-    { title: "Our Specials", icon: OurSpecialsIcon },
-    { title: "Burger", icon: BurgerIcon },
-    { title: "Beverages", icon: BeveragesIcon },
-    { title: "Noodles", icon: NoodlesIcon },
-    { title: "Meat", icon: MeatIcon },
-    { title: "Pasta", icon: PastaIcon },
+    { title: "All Meals", value: "all", icon: OurSpecialsIcon },
+    { title: "Our Specials", value: "ourspecial", icon: OurSpecialsIcon },
+    { title: "Rice", value: "rice", icon: OurSpecialsIcon },
+    { title: "Burger", value: "burger", icon: BurgerIcon },
+    { title: "Beverages", value: "beverage", icon: BeveragesIcon },
+    { title: "Noodles", value: "noodels", icon: NoodlesIcon },
+    { title: "Meat", value: "meal", icon: MeatIcon },
+    { title: "Pasta", value: "pasta", icon: PastaIcon },
   ];
 
   const filteredProducts = products.filter(
@@ -50,9 +61,34 @@ const Main = () => {
       price: string;
       image: string;
       rate: number;
+      category: string;
     }) => item.rate > 3.0
   );
 
+  const filtereProducts = products.filter(
+    (product: {
+      _id: string;
+      name: string;
+      price: string;
+      image: string;
+      rate: number;
+      category: string;
+    }) => product.category == selectedCategory
+  );
+
+  let filter: Product[];
+
+  if (!selectedCategory) {
+    filter = products;
+  } else if(selectedCategory=="all"){
+    filter = products;
+  }else {
+    filter = filtereProducts;
+  }
+
+
+
+  console.log("Filter Product : ", filtereProducts);
   return (
     <>
       <div className="grid grid-cols-12">
@@ -84,14 +120,15 @@ const Main = () => {
           {/* Food Card Section1 - start */}
           <div>
             <div className="mx-5 mb-8 mt-8 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
-              {products.map(
-                (item: {
+              {filter.map(
+                (product: {
                   _id: string;
                   name: string;
                   price: string;
                   image: string;
                   rate: number;
-                }) => Card(item)
+                  category: string;
+                }) => Card(product)
               )}
             </div>
           </div>
@@ -137,13 +174,26 @@ const Main = () => {
 
 export default Main;
 
-function Category(item: { title: string; icon: string }) {
+function Category(item: { title: string; value: string; icon: string }) {
+  const { setSelectedCategory } = useContext(ProviderContext);
+
+  const handleCategoryClick = (categoryTitle: string) => {
+    setSelectedCategory(categoryTitle);
+    //console.log(selectedCategory);
+  };
+
+ 
+
   return (
     <div
       key={item.title}
       className="group/category-item flex justify-center px-2"
     >
-      <Button className="m-0 !max-w-full !grow gap-2 border-none !bg-transparent text-xs font-semibold capitalize shadow-none hover:shadow-none md:text-sm">
+      
+      <Button
+        onClick={() => handleCategoryClick(item.value)}
+        className="m-0 !max-w-full !grow gap-2 border-none !bg-transparent text-xs font-semibold capitalize shadow-none hover:shadow-none md:text-sm"
+      >
         <img
           src={item.icon}
           alt=""
@@ -164,8 +214,10 @@ function Card(item: {
   price: string;
   image: string;
   rate: number;
+  category: string;
 }) {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const { modalIsOpen, setModalIsOpen, count, setCount } =
+    useContext(ProviderContext);
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -174,9 +226,6 @@ function Card(item: {
   const closeModal = () => {
     setModalIsOpen(false);
   };
-
-  // counter on card
-  const [count, setCount] = useState(1);
 
   const increment = () => {
     setCount(count + 1);
@@ -187,6 +236,10 @@ function Card(item: {
       setCount(count - 1);
     }
   };
+
+
+
+ 
 
   const customStyles = {
     overlay: {
@@ -265,7 +318,7 @@ function Card(item: {
     >
       <img
         className="w-full"
-        src={`data:image/jpeg;base64,${item.image}`}
+        src={item.image}
         alt={item.name}
       />
       <div className="mb-0 ml-5 mt-2 flex">
@@ -285,6 +338,7 @@ function Card(item: {
         </div>
         <div className="mt-2">
           <Button
+          
             as={NavLink}
             to={`/customize-page/${item.name}`}
             className="m-0 !mb-2 !mt-1 min-w-[200px] !rounded-[10px] border-none !bg-opacity-20 !bg-gradient-to-b from-gradient-yellow-900-6 to-gradient-yellow-900-2 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
@@ -314,7 +368,7 @@ function Card(item: {
               </h2>
               <br />
               <img
-                src={`data:image/jpeg;base64,${item.image}`}
+                src={item.image}
                 className="rounded-2xl border opacity-[1] duration-300 ease-in hover:border-gradient-yellow-900 hover:opacity-[1] md:h-[80px] md:min-w-[40px] lg:h-[135px]"
               />
 

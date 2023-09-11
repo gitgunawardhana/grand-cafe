@@ -2,12 +2,19 @@ import React from "react";
 import Card from "../../UI/card/Card";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { IProductsTable as Props } from "../../../interfaces/Itable";
+import { Product } from "../../../pages/ProductEdit"
 import classes from "./EditProduct.module.scss";
 import { Icon } from "@iconify/react";
 import Button from "../../UI/button/Button";
 import Input from "../../UI/input/Input";
-const EditProduct: React.FC<{ product?: Props }> = (props) => {
+
+const EditProduct: React.FC<{ product?: Product }> = (props) => {
+
+  const productName = props.product?.name || "";
+  const productCategory = props.product?.category || "";
+  const productPrice = props.product?.price || "";
+  const productRate = props.product?.rate || "";
+
   const { t } = useTranslation();
   return (
     <div className={classes.edit__container}>
@@ -16,7 +23,7 @@ const EditProduct: React.FC<{ product?: Props }> = (props) => {
           <div className={classes.img_wrapper}>
             <img
               className={classes.pic}
-              src={props.product?.pic}
+              src={props.product?.image}
               alt="product pic"
             />
           </div>
@@ -24,25 +31,25 @@ const EditProduct: React.FC<{ product?: Props }> = (props) => {
             <div>
               <div className={classes.title}>{t("proName")}</div>
               <div className={classes.value}>
-                {t(`${props.product?.product}`)}
+                {productName}
               </div>
             </div>
             <div>
               <div className={classes.title}>{t("category")}</div>
               <div className={classes.value}>
-                {t(`${props.product?.category}`)}
+                {productCategory}
               </div>
             </div>
             <div>
               <div className={classes.title}>{t("price")}</div>
               <div className={classes.value}>
-                {t(`${props.product?.price}`)}
+                {productPrice}
               </div>
             </div>
             <div>
-              <div className={classes.title}>{t("inventoryCount")}</div>
+              <div className={classes.title}>{t("Rating")}</div>
               <div className={classes.value}>
-                {t(`${props.product?.inventory}`)}
+                {productRate}
               </div>
             </div>
           </div>
@@ -71,7 +78,7 @@ const EditProduct: React.FC<{ product?: Props }> = (props) => {
               </div>
               <img
                 className={classes.pic}
-                src={props.product?.pic}
+                src={props.product?.image}
                 alt="product pic"
               />
             </div>
@@ -83,7 +90,7 @@ const EditProduct: React.FC<{ product?: Props }> = (props) => {
               <Input
                 id="proName"
                 type="text"
-                placeholder={props.product?.product}
+                placeholder={props.product?.name}
               />
               <Input
                 id="category"
@@ -95,11 +102,11 @@ const EditProduct: React.FC<{ product?: Props }> = (props) => {
                 type="text"
                 placeholder={props.product?.price}
               />
-              <Input
-                id="inventoryCount"
+              {/* <Input
+                id="Rating"
                 type="number"
-                placeholder={props.product?.inventory.toString()}
-              />
+                placeholder={props.product?.rate.toString()}
+              /> */}
               <div className={classes.btn__wrapper}>
                 <Link to="/products">
                   <Button type="submit">{t("upload")}</Button>

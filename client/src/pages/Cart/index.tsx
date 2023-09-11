@@ -90,7 +90,7 @@ const CartPage = () => {
           >
             <div className="grid-cols-1 p-2">
               <img
-                src={`data:image/jpeg;base64,${item.image}`}
+                src={item.image}
                 className="rounded-2xl border opacity-[1] duration-300 ease-in hover:scale-125 hover:border-gradient-yellow-900 hover:opacity-[1] md:h-[30px] md:min-w-[20px] lg:h-[80px]"
                 alt={item.name}
               />

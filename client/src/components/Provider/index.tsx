@@ -21,6 +21,7 @@ export interface Product {
   description: string;
   price: string;
   rate: number;
+  category:string;
 }
 export interface ProviderContextInterface {
   windowSize: WindowSize;
@@ -29,6 +30,12 @@ export interface ProviderContextInterface {
   axiosJWT: AxiosInstance;
   total: number;
   setTotal: Dispatch<SetStateAction<number>>;
+  selectedCategory: string;
+  setSelectedCategory: Dispatch<SetStateAction<string>>;
+  modalIsOpen:boolean;
+  setModalIsOpen: Dispatch<SetStateAction<boolean>>;
+  count:number;
+  setCount: Dispatch<SetStateAction<number>>;
 }
 
 const defaultState = {
@@ -38,6 +45,13 @@ const defaultState = {
   },
   setProducts: (products: Product[]) => {},
   setTotal: (total: number) => {},
+<<<<<<< Updated upstream
+=======
+  setSelectedCategory: (selectedCategory: string) => {"all"},
+ 
+  // setSeatsInitialState: (seatsInitialState: Seat[]) => {},
+  // setUser: (user: User) => {},
+>>>>>>> Stashed changes
 } as ProviderContextInterface;
 
 // Todo: when add new one, change above interface and defaultState
@@ -109,6 +123,9 @@ const Provider = (props: ProviderProps) => {
 
   const [products, setProducts] = useState<Product[]>([]);
   const [total, setTotal] = useState<number>(0);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [count, setCount] = useState(1);
 
   const fetchData = async () => {
     try {
@@ -133,6 +150,12 @@ const Provider = (props: ProviderProps) => {
         axiosJWT,
         total,
         setTotal,
+        selectedCategory,
+        setSelectedCategory,
+        modalIsOpen,
+        setModalIsOpen,
+        count,
+        setCount,
       }}
     >
       {props.children}

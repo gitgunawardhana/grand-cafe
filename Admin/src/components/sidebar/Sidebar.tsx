@@ -41,8 +41,8 @@ function Sidebar() {
         !sidebarCtx.isOpen && classes.sidebar_close
       }`}
     >
-      <div className={classes.sidebar__logo}>
-        <img src={images.logo} alt="digikala" />
+      <div className="flex justify-center items-center pt-5 p-10">
+        <img src={images.logo} alt="digikala" className="w-full h-auto" />
       </div>
       <div className={classes.sidebar__menu}>
         {sidebarNav.map((nav, index) => (
