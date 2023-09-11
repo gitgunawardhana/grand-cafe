@@ -23,12 +23,13 @@ export const view = async(req, res, next) => {
 export const addProduct = async (req, res, next) => {
   try {
       console.log('Request Body:', req.body); // Check if you're receiving the correct data
-      const { name, description, price, image, category } = req.body;
+      const { name, description, rate, price, image, category } = req.body;
 
       const newItem = new Product({
           name,
           description,
           price,
+          rate,
           image,
           category,
       });
