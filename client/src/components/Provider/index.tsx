@@ -21,7 +21,7 @@ export interface Product {
   description: string;
   price: string;
   rate: number;
-  category:string;
+  category: string;
 }
 export interface ProviderContextInterface {
   windowSize: WindowSize;
@@ -32,9 +32,9 @@ export interface ProviderContextInterface {
   setTotal: Dispatch<SetStateAction<number>>;
   selectedCategory: string;
   setSelectedCategory: Dispatch<SetStateAction<string>>;
-  modalIsOpen:boolean;
+  modalIsOpen: boolean;
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
-  count:number;
+  count: number;
   setCount: Dispatch<SetStateAction<number>>;
 }
 
@@ -45,13 +45,9 @@ const defaultState = {
   },
   setProducts: (products: Product[]) => {},
   setTotal: (total: number) => {},
-<<<<<<< Updated upstream
-=======
-  setSelectedCategory: (selectedCategory: string) => {"all"},
- 
-  // setSeatsInitialState: (seatsInitialState: Seat[]) => {},
-  // setUser: (user: User) => {},
->>>>>>> Stashed changes
+  setSelectedCategory: (selectedCategory: string) => {
+    "all";
+  },
 } as ProviderContextInterface;
 
 // Todo: when add new one, change above interface and defaultState

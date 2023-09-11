@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import ReactModal from "react-modal";
 import { NavLink } from "react-router-dom";
 import BeveragesIcon from "../../assets/categoryIcon/BeveragesIcon.svg";
@@ -19,15 +19,7 @@ import InputField from "../../base-components/FormElements/InputElement";
 import MuiRating from "../../components/MuiRating";
 import { Product, ProviderContext } from "../../components/Provider";
 import TextLimit from "../../components/TextLimit";
-<<<<<<< Updated upstream
 import SearchBar from "./../../components/SearchBar/SearchBar";
-=======
-import { Product, ProviderContext } from "../../components/Provider";
-import { useContext } from "react";
-import { NavLink } from "react-router-dom";
-import ReactModal from "react-modal";
-import axios from "axios";
->>>>>>> Stashed changes
 
 interface CartItem {
   _id: string;
@@ -80,13 +72,11 @@ const Main = () => {
 
   if (!selectedCategory) {
     filter = products;
-  } else if(selectedCategory=="all"){
+  } else if (selectedCategory == "all") {
     filter = products;
-  }else {
+  } else {
     filter = filtereProducts;
   }
-
-
 
   console.log("Filter Product : ", filtereProducts);
   return (
@@ -182,14 +172,11 @@ function Category(item: { title: string; value: string; icon: string }) {
     //console.log(selectedCategory);
   };
 
- 
-
   return (
     <div
       key={item.title}
       className="group/category-item flex justify-center px-2"
     >
-      
       <Button
         onClick={() => handleCategoryClick(item.value)}
         className="m-0 !max-w-full !grow gap-2 border-none !bg-transparent text-xs font-semibold capitalize shadow-none hover:shadow-none md:text-sm"
@@ -236,10 +223,6 @@ function Card(item: {
       setCount(count - 1);
     }
   };
-
-
-
- 
 
   const customStyles = {
     overlay: {
@@ -316,11 +299,7 @@ function Card(item: {
       key={item.name}
       className="mb-0 max-w-sm overflow-hidden rounded-xl !bg-opacity-25 bg-gradient-to-b from-gradient-yellow-100-15 to-gradient-yellow-900-10 text-center shadow-lg"
     >
-      <img
-        className="w-full"
-        src={item.image}
-        alt={item.name}
-      />
+      <img className="w-full" src={item.image} alt={item.name} />
       <div className="mb-0 ml-5 mt-2 flex">
         <MuiRating rateValue={item.rate} />
       </div>
@@ -338,7 +317,6 @@ function Card(item: {
         </div>
         <div className="mt-2">
           <Button
-          
             as={NavLink}
             to={`/customize-page/${item.name}`}
             className="m-0 !mb-2 !mt-1 min-w-[200px] !rounded-[10px] border-none !bg-opacity-20 !bg-gradient-to-b from-gradient-yellow-900-6 to-gradient-yellow-900-2 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
