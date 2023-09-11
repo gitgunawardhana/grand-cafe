@@ -12,6 +12,8 @@ interface FormInputProps {
   disabled?: boolean;
   type?: string;
   accept?: ".jpeg" | ".png" | ".jpg" | string;
+  name?: string;
+  onBlur?: any;
 }
 
 const FormInput = (props: FormInputProps) => {
@@ -31,6 +33,8 @@ const FormInput = (props: FormInputProps) => {
             value={props.value}
             disabled={props.disabled && props.disabled}
             accept={props.accept && props.accept}
+            name={props.name && props.name}
+            onBlur={props.onBlur && props.onBlur}
           />
           <label
             htmlFor={props.id}
