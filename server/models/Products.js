@@ -1,12 +1,11 @@
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
-    _id:String,
     name: String,
     description: String,
     price: Number,
     image:String,
-    quantity: Number
+    category:String,
 });
 
 // Export the Product model as a named export

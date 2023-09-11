@@ -36,6 +36,12 @@ const sidebarNav = [
     text: "Discount",
   },
   {
+    link: "/category",
+    section: "category",
+    icon: "carbon:category-new-each",
+    text: "Category",
+  },
+  {
     link: "/inventory",
     section: "inventory",
     icon: "ic:round-inventory",
