@@ -51,7 +51,7 @@ const UserProvider = (props: UserProviderProps) => {
 
   useEffect(() => {
     if (sessionStorage.getItem("accessToken")) {
-      getCurrentUser(axiosJWT, setUser);
+      getCurrentUser(axiosJWT, user, setUser);
     }
   }, []);
 

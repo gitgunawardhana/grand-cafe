@@ -8,6 +8,8 @@ interface TextAreaProps {
   placeholder?: string;
   disabled?: boolean;
   onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
+  name?: string;
+  onBlur?: any;
 }
 
 const Main = (props: TextAreaProps) => {
@@ -26,6 +28,8 @@ const Main = (props: TextAreaProps) => {
         readOnly={disabled && disabled}
         defaultValue={value && value}
         onChange={props.onChange}
+        name={props.name && props.name}
+        onBlur={props.onBlur && props.onBlur}
       />
     </>
   );

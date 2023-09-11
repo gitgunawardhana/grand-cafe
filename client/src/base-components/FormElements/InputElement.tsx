@@ -21,6 +21,8 @@ interface InputFieldProps {
   type?: string;
   disabled?: boolean;
   accept?: ".jpeg" | ".png" | ".jpg" | string;
+  name?: string;
+  onBlur?: any;
 }
 
 const InputField = (props: InputFieldProps) => {
@@ -110,6 +112,8 @@ const InputField = (props: InputFieldProps) => {
             disabled={props.disabled && props.disabled}
             type={props.type && props.type}
             accept={props.accept && props.accept}
+            name={props.name && props.name}
+            onBlur={props.onBlur && props.onBlur}
           />
         </div>
       </div>
