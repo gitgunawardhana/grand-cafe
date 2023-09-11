@@ -15,11 +15,11 @@ const ProfileDropdwon = () => {
     <>
       <Menu as="div" className="relative">
         <div>
-          <Menu.Button className="relative flex rounded-full text-sm ring-1 ring-gradient-yellow-900 ring-offset-2 ring-offset-gradient-yellow-900 focus:outline-none focus:ring-1 focus:ring-gradient-yellow-900 focus:ring-offset-2">
+          <Menu.Button className="relative flex border-spacing-2 rounded-full border border-[#fff] text-sm">
             <span className="absolute -inset-1.5" />
             <span className="sr-only">Open user menu</span>
             <img
-              className="h-12 w-12 rounded-full"
+              className="h-12 w-12 rounded-full object-cover"
               src={user.avatar ? user.avatar : profileIcon}
               alt=""
             />
