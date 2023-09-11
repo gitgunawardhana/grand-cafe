@@ -1,10 +1,13 @@
 import { useFormik } from "formik";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import * as Yup from "yup";
 import Sign_up from "../../assets/images/Sign_up.svg";
 import { Button } from "../../base-components/Button";
 import Logo from "../../base-components/Logo";
+import LucideIcon from "../../base-components/LucideIcon";
+import { Icons } from "../../constants";
 import { handleLogin } from "../../services/auth";
 
 const passwordValidation = Yup.string()
@@ -48,6 +51,8 @@ interface FormValues {
 
 const Main = () => {
   const navigate = useNavigate();
+
+  const [passwordShown, setPasswordShown] = useState(false);
 
   const initialValues: FormValues = {
     email: "",
@@ -118,14 +123,26 @@ const Main = () => {
                       </div>
                     ) : null}
                     <br></br>
-                    <input
-                      type="password"
-                      {...formik.getFieldProps("password")}
-                      className="block w-full rounded-lg border border-gray-300 bg-teal-950 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-yellow-200 dark:bg-teal-950 dark:text-white dark:placeholder-gray-400 dark:focus:border-gradient-yellow-500 dark:focus:ring-gradient-yellow-500"
-                      id="password"
-                      name="password"
-                      placeholder="Password"
-                    ></input>{" "}
+                    <div className="relative">
+                      <input
+                        type={passwordShown ? "text" : "password"}
+                        {...formik.getFieldProps("password")}
+                        className="block w-full rounded-lg border border-gray-300 bg-teal-950 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-yellow-200 dark:bg-teal-950 dark:text-white dark:placeholder-gray-400 dark:focus:border-gradient-yellow-500 dark:focus:ring-gradient-yellow-500"
+                        id="password"
+                        name="password"
+                        placeholder="Password"
+                      ></input>{" "}
+                      <span
+                        onClick={() => setPasswordShown(!passwordShown)}
+                        className="absolute right-2 top-[9px] cursor-pointer opacity-50"
+                      >
+                        <LucideIcon
+                          icon={passwordShown ? Icons.EYEOFF : Icons.EYE}
+                          strokeWidth={1.5}
+                          color="#FF9224"
+                        />
+                      </span>
+                    </div>
                     {formik.touched.password && formik.errors.password ? (
                       <div className="mt-1 text-left text-xs text-red-700">
                         {formik.errors.password}

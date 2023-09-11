@@ -43,7 +43,6 @@ const validationSchema = Yup.object().shape({
     )
     .required("Mobile number is required"),
   address: Yup.string().required("Address is required"),
-  gender: Yup.string().required("Gender is required"),
   firstName: Yup.string().required("First Name is required"),
   lastName: Yup.string().required("Last Name is required"),
 });
@@ -70,7 +69,9 @@ const Main = () => {
   const [editProfile, setEditProfile] = useState<boolean>(false);
 
   const [selectedAvatar, setSelectedAvatar] = useState(user.avatar);
-  const [selectedGender, setSelectedGender] = useState(user.gender);
+  const [selectedGender, setSelectedGender] = useState<string | null>(
+    user.gender ? user.gender : ""
+  );
 
   const handleGenderOptionChange = (optionValue: string) => {
     setSelectedGender(optionValue);
@@ -109,6 +110,9 @@ const Main = () => {
         setUser
       );
       setEditProfile(!editProfile);
+      if (selectedGender === "") {
+        setSelectedGender(null);
+      }
     },
   });
 
@@ -123,7 +127,7 @@ const Main = () => {
             <div className="relative w-fit">
               <img
                 className="h-[154px] w-[154px] rounded-full object-cover"
-                src={user.avatar ? user.avatar : profileIcon}
+                src={selectedAvatar || user.avatar || profileIcon}
               ></img>
               {editProfile && (
                 <>
@@ -255,9 +259,9 @@ const Main = () => {
                 onOptionChange={handleGenderOptionChange}
                 disabled={!editProfile}
               />
-              {formik.touched.gender && formik.errors.gender ? (
+              {selectedGender === null ? (
                 <div className="text-left text-xs text-red-700">
-                  {formik.errors.gender}
+                  Gender is required
                 </div>
               ) : null}
             </div>
@@ -327,7 +331,7 @@ const Main = () => {
                         Boolean(formik.errors.firstName) ||
                         Boolean(formik.errors.lastName) ||
                         Boolean(formik.errors.email) ||
-                        Boolean(formik.errors.gender) ||
+                        !Boolean(selectedGender) ||
                         Boolean(formik.errors.mobileNo) ||
                         Boolean(formik.errors.address)
                       }
@@ -336,7 +340,7 @@ const Main = () => {
                         formik.errors.firstName ||
                         formik.errors.lastName ||
                         formik.errors.email ||
-                        formik.errors.gender ||
+                        !selectedGender ||
                         formik.errors.mobileNo ||
                         formik.errors.address
                           ? "cursor-not-allowed opacity-40"
