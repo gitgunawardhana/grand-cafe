@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import { Icon } from "@iconify/react";
+import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import { useWindowSize } from "usehooks-ts";
-import { useTranslation } from "react-i18next";
-import { images } from "../../constants";
 import sidebarNav from "../../config/sidebarNav";
-import SidebarContext from "../../store/sidebarContext";
+import { images } from "../../constants";
 import LoginContext from "../../store/loginContext";
-import { Icon } from "@iconify/react";
+import SidebarContext from "../../store/sidebarContext";
 import classes from "./Sidebar.module.scss";
 
 function Sidebar() {
@@ -25,6 +25,7 @@ function Sidebar() {
 
   function logoutHandler() {
     openSidebarHandler();
+    sessionStorage.clear();
     loginCtx.toggleLogin();
   }
 
