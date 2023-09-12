@@ -19,9 +19,6 @@ function LoginBox() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  let isValid = true;
-  let isValidPw = true;
-
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
@@ -63,22 +60,6 @@ function LoginBox() {
         timer: 3000,
       });
     }
-
-    // isValid = userName === "admin";
-    // isValidPw = userPassword === "admin";
-    // if (userName && userPassword) {
-    //   if (isValid && isValidPw) {
-    //     loginCtx.toggleLogin();
-    //     navigate("/");
-    //   } else {
-    //     userNameRef.current?.focus();
-    //     userPasswordRef.current?.focus();
-    //     errorMessageRef.current?.setAttribute(
-    //       "style",
-    //       "display: inline-block;opacity: 1"
-    //     );
-    //   }
-    // }
   }
 
   return (
@@ -96,8 +77,8 @@ function LoginBox() {
           <Input
             ref={userNameRef}
             type={"text"}
-            id={"userName"}
-            placeholder={"admin"}
+            id={"email"}
+            placeholder={"admin@gmail.com"}
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
           />
@@ -105,7 +86,7 @@ function LoginBox() {
             ref={userPasswordRef}
             type={"password"}
             id={"pass"}
-            placeholder={"admin"}
+            placeholder={"Password"}
             value={userPassword}
             onChange={(e) => setUserPassword(e.target.value)}
           />
