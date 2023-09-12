@@ -121,7 +121,7 @@ const EditCustomerUser: React.FC<{ user?: User }> = (props) => {
 
   return (
     <div className={classes.edit__container}>
-      <div className={`${classes.edit__left} xl:-translate-y-[155px]`}>
+      <div className={`${classes.edit__left} xl:-translate-y-[178px]`}>
         <Card>
           <div className={classes.img_wrapper}>
             <img

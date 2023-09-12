@@ -12,11 +12,22 @@ function Profile() {
   return (
     <div className={classes.profile}>
       <div className={classes.profile__avatar}>
-        <img src={user.avatar} alt="avatar" />
+        <img
+          src={
+            sessionStorage.getItem("avatar")
+              ? sessionStorage.getItem("avatar")!
+              : `https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg`
+          }
+          alt="avatar"
+        />
       </div>
       <div className={classes.profile__info}>
         <p className={classes.profile__userName}>
-          {t(`${user.firstName} ${user.lastName}`)}
+          {t(
+            `${sessionStorage.getItem("firstName")} ${sessionStorage.getItem(
+              "lastName"
+            )}`
+          )}
         </p>
         <span className={classes.profile__role}>{t("admin")}</span>
       </div>

@@ -32,6 +32,9 @@ function LoginBox() {
       );
 
       sessionStorage.setItem("email", res.data.email);
+      sessionStorage.setItem("firstName", res.data.firstName);
+      sessionStorage.setItem("lastName", res.data.lastName);
+      sessionStorage.setItem("avatar", res.data.avatar);
       sessionStorage.setItem("accessToken", res.data.accessToken);
       sessionStorage.setItem("refreshToken", res.data.refreshToken);
       Swal.fire({
