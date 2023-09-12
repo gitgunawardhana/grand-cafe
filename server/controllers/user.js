@@ -1,3 +1,4 @@
+import GeneratedRecipe from "../models/GeneratedRecipe.js";
 import Seat from "../models/Seat.js";
 import SeatBooking from "../models/SeatBooking.js";
 import User from "../models/User.js";
@@ -365,5 +366,36 @@ export const getAvailableSeats = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// ! Recipe Generating --------------------------------------------------------------
+
+// ? Create a new seat booking with user id
+export const createGeneratedRecipe = async (req, res) => {
+  const { seatBookingId, recipe } = req.body;
+
+  try {
+    // Find the corresponding Seat documents using the provided seat numbers
+    const seatBooking = await SeatBooking.find({ _id: seatBookingId });
+
+    if (!seatBooking) {
+      return res.status(404).json({ error: "Seat Booking not found" });
+    }
+
+    const newGeneratedRecipe = new GeneratedRecipe({
+      seatBooking: seatBookingId,
+      recipe: recipe,
+    });
+
+    const savedGRecipe = await newGeneratedRecipe.save();
+
+    const savedGeneratedRecipe = await GeneratedRecipe.find({
+      _id: savedGRecipe._id,
+    }).populate("seatBooking");
+
+    res.status(200).json(savedGeneratedRecipe);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
 };
