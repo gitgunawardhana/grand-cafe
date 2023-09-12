@@ -13,11 +13,16 @@ export interface Product {
   category: string;
 }
 
+export interface Options{
+  category : string;
+}
+
 const Main = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedValue, setSelectedValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [options, setOptions] = useState<Options[]>([]);
   const fetchData = async () => {
     try {
       const res = await fetch("http://localhost:8000/api/products/product");
@@ -28,14 +33,17 @@ const Main = () => {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const fetchOptions = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/category/viewcategory");
+      const json = await res.json();
+      setOptions(json.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-  // Define an array of options
-  const options = ["all", "burger", "rice", "ourspecial"];
-
-  // Event handler to handle changes in the selected value
+ 
   const handleSelectChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
@@ -105,23 +113,32 @@ const Main = () => {
   const currentItems = filter.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  useEffect(() => {
+    fetchOptions();
+    fetchData();
+    console.log(options);
+  }, []);
+
 
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
         <div>
-          <select
-            value={selectedValue}
-            onChange={handleSelectChange}
-            className="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white text-gray-700"
-          >
-            <option value="" className="text-gray-500 ">Select Category to filter</option>
-            {options.map((option, index) => (
-              <option key={index} value={option} className="text-gray-900 py-2 px-3">
-                {option}
-              </option>
-            ))}
-          </select>
+        <select
+          value={selectedValue}
+          onChange={handleSelectChange}
+          className="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white text-gray-700"
+        >
+          <option value="all" className="text-gray-500">All Products</option>
+          
+
+          {Array.isArray(options) && options.map((option) => ( // Check if options is an array
+            <option key={option.category} value={option.category} className="text-gray-900 py-2 px-3">
+              {option.category}
+            </option>
+          ))}
+        </select>
+
         </div>
         <div>
           <Button
