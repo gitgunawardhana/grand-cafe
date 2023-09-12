@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { twMerge } from "tailwind-merge";
 import TableBookingHeadingTitle from "../../assets/images/tableBookingHeadingTitle.svg";
@@ -236,6 +237,9 @@ function tableBookingForm(
           },
         }
       );
+
+      sessionStorage.setItem("seatBookingId", res.data._id);
+
       Swal.fire({
         position: "center",
         icon: "success",
@@ -269,6 +273,9 @@ function tableBookingForm(
           authorization: "Bearer " + sessionStorage.getItem("accessToken"),
         },
       });
+
+      sessionStorage.removeItem("seatBookingId");
+
       Swal.fire({
         position: "center",
         icon: "success",
@@ -404,19 +411,33 @@ function tableBookingForm(
               commentState ? "translate-y-full" : "translate-y-2"
             }`}
           >
-            <Button
-              className={twMerge([
-                "m-0 !mx-auto min-w-[300px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-16 !py-4 text-xs font-semibold uppercase text-black hover:text-black md:!px-20 md:!py-5 md:text-sm",
-                currentSeatsBooking.length === 0 &&
-                  "cursor-not-allowed opacity-40",
-              ])}
-              onClick={createSeatBooking}
-              disabled={currentSeatsBooking.length === 0}
-            >
-              <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
-                Make Reservation
-              </p>
-            </Button>
+            {!Boolean(sessionStorage.getItem("seatBookingId")) ? (
+              <Button
+                className={twMerge([
+                  "m-0 !mx-auto min-w-[300px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-16 !py-4 text-xs font-semibold uppercase text-black hover:text-black md:!px-20 md:!py-5 md:text-sm",
+                  currentSeatsBooking.length === 0 &&
+                    "cursor-not-allowed opacity-40",
+                ])}
+                onClick={createSeatBooking}
+                disabled={currentSeatsBooking.length === 0}
+              >
+                <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
+                  Make Reservation
+                </p>
+              </Button>
+            ) : (
+              <Button
+                as={Link}
+                to="/recipe-generator"
+                className={twMerge([
+                  "m-0 !mx-auto min-w-[300px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-gradient-green-400 !bg-opacity-20 !px-16 !py-4 text-xs font-semibold uppercase text-black hover:text-black md:!px-20 md:!py-5 md:text-sm",
+                ])}
+              >
+                <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
+                  Generate Recipe
+                </p>
+              </Button>
+            )}
           </div>
           <div
             className={`flex transform transition-transform duration-500 ${

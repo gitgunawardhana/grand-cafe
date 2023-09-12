@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const userSchema = new Schema(
+const adminUserSchema = new Schema(
   {
     firstName: {
       type: String,
@@ -32,4 +32,4 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("AdminUser", userSchema);
+export default mongoose.model("AdminUser", adminUserSchema);

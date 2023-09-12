@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  createGeneratedRecipe,
   createSeatBooking,
   deleteSeatBookingById,
   deleteSeatBookingByUser,
@@ -38,5 +39,8 @@ router.get("/get-all-seat-booking", verify, getAllSeatBooking);
 router.get("/get-all-seat-booking-by-user", verify, getBookingSeatsByUserId);
 router.delete("/delete-seats-booking/:id", verify, deleteSeatBookingById);
 router.delete("/delete-seats-booking-by-user", verify, deleteSeatBookingByUser);
+
+// recipe generating
+router.post("/create-recipe", verify, createGeneratedRecipe);
 
 export default router;
