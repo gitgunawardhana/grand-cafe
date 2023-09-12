@@ -34,17 +34,15 @@ export const addProduct = async (req, res, next) => {
     res.status(201).json({ message: "Product added to the system" });
   } catch (error) {
     console.error("Error:", error); // Check if there are any errors
-    res
-      .status(500)
-      .json({
-        message: "Error adding product to system",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Error adding product to system",
+      error: error.message,
+    });
   }
 };
 
 export const deleteProduct = async (req, res) => {
-  const itemId = req.params.InventoryId;
+  const itemId = req.params.inventoryId;
 
   try {
     const deletedItem = await Inventory.findByIdAndDelete(itemId);
@@ -61,20 +59,18 @@ export const deleteProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   try {
-    const productId = req.params.InventoryId;
-    const { name, description, unit_price, quantity } = req.body;
-
-    const existingProduct = await Product.findOne({ _id: productId });
+    const productId = req.params.inventoryId;
+    const { item, description, unit_price, quantity } = req.body;
+    const existingProduct = await Inventory.findOne({ _id: productId });
 
     if (!existingProduct) {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    existingProduct.name = name;
+    existingProduct.item = item;
     existingProduct.description = description;
     existingProduct.unit_price = unit_price;
     existingProduct.quantity = quantity;
-
 
     await existingProduct.save();
 

@@ -69,15 +69,16 @@ const EditProduct: React.FC<{ product?: Product }> = (props) => {
           body: JSON.stringify(updatedProductData),
         }
       );
-      console.log(updatedProductData);
       if (response.ok) {
         alert("Product updated successfully!");
+        
       } else {
         alert("Failed to update product. Please try again.");
       }
     } catch (error) {
       console.error("Error updating product:", error);
     }
+    
   };
 
   const fetchData = async () => {
