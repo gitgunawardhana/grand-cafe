@@ -3,6 +3,7 @@ import authRoutes from "./auth.js";
 import cartController from "./cart.js";
 import productsController from "./products.js";
 import categoryController from "./category.js";
+import inventoryController from "./inventory.js";
 import userRoutes from "./user.js";
 
 const router = express.Router();
@@ -12,5 +13,6 @@ router.use("/user", userRoutes);
 router.use("/products", productsController);
 router.use("/add_cart", cartController);
 router.use("/category", categoryController);
+router.use("/inventory", inventoryController);
 
 export default router;
