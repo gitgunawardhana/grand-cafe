@@ -13,8 +13,8 @@ export interface Product {
   category: string;
 }
 
-export interface Options{
-  category : string;
+export interface Options {
+  category: string;
 }
 
 const Main = () => {
@@ -35,7 +35,9 @@ const Main = () => {
 
   const fetchOptions = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/category/viewcategory");
+      const res = await fetch(
+        "http://localhost:8000/api/category/viewcategory"
+      );
       const json = await res.json();
       setOptions(json.data);
     } catch (error) {
@@ -43,7 +45,6 @@ const Main = () => {
     }
   };
 
- 
   const handleSelectChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
@@ -62,13 +63,12 @@ const Main = () => {
     }) => product.category === selectedValue
   );
 
-
-
-
   const handleDelete = async (productId: string) => {
     // Ask the user for confirmation
-    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
-  
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this product?"
+    );
+
     if (confirmDelete) {
       try {
         const response = await fetch(
@@ -80,12 +80,14 @@ const Main = () => {
             },
           }
         );
-  
+
         if (response.ok) {
           // Product deleted successfully, you can redirect or show a success message
           alert("Product deleted successfully!");
           // Remove the deleted product from the state
-          setProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
+          setProducts((prevProducts) =>
+            prevProducts.filter((product) => product._id !== productId)
+          );
         } else {
           // Handle errors, show an error message, or log the error
           alert("Failed to delete product. Please try again.");
@@ -119,31 +121,37 @@ const Main = () => {
     console.log(options);
   }, []);
 
-
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
         <div>
-        <select
-          value={selectedValue}
-          onChange={handleSelectChange}
-          className="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white text-gray-700"
-        >
-          <option value="all" className="text-gray-500">All Products</option>
-          
-
-          {Array.isArray(options) && options.map((option) => ( // Check if options is an array
-            <option key={option.category} value={option.category} className="text-gray-900 py-2 px-3">
-              {option.category}
+          <select
+            value={selectedValue}
+            onChange={handleSelectChange}
+            className="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white text-gray-700"
+          >
+            <option value="all" className="text-gray-500">
+              All Products
             </option>
-          ))}
-        </select>
 
+            {Array.isArray(options) &&
+              options.map(
+                (
+                  option // Check if options is an array
+                ) => (
+                  <option
+                    key={option.category}
+                    value={option.category}
+                    className="text-gray-900 py-2 px-3"
+                  >
+                    {option.category}
+                  </option>
+                )
+              )}
+          </select>
         </div>
         <div>
-          <Button
-          to="/addproduct">
-            Add items</Button>
+          <Button to="/addproduct">Add items</Button>
         </div>
       </div>
       <br />
@@ -188,7 +196,7 @@ const Main = () => {
                   <div className="px-4">
                     <Link to={`/products/${product._id}`}>
                       <Icon
-                       className="hover:scale-125 cursor-pointer"
+                        className="hover:scale-125 cursor-pointer"
                         style={{ color: "green" }}
                         icon="fluent:edit-16-regular"
                         width="24"
@@ -198,11 +206,10 @@ const Main = () => {
                   <div className="px-4">
                     <Icon
                       className="hover:scale-125 cursor-pointer"
-                      style={{ color: "red"}}
+                      style={{ color: "red" }}
                       icon="fluent:delete-24-regular"
                       width="24"
                       onClick={() => handleDelete(product._id)}
-                      
                     />
                   </div>
                 </td>
@@ -221,7 +228,9 @@ const Main = () => {
                 <button
                   onClick={() => paginate(index + 1)}
                   className={`${
-                    currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-gray-300"
+                    currentPage === index + 1
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-300"
                   } px-3 py-1 mx-1 rounded cursor-pointer`}
                 >
                   {index + 1}
