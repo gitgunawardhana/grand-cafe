@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import classes from "../components/tables/customTable/CustomTable.module.scss";
 import { Icon } from "@iconify/react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/UI/button/Button";
 export interface Product {
@@ -61,7 +60,6 @@ const Main = () => {
     filter = filtereProducts;
   }
 
-  
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
@@ -71,18 +69,22 @@ const Main = () => {
             onChange={handleSelectChange}
             className="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white text-gray-700"
           >
-            <option value="" className="text-gray-500 ">Select Category to filter</option>
+            <option value="" className="text-gray-500 ">
+              Select Category to filter
+            </option>
             {options.map((option, index) => (
-              <option key={index} value={option} className="text-gray-900 py-2 px-3">
+              <option
+                key={index}
+                value={option}
+                className="text-gray-900 py-2 px-3"
+              >
                 {option}
               </option>
             ))}
           </select>
         </div>
         <div>
-          <Button
-          to="/addproduct">
-            Add items</Button>
+          <Button to="/addproduct">Add items</Button>
         </div>
       </div>
       <br />

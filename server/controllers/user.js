@@ -71,10 +71,36 @@ export const getUserByEmail = async (req, res) => {
   }
 };
 
+// ? Get user by Id
+export const getUserById = async (req, res) => {
+  let userId = req.query.userId || req.body.userId;
+  try {
+    if (!userId) {
+      res.status(400).json({ message: "Id is required" });
+      return;
+    }
+
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+    } else {
+      res.status(200).json(user);
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
 // ? Delete user by email
 export const deleteUserByEmail = async (req, res) => {
   try {
-    const { email } = req.body;
+    let email = req.query.email || req.body.email; // Check if email is in query parameters, if not, use request body
+
+    if (!email) {
+      res.status(400).json({ message: "Email is required" });
+      return;
+    }
 
     const user = await User.findOne({ email });
 
