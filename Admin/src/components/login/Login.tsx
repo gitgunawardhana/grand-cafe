@@ -19,8 +19,8 @@ function LoginBox() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const [userName, setUserName] = useState("");
-  const [userPassword, setUserPassword] = useState("");
+  const [userName, setUserName] = useState("admin@gmail.com");
+  const [userPassword, setUserPassword] = useState("Admin@123");
 
   async function loginHandler(e: React.FormEvent) {
     e.preventDefault();
