@@ -69,6 +69,11 @@ function Category() {
           // Handle errors, show an error message, or log the error
           alert("Failed to delete product. Please try again.");
         }
+
+
+
+
+        
       } catch (error) {
         console.error("Error deleting product:", error);
         // Handle the error (e.g., show an error message to the user)

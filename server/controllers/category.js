@@ -1,5 +1,6 @@
 import express from 'express';
 import Category from '../models/Category.js';
+import Product from '../models/Products.js'
 const router = express.Router();
 
 
@@ -37,18 +38,27 @@ export const addCategory = async (req, res, next) => {
 
 
 export const deleteCategory = async (req, res) => {
-  const itemId = req.params.CategoryId;
+  const  categoryId  = req.params.CategoryId;
 
   try {
-    const deletedItem = await Category.findByIdAndDelete(itemId);
-    if (!deletedItem) {
-      return res.status(404).json({ message: "Category not found" });
+    // Find the category by ID
+    const category = await Category.findById(categoryId);
+    console.log(category);
+
+    if (!category) {
+      return res.status(404).json({ error: 'Category not found' });
     }
-    res.status(200).json({ message: "Category deleted successfully" });
+    await Category.findByIdAndDelete(categoryId);
+    // Delete all products with the specified category name
+    await Product.deleteMany({ category: category.category });
+
+    // Delete the category by ID
+   
+
+    res.status(200).json({ message: 'Category and related products deleted successfully' });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error deleting Category", error: error.message });
+    console.error('Error deleting category and products:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
