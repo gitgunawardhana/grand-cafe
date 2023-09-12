@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import useFetch from "../hook/useFetch";
 import { useParams } from "react-router-dom";
 import EditProduct from "../components/edit/editProduct/EditProduct";
-import { IProductsTable } from "../interfaces/Itable";
 
-import LoadingSpinner from "../components/UI/loadingSpinner/LoadingSpinner";
 export interface Product {
   _id: string;
   name: string;

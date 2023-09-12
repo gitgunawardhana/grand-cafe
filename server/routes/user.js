@@ -11,19 +11,23 @@ import {
   getBookingSeatsByUserId,
   getCurrentUser,
   getUserByEmail,
+  getUserById,
   updateCurrentUser,
   updateSeats,
+  updateUserByID,
 } from "../controllers/user.js";
 import { verify } from "../utils/checkAuth.js";
 
 const router = express.Router();
 
 // user details
-router.get("/get-all-users", verify, getAllUsers);
+router.get("/get-all-users", getAllUsers);
 router.get("/get-current-user", verify, getCurrentUser);
 router.put("/update-current-user", verify, updateCurrentUser);
+router.put("/update-user-by-id", updateUserByID);
 router.get("/get-user-by-email", verify, getUserByEmail);
-router.delete("/delete-user-by-email", verify, deleteUserByEmail);
+router.get("/get-user-by-id", getUserById);
+router.delete("/delete-user-by-email", deleteUserByEmail);
 
 // table booking
 router.get("/get-all-seats", verify, getAllSeats);

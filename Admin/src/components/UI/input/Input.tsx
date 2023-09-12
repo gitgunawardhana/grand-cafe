@@ -10,7 +10,7 @@ interface Props {
   placeholder?: string;
   classes?: string;
   value?: string;
-  ref?: HTMLInputElement;
+  ref?: React.Ref<HTMLInputElement>; // Change the ref type
   readonly?: boolean;
   autocomplete?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -46,7 +46,7 @@ const Input = React.forwardRef<IImperativeHandler, Props>((props, ref) => {
   useImperativeHandle(ref, () => {
     return {
       focus: inputFocused,
-      value: value,
+      value: props.value,
     };
   });
   const { t } = useTranslation();
@@ -54,16 +54,16 @@ const Input = React.forwardRef<IImperativeHandler, Props>((props, ref) => {
     <div className={`${classes.form__control} ${props.classes}`}>
       <label htmlFor={props.id}>{t(`${props.id}`)}</label>
       <input
-         ref={inputRef}
-         id={props.id}
-         minLength={props.minLength}
-         maxLength={props.maxLength}
-         type={props.type}
-         placeholder={props.placeholder}
-         value={value}
-         readOnly={props.readonly || false}
-         autoComplete={props.autocomplete || "off"}
-         onChange={inputChangeHandler}
+        ref={inputRef}
+        id={props.id}
+        minLength={props.minLength}
+        maxLength={props.maxLength}
+        type={props.type}
+        placeholder={props.placeholder}
+        value={value}
+        readOnly={props.readonly || false}
+        autoComplete={props.autocomplete || "off"}
+        onChange={inputChangeHandler}
       />
     </div>
   );

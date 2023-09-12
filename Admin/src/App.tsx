@@ -1,14 +1,15 @@
 import React, { Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import MainLayout from "./layout/MainLayout";
-import AuthLayout from "./layout/AuthLayout";
 import LoadingSpinner from "./components/UI/loadingSpinner/LoadingSpinner";
+import AuthLayout from "./layout/AuthLayout";
+import MainLayout from "./layout/MainLayout";
 import "./scss/App.scss";
 
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
-const Customers = React.lazy(() => import("./pages/Customers"));
+const CustomerUsers = React.lazy(() => import("./pages/CustomerUsers"));
 const CustomerEdit = React.lazy(() => import("./pages/CustomerEdit"));
+const CustomerUserEdit = React.lazy(() => import("./pages/CustomerUserEdit"));
 const Products = React.lazy(() => import("./pages/Products"));
 const ProductEdit = React.lazy(() => import("./pages/ProductEdit"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
@@ -25,8 +26,12 @@ function App() {
           <Route element={<AuthLayout />}>
             <Route path="/" element={<MainLayout />}>
               <Route index element={<Dashboard />} />
-              <Route path="/customers" element={<Customers />} />
+              <Route path="/customers" element={<CustomerUsers />} />
               <Route path="/customers/:customerId" element={<CustomerEdit />} />
+              <Route
+                path="/customer-user/:customerUserId"
+                element={<CustomerUserEdit />}
+              />
               <Route path="/products" element={<Products />} />
               <Route path="/products/:productId" element={<ProductEdit />} />
               <Route path="/orders" element={<BlankPage />} />
