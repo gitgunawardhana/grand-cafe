@@ -17,6 +17,9 @@ export interface User {
 }
 
 const Main = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
   const [users, setUsers] = useState<User[]>([]);
   const fetchData = async () => {
     try {
@@ -28,6 +31,12 @@ const Main = () => {
       console.error("Error fetching data:", error);
     }
   };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = users.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   useEffect(() => {
     fetchData();
@@ -135,7 +144,7 @@ const Main = () => {
           </thead>
           <tbody>
             {users &&
-              users.map((user: User) => (
+              currentItems.map((user: User) => (
                 <tr key={user.email} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
                     <img
@@ -186,6 +195,26 @@ const Main = () => {
               ))}
           </tbody>
         </table>
+      </div>
+      <div className="flex justify-center mt-4">
+        <ul className="flex">
+          {Array(Math.ceil(users.length / itemsPerPage))
+            .fill(null)
+            .map((_, index) => (
+              <li key={index}>
+                <button
+                  onClick={() => paginate(index + 1)}
+                  className={`${
+                    currentPage === index + 1
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-300"
+                  } px-3 py-1 mx-1 rounded cursor-pointer`}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+        </ul>
       </div>
     </div>
   );
