@@ -16,6 +16,8 @@ const BlankPage = React.lazy(() => import("./pages/BlankPage"));
 const Login = React.lazy(() => import("./pages/Login"));
 const ProductAdd = React.lazy(() => import("./pages/AddProduct"));
 const Category = React.lazy(() => import("./pages/Category"));
+const Inventory = React.lazy(() => import("./pages/Inventory"));
+const AddInventory = React.lazy(() => import("./pages/AddInventory"));
 
 function App() {
   return (
@@ -32,9 +34,10 @@ function App() {
               <Route path="/orders" element={<BlankPage />} />
               <Route path="/analytics" element={<BlankPage />} />
               <Route path="/discount" element={<BlankPage />} />
-              <Route path="/inventory" element={<BlankPage />} />
               <Route path="/addproduct" element={<ProductAdd />} />
               <Route path="/category" element={<Category />} />
+              <Route path="/inventory" element={<Inventory />} />
+              <Route path="/addinventory" element={<AddInventory />} />
             </Route>
           </Route>
           <Route path="/login" element={<Login />} />
