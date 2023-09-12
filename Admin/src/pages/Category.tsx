@@ -42,6 +42,46 @@ function Category() {
     }
   };
 
+  const handleDelete = async (CategoryId: string) => {
+    // Ask the user for confirmation
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this category? The items which is related to this category will also delete "
+    );
+
+    if (confirmDelete) {
+      try {
+        const response = await fetch(
+          `http://localhost:8000/api/category/deleteCategory/${CategoryId}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          // Product deleted successfully, you can redirect or show a success message
+          alert("Product deleted successfully!");
+          // Remove the deleted product from the state
+          
+        } else {
+          // Handle errors, show an error message, or log the error
+          alert("Failed to delete product. Please try again.");
+        }
+
+
+
+
+        
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        // Handle the error (e.g., show an error message to the user)
+      }
+    }
+    fetchData();
+  };
+
   const fetchData = async () => {
     try {
       const res = await fetch(
@@ -97,11 +137,13 @@ function Category() {
                   {option.category}
                 </td>
                 <td className="flex px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800 justify-center items-center">
-                  <Icon
-                    style={{ color: "red" }}
-                    icon="fluent:delete-24-regular"
-                    width="24"
-                  />
+                <Icon
+                      className="hover:scale-125 cursor-pointer"
+                      style={{ color: "red" }}
+                      icon="fluent:delete-24-regular"
+                      width="24"
+                      onClick={() => handleDelete(option._id)}
+                    />
                 </td>
               </tr>
             ))}
