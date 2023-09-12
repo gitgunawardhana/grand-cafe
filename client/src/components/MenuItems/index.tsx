@@ -67,7 +67,7 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
               <div className="grid items-center justify-center rounded-md p-4">
                 <div className="flex items-center justify-center">
                   <img
-                    src={`data:image/jpeg;base64,${product.image}`}
+                    src={product.image}
                     alt={product.name}
                     className="h-auto w-4/6 rounded-full"
                   />
