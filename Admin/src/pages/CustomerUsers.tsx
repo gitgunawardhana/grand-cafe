@@ -3,7 +3,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import Button from "../components/UI/button/Button";
 
 export interface User {
   _id: string;
@@ -111,10 +110,10 @@ const Main = () => {
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <div></div>
+        {/* <div></div>
         <div>
           <Button to="/addproduct">Add items</Button>
-        </div>
+        </div> */}
       </div>
       <br />
       <div className="w-full flex justify-center items-stretch bg-gray-200 p-10 rounded-3xl">
