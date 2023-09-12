@@ -34,42 +34,69 @@ const Main = () => {
   }, []);
 
   const deleteUser = async (emailToDelete: string) => {
-    // Send a DELETE request
-    axios
-      .delete(
-        `http://localhost:8000/api/user/delete-user-by-email?email=${emailToDelete}`
-      )
-      .then((response) => {
-        // Handle success
-        console.log("User deleted successfully:", response.data);
-      })
-      .then(() => {
-        setUsers((prevUsers) =>
-          prevUsers.filter((user) => user.email !== emailToDelete)
-        );
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          text: "User deleted successfully",
-          background: "#A96C07",
-          color: "#fff",
-          showConfirmButton: false,
-          timer: 5000,
-        });
-      })
-      .catch((error) => {
-        // Handle error
-        console.error("Error deleting user:", error);
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          text: "Error deleting user. Please try again later.",
-          background: "#A96C07",
-          color: "#fff",
-          showConfirmButton: false,
-          timer: 3000,
-        });
+    try {
+      const result = await Swal.fire({
+        title: `Are you sure you want to delete this user?`,
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        background: "#A96C07",
+        color: "#fff",
+        confirmButtonColor: "#198754",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, update it!",
       });
+
+      if (result.isConfirmed) {
+        // Send a DELETE request
+        axios
+          .delete(
+            `http://localhost:8000/api/user/delete-user-by-email?email=${emailToDelete}`
+          )
+          .then((response) => {
+            // Handle success
+            console.log("User deleted successfully:", response.data);
+          })
+          .then(() => {
+            setUsers((prevUsers) =>
+              prevUsers.filter((user) => user.email !== emailToDelete)
+            );
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              text: "User deleted successfully",
+              background: "#A96C07",
+              color: "#fff",
+              showConfirmButton: false,
+              timer: 5000,
+            });
+          })
+          .catch((error) => {
+            // Handle error
+            console.error("Error deleting user:", error);
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              text: "Error deleting user. Please try again later.",
+              background: "#A96C07",
+              color: "#fff",
+              showConfirmButton: false,
+              timer: 3000,
+            });
+          });
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        text: "Server Error. Please try again later.",
+        background: "#A96C07",
+        color: "#fff",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    }
   };
 
   return (

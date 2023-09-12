@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import Card from "../../UI/card/Card";
-import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { Product } from "../../../pages/ProductEdit";
-import classes from "./EditProduct.module.scss";
 import { Icon } from "@iconify/react";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { Product } from "../../../pages/ProductEdit";
 import Button from "../../UI/button/Button";
+import Card from "../../UI/card/Card";
 import Input from "../../UI/input/Input";
+import classes from "./EditProduct.module.scss";
 
 export interface Category {
   _id: string;
@@ -14,7 +14,6 @@ export interface Category {
 }
 
 const EditProduct: React.FC<{ product?: Product }> = (props) => {
-  
   const productName = props.product?.name || "";
   const productCategory = props.product?.category || "";
   const productPrice = props.product?.price || "";
@@ -22,7 +21,7 @@ const EditProduct: React.FC<{ product?: Product }> = (props) => {
   const [category, setCategory] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  const [editedProduct, setEditedProduct] =  useState({
+  const [editedProduct, setEditedProduct] = useState({
     _id: props.product?._id || "",
     name: props.product?.name || "",
     image: props.product?.image || "",
@@ -50,12 +49,11 @@ const EditProduct: React.FC<{ product?: Product }> = (props) => {
       [id]: value,
     });
 
-    console.log(editedProduct.name);
+    console.log(editedProduct);
   };
 
   const handleUpdateProduct = async () => {
     try {
-      
       const updatedProductData = {
         ...editedProduct,
         category: selectedCategory || editedProduct?.category,
@@ -70,7 +68,6 @@ const EditProduct: React.FC<{ product?: Product }> = (props) => {
           },
           body: JSON.stringify(updatedProductData),
         }
-       
       );
       console.log(updatedProductData);
       if (response.ok) {
@@ -196,13 +193,17 @@ const EditProduct: React.FC<{ product?: Product }> = (props) => {
                     {editedProduct?.category}
                   </option>
                   {category.map((categoryOption: any) => (
-                    <option key={categoryOption._id} value={categoryOption.category}>
+                    <option
+                      key={categoryOption._id}
+                      value={categoryOption.category}
+                    >
                       {categoryOption.category}
                     </option>
                   ))}
                 </select>
               </div>
-              <br /><br />
+              <br />
+              <br />
               <Input
                 id="price"
                 type="text"

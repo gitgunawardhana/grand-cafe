@@ -54,6 +54,37 @@ export const updateCurrentUser = async (req, res) => {
   }
 };
 
+// ? Update current user
+export const updateUserByID = async (req, res) => {
+  const userId = req.query.userId || req.body.userId;
+  const { firstName, lastName, mobileNo, email, avatar, address, gender } =
+    req.body;
+  try {
+    // Query the database to find the user based on the criteria
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      // If the user is not found, return a 404 status code
+      res.status(404).json({ message: "User not found" });
+    } else {
+      // If the user is found, update the user data and return the updated user
+      user.firstName = firstName;
+      user.lastName = lastName;
+      user.mobileNo = mobileNo;
+      user.email = email;
+      user.avatar = avatar;
+      user.gender = gender;
+      user.address = address;
+      const updatedUser = await user.save({ new: true });
+
+      res.status(200).json(updatedUser);
+    }
+  } catch (err) {
+    // Handle any errors that occur during the process
+    res.status(500).json(err);
+  }
+};
+
 // ? Get user by email
 export const getUserByEmail = async (req, res) => {
   try {

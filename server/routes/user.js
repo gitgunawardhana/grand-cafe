@@ -14,6 +14,7 @@ import {
   getUserById,
   updateCurrentUser,
   updateSeats,
+  updateUserByID,
 } from "../controllers/user.js";
 import { verify } from "../utils/checkAuth.js";
 
@@ -23,6 +24,7 @@ const router = express.Router();
 router.get("/get-all-users", getAllUsers);
 router.get("/get-current-user", verify, getCurrentUser);
 router.put("/update-current-user", verify, updateCurrentUser);
+router.put("/update-user-by-id", updateUserByID);
 router.get("/get-user-by-email", verify, getUserByEmail);
 router.get("/get-user-by-id", getUserById);
 router.delete("/delete-user-by-email", deleteUserByEmail);

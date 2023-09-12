@@ -2,7 +2,9 @@ import { Icon } from "@iconify/react";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import { User } from "../../../pages/CustomerUsers";
+import { convertToBase64 } from "../../../utils/base64";
 import Button from "../../UI/button/Button";
 import Card from "../../UI/card/Card";
 import Input from "../../UI/input/Input";
@@ -16,28 +18,106 @@ const EditCustomerUser: React.FC<{ user?: User }> = (props) => {
   const userMobileNo = props.user?.mobileNo || "";
   const userAddress = props.user?.address || "";
 
+  const [editedUser, setEditedUser] = useState({
+    _id: props.user?._id || "",
+    firstName: props.user?.firstName || "",
+    lastName: props.user?.lastName || "",
+    email: props.user?.email || "",
+    gender: props.user?.gender || "",
+    mobileNo: props.user?.mobileNo || "",
+    address: props.user?.address || "",
+    avatar: props.user?.avatar || "",
+  });
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file: File = e.target.files[0];
+      try {
+        const base64: string = await convertToBase64(file);
+        setEditedUser({
+          ...editedUser,
+          avatar: base64,
+        });
+      } catch (error) {
+        // Handle errors, e.g., display an error message or log the error.
+        console.error("Error converting file to base64:", error);
+      }
+    }
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = event.target;
+    setEditedUser({
+      ...editedUser,
+      [id]: value,
+    });
+
+    console.log(editedUser);
+  };
+
+  const handleUpdateUser = async () => {
+    try {
+      const result = await Swal.fire({
+        title: `Are you sure you want to update user details?`,
+        text: "You will be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        background: "#A96C07",
+        color: "#fff",
+        confirmButtonColor: "#198754",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, update it!",
+      });
+
+      if (result.isConfirmed) {
+        const response = await fetch(
+          `http://localhost:8000/api/user/update-user-by-id?userId=${props.user?._id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(editedUser),
+          }
+        );
+        console.log(editedUser);
+        if (response.ok) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            text: "User details updated successfully!",
+            background: "#A96C07",
+            color: "#fff",
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            text: "Failed to update user details. Please try again.",
+            background: "#A96C07",
+            color: "#fff",
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error updating user details:", error);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        text: "Server Error. Please try again later.",
+        background: "#A96C07",
+        color: "#fff",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    }
+  };
+
   const { t } = useTranslation();
-
-  const [updatedUser, setUpdatedUser] = useState<User | undefined>(props.user);
-
-  const [firstName, setFirstName] = useState(props.user?.firstName || "");
-  const [lastName, setLastName] = useState(props.user?.lastName || "");
-  const [gender, setGender] = useState(props.user?.gender || "");
-  const [email, setEmail] = useState(props.user?.email || "");
-  const [mobileNo, setMobileNo] = useState(props.user?.mobileNo || "");
-  const [address, setAddress] = useState(props.user?.address || "");
-
-  setUpdatedUser((prevUser: User | undefined) => ({
-    ...prevUser,
-    firstName: firstName,
-    lastName: lastName,
-    gender: gender,
-    email: email,
-    mobileNo: mobileNo,
-    address: address,
-  }));
-
-  console.log("updatedUser ", firstName);
 
   return (
     <div className={classes.edit__container}>
@@ -92,14 +172,15 @@ const EditCustomerUser: React.FC<{ user?: User }> = (props) => {
                 <input
                   className={classes.file_input}
                   type="file"
-                  id="pic"
+                  id="avatar"
                   name="pic"
                   accept="image/png, image/jpeg"
+                  onChange={(e) => handleAvatarUpload(e)}
                 />
               </div>
               <img
                 className={classes.pic}
-                src={props.user?.avatar}
+                src={editedUser.avatar}
                 alt="product pic"
               />
             </div>
@@ -109,46 +190,46 @@ const EditCustomerUser: React.FC<{ user?: User }> = (props) => {
               }}
             >
               <Input
-                id="First Name"
+                id="firstName"
                 type="text"
                 placeholder={props.user?.firstName}
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+                value={editedUser?.firstName || ""}
+                onChange={handleInputChange}
               />
               <Input
-                id="Last Name"
+                id="lastName"
                 type="text"
                 placeholder={props.user?.lastName}
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                value={editedUser?.lastName || ""}
+                onChange={handleInputChange}
               />
               <Input
-                id="Gender"
+                id="gender"
                 type="text"
                 placeholder={props.user?.gender}
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
+                value={editedUser?.gender || ""}
+                onChange={handleInputChange}
               />
               <Input
-                id="Email"
+                id="email"
                 type="text"
                 placeholder={props.user?.email}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={editedUser?.email || ""}
+                onChange={handleInputChange}
               />
               <Input
-                id="Mobile No"
+                id="mobileNo"
                 type="text"
                 placeholder={props.user?.mobileNo}
-                value={mobileNo}
-                onChange={(e) => setMobileNo(e.target.value)}
+                value={editedUser?.mobileNo || ""}
+                onChange={handleInputChange}
               />
               <Input
-                id="Address"
+                id="address"
                 type="text"
                 placeholder={props.user?.address}
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
+                value={editedUser?.address || ""}
+                onChange={handleInputChange}
               />
               {/* <Input
                 id="Rating"
@@ -156,11 +237,11 @@ const EditCustomerUser: React.FC<{ user?: User }> = (props) => {
                 placeholder={props.user?.rate.toString()}
               /> */}
               <div className={classes.btn__wrapper}>
-                <Link to="/products">
-                  <Button type="submit">{t("upload")}</Button>
-                </Link>
-                <Link to="/products">
-                  <Button outline={true}>{t("cancel")}</Button>
+                <Button type="button" onClick={handleUpdateUser}>
+                  {t("update")}
+                </Button>
+                <Link to="/customers">
+                  <Button type="button">{t("cancel")}</Button>
                 </Link>
               </div>
             </form>
