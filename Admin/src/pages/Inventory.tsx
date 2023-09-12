@@ -131,7 +131,7 @@ filter = inventory;
                 </td>
                 <td className="flex px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800 justify-center items-center">
                   <div className="px-4">
-                    <Link to={`/products/${item._id}`}>
+                    <Link to={`/inventory/${item._id}`}>
                       <Icon
                         className="hover:scale-125 cursor-pointer"
                         style={{ color: "green" }}

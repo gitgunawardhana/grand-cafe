@@ -5,7 +5,7 @@ import {view , addProduct , deleteProduct, updateProduct } from '../controllers/
 // Use the imported productsController
 router.use('/viewinventory', view);
 router.use('/addInventory', addProduct);
-router.use('/deleteInventory/:InventoryId', deleteProduct);
-router.use('/updateInventory/:InventoryId', updateProduct);
+router.use('/deleteInventory/:inventoryId', deleteProduct);
+router.use('/updateInventory/:inventoryId', updateProduct);
 
 export default router;

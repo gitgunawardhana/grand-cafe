@@ -18,6 +18,7 @@ const ProductAdd = React.lazy(() => import("./pages/AddProduct"));
 const Category = React.lazy(() => import("./pages/Category"));
 const Inventory = React.lazy(() => import("./pages/Inventory"));
 const AddInventory = React.lazy(() => import("./pages/AddInventory"));
+const EditInventory = React.lazy(() => import("./pages/InventoryEdit"));
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
               <Route path="/category" element={<Category />} />
               <Route path="/inventory" element={<Inventory />} />
               <Route path="/addinventory" element={<AddInventory />} />
+              <Route path="/inventory/:InventoryId" element={<EditInventory />} />
             </Route>
           </Route>
           <Route path="/login" element={<Login />} />
