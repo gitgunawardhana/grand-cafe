@@ -172,6 +172,7 @@ const Main = () => {
                           style={{ color: "green" }}
                           icon="fluent:edit-16-regular"
                           width="24"
+                          className="hover:scale-125 cursor-pointer"
                         />
                       </Link>
                     </div>
@@ -186,6 +187,7 @@ const Main = () => {
                           style={{ color: "red" }}
                           icon="fluent:delete-24-regular"
                           width="24"
+                          className="hover:scale-125 cursor-pointer"
                         />
                       </button>
                     </div>
