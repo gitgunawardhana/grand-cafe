@@ -16,6 +16,8 @@ export interface Product {
 const Main = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedValue, setSelectedValue] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const fetchData = async () => {
     try {
       const res = await fetch("http://localhost:8000/api/products/product");
@@ -38,6 +40,7 @@ const Main = () => {
     target: { value: React.SetStateAction<string> };
   }) => {
     setSelectedValue(event.target.value);
+    setCurrentPage(1);
   };
 
   const filtereProducts = products.filter(
@@ -51,6 +54,42 @@ const Main = () => {
     }) => product.category === selectedValue
   );
 
+
+
+
+  const handleDelete = async (productId: string) => {
+    // Ask the user for confirmation
+    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+  
+    if (confirmDelete) {
+      try {
+        const response = await fetch(
+          `http://localhost:8000/api/products/deleteProduct/${productId}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+  
+        if (response.ok) {
+          // Product deleted successfully, you can redirect or show a success message
+          alert("Product deleted successfully!");
+          // Remove the deleted product from the state
+          setProducts((prevProducts) => prevProducts.filter((product) => product._id !== productId));
+        } else {
+          // Handle errors, show an error message, or log the error
+          alert("Failed to delete product. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        // Handle the error (e.g., show an error message to the user)
+      }
+    }
+    fetchData();
+  };
+
   let filter: Product[];
 
   if (!selectedValue) {
@@ -61,7 +100,12 @@ const Main = () => {
     filter = filtereProducts;
   }
 
-  
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filter.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
@@ -109,7 +153,7 @@ const Main = () => {
             </tr>
           </thead>
           <tbody>
-            {filter.map((product: Product) => (
+            {currentItems.map((product: Product) => (
               <tr key={product._id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
                   {product.name}
@@ -127,6 +171,7 @@ const Main = () => {
                   <div className="px-4">
                     <Link to={`/products/${product._id}`}>
                       <Icon
+                       className="hover:scale-125 cursor-pointer"
                         style={{ color: "green" }}
                         icon="fluent:edit-16-regular"
                         width="24"
@@ -135,9 +180,12 @@ const Main = () => {
                   </div>
                   <div className="px-4">
                     <Icon
-                      style={{ color: "red" }}
+                      className="hover:scale-125 cursor-pointer"
+                      style={{ color: "red"}}
                       icon="fluent:delete-24-regular"
                       width="24"
+                      onClick={() => handleDelete(product._id)}
+                      
                     />
                   </div>
                 </td>
@@ -146,6 +194,24 @@ const Main = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="flex justify-center mt-4">
+        <ul className="flex">
+          {Array(Math.ceil(filter.length / itemsPerPage))
+            .fill(null)
+            .map((_, index) => (
+              <li key={index}>
+                <button
+                  onClick={() => paginate(index + 1)}
+                  className={`${
+                    currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-gray-300"
+                  } px-3 py-1 mx-1 rounded cursor-pointer`}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+        </ul>
       </div>
     </div>
   );

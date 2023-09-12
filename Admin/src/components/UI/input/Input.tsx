@@ -13,6 +13,7 @@ interface Props {
   ref?: HTMLInputElement;
   readonly?: boolean;
   autocomplete?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface IImperativeHandler {
@@ -24,9 +25,19 @@ const Input = React.forwardRef<IImperativeHandler, Props>((props, ref) => {
   const [value, setValue] = useState(props.value || "");
 
   function inputChangeHandler(e: React.FormEvent<HTMLInputElement>) {
-    setValue(e.currentTarget.value);
-  }
+    const newValue = e.currentTarget.value;
+    setValue(newValue);
 
+    // Create a new ChangeEvent-like object manually
+    const changeEvent = {
+      target: e.currentTarget,
+    } as React.ChangeEvent<HTMLInputElement>;
+
+    // Invoke the callback when the input value changes
+    if (props.onChange) {
+      props.onChange(changeEvent); // Pass the custom event object
+    }
+  }
   function inputFocused() {
     inputRef.current?.focus();
     inputRef.current?.setAttribute("style", "border:2px solid red");
@@ -43,16 +54,16 @@ const Input = React.forwardRef<IImperativeHandler, Props>((props, ref) => {
     <div className={`${classes.form__control} ${props.classes}`}>
       <label htmlFor={props.id}>{t(`${props.id}`)}</label>
       <input
-        ref={inputRef}
-        id={props.id}
-        minLength={props.minLength}
-        maxLength={props.maxLength}
-        type={props.type}
-        placeholder={props.placeholder}
-        value={value}
-        readOnly={props.readonly || false}
-        onChange={inputChangeHandler}
-        autoComplete={props.autocomplete || "off"}
+         ref={inputRef}
+         id={props.id}
+         minLength={props.minLength}
+         maxLength={props.maxLength}
+         type={props.type}
+         placeholder={props.placeholder}
+         value={value}
+         readOnly={props.readonly || false}
+         autoComplete={props.autocomplete || "off"}
+         onChange={inputChangeHandler}
       />
     </div>
   );
