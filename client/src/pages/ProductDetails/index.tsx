@@ -110,7 +110,7 @@ const ProductDetails: React.FC = () => {
         <div className="flex items-center justify-center">
           <div className=" m-6 flex h-modal w-4/6 items-center justify-center rounded-3xl !bg-opacity-25 bg-gradient-to-b from-gradient-yellow-100-15 to-gradient-yellow-900-10 p-10 shadow-md">
             <div className="px-6 pb-4 pt-2">
-              <MuiRating rateValue={selectedProduct.rateValue} />
+              <MuiRating rateValue={selectedProduct.rate} />
               <br />
               <h1 className="mb-2 !bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text font-extrabold !capitalize text-transparent md:text-lg">
                 {selectedProduct.name}
