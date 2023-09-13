@@ -15,9 +15,10 @@ export const viewOrder = async (req, res, next) => {
 export const addOrder = async (req, res, next) => {
   try {
     console.log("Request Body:", req.body); 
-    const { email, amount, status } = req.body;
+    const { name,email, amount, status } = req.body;
 
     const newItem = new Order({
+    name,
       email,
       amount,
       status,

@@ -58,14 +58,14 @@ const Main = () => {
   );
 
   const filtereProducts = products.filter(
-    (product: {
+    (item: {
       _id: string;
       name: string;
       price: string;
       image: string;
       rate: number;
       category: string;
-    }) => product.category == selectedCategory
+    }) => item.category == selectedCategory
   );
 
   let filter: Product[];

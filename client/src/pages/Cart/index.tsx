@@ -79,6 +79,8 @@ const CartPage = () => {
     email = sessionStorage.email;
    }
 
+   
+
    const confirmOrder = window.confirm(
     "Are you sure to proceed?"
   );
