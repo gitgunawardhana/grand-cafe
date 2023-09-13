@@ -28,13 +28,6 @@ export const addOrder = async (req, res) => {
   }
 
   try {
-<<<<<<< Updated upstream
-    console.log("Request Body:", req.body); 
-    const { name,email, amount, status } = req.body;
-
-    const newItem = new Order({
-    name,
-=======
     // Create an array to store the order items with quantities
     const orderItems = [];
 
@@ -56,7 +49,6 @@ export const addOrder = async (req, res) => {
     const newOrder = new Order({
       user: fName,
       items: orderItems, // Include the order items array
->>>>>>> Stashed changes
       email,
       amount,
       status,
