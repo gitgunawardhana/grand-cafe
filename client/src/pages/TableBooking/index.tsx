@@ -107,7 +107,7 @@ const Main = () => {
   const getBookingSeatNumbersByUserId = async () => {
     try {
       const res = await axiosJWT.get(
-        "user/get-all-seat-booking-by-user?snumber=true",
+        "user/get-all-pending-seat-booking-by-user?snumber=true",
         {
           headers: {
             authorization: "Bearer " + sessionStorage.getItem("accessToken"),
