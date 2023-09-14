@@ -1,8 +1,7 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
-import Summary from "../components/summary/Summary";
 import SaleChart from "../components/chart/Chart";
-import DashboardTables from "../components/tables/DashboardTables";
+import Summary from "../components/summary/Summary";
+// import DashboardTables from "../components/tables/DashboardTables";
 
 function Dashboard() {
   const { t } = useTranslation();
@@ -11,7 +10,7 @@ function Dashboard() {
       <h2 className="title">{t("dashboard")}</h2>
       <Summary />
       <SaleChart />
-      <DashboardTables />
+      {/* <DashboardTables /> */}
     </section>
   );
 }

@@ -277,8 +277,8 @@ export const getOrdersCountByMonth = async (req, res) => {
   }
 };
 
-// Define a function to get revenue for each month
-export const getRevenueByMonth = async (req, res) => {
+// Define a function to get sales for each month
+export const getSalesByMonth = async (req, res) => {
   try {
     const ordersByMonth = await Order.aggregate([
       {
@@ -287,27 +287,27 @@ export const getRevenueByMonth = async (req, res) => {
             month: { $month: "$createdAt" },
             year: { $year: "$createdAt" },
           },
-          totalRevenue: { $sum: "$amount" },
+          totalSales: { $sum: "$amount" },
         },
       },
     ]);
 
-    // Generate an object to store revenue for each month
-    const revenueByMonth = {};
+    // Generate an object to store sales for each month
+    const salesByMonth = {};
     ordersByMonth.forEach((item) => {
       const month = item._id.month;
       const year = item._id.year;
       const monthKey = `${year}-${month.toString().padStart(2, "0")}`;
-      revenueByMonth[monthKey] = item.totalRevenue;
+      salesByMonth[monthKey] = item.totalSales;
     });
 
-    // Fill in months with no revenue and set noOfRevenue to 0
+    // Fill in months with no sales and set noOfSales to 0
     allMonths.forEach((month, index) => {
       const monthKey = `${new Date().getFullYear()}-${(index + 1)
         .toString()
         .padStart(2, "0")}`;
-      if (!revenueByMonth.hasOwnProperty(monthKey)) {
-        revenueByMonth[monthKey] = 0;
+      if (!salesByMonth.hasOwnProperty(monthKey)) {
+        salesByMonth[monthKey] = 0;
       }
     });
 
@@ -318,21 +318,19 @@ export const getRevenueByMonth = async (req, res) => {
         .padStart(2, "0")}`;
       return {
         month,
-        noOfRevenue: revenueByMonth[monthKey],
+        noOfSales: salesByMonth[monthKey],
       };
     });
 
-    // Calculate the revenue for the current month
+    // Calculate the sales for the current month
     const currentMonthKey = `${new Date().getFullYear()}-${(
       new Date().getMonth() + 1
     )
       .toString()
       .padStart(2, "0")}`;
-    const thisMonthRevenue = revenueByMonth[currentMonthKey] || 0;
+    const thisMonthSales = salesByMonth[currentMonthKey] || 0;
 
-    res
-      .status(200)
-      .json({ data: result, thisMonthRevenue, message: "Success" });
+    res.status(200).json({ data: result, thisMonthSales, message: "Success" });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
