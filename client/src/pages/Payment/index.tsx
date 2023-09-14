@@ -5,11 +5,12 @@ const Main = () => {
     const [hash, setHash] = useState()
 
     useEffect(() => {
-      axios.get("localhost:8000/payment")
+      axios.get("http://localhost:8000/api/payment")
         .then((res)=>{
-            setHash(res.data.hash)
+            setHash(res.data)
         })
     }, [])
+    console.log(hash);
     
   return (
     <div>

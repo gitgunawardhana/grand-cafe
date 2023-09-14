@@ -6,6 +6,7 @@ import categoryController from "./category.js";
 import inventoryController from "./inventory.js";
 import productsController from "./products.js";
 import ordersController from "./order.js";
+import {payment} from "../controllers/payment.js";
 import userRoutes from "./user.js";
 
 const router = express.Router();
@@ -18,5 +19,6 @@ router.use("/add_cart", cartController);
 router.use("/category", categoryController);
 router.use("/inventory", inventoryController);
 router.use("/order", ordersController);
+router.get("/payment", payment);
 
 export default router;
