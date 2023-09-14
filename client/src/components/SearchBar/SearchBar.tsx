@@ -129,7 +129,7 @@ const SearchBar: React.FC<SearchBarProps> = (props) => {
                 >
                   <div className="py-5 xs:flex">
                     <img
-                      src={`data:image/jpeg;base64,${suggestion.image}`}
+                      src={suggestion.image}
                       className="mx-auto h-12 w-20 rounded-lg xs:mx-0"
                     />
                     <div className="xs:text-le mx-auto my-auto mt-1 overflow-hidden text-center text-sm font-bold text-white group-hover:text-white xs:ml-4 xs:text-left xs:text-base">

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import { NavLink } from "react-router-dom";
 import BeveragesIcon from "../../assets/categoryIcon/BeveragesIcon.svg";
@@ -30,21 +30,33 @@ interface CartItem {
   category: string;
 }
 
+interface Category {
+  _id: string;
+  category: string;
+}
+
 let subTotal = 0;
 
 const Main = () => {
   const { products, selectedCategory } = useContext(ProviderContext);
 
-  const categories = [
-    { title: "All Meals", value: "all", icon: OurSpecialsIcon },
-    { title: "Our Specials", value: "ourspecial", icon: OurSpecialsIcon },
-    { title: "Rice", value: "rice", icon: OurSpecialsIcon },
-    { title: "Burger", value: "burger", icon: BurgerIcon },
-    { title: "Beverages", value: "beverage", icon: BeveragesIcon },
-    { title: "Noodles", value: "noodels", icon: NoodlesIcon },
-    { title: "Meat", value: "meal", icon: MeatIcon },
-    { title: "Pasta", value: "pasta", icon: PastaIcon },
-  ];
+  const [categories, setCategories] = useState<Category[]>([]); 
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/category/viewcategory"
+      );
+      if (response.data.data) {
+        setCategories([{ _id: 'all', category: 'All' }, ...response.data.data]);
+       console.log("Success");
+      }
+      console.log("Error fetching cart data");
+    } catch (error) {
+      console.error("Error fetching cart data:", error);
+      
+    }
+  };
 
   const filteredProducts = products.filter(
     (item: {
@@ -58,26 +70,29 @@ const Main = () => {
   );
 
   const filtereProducts = products.filter(
-    (product: {
+    (item: {
       _id: string;
       name: string;
       price: string;
       image: string;
       rate: number;
       category: string;
-    }) => product.category == selectedCategory
+    }) => item.category == selectedCategory
   );
 
   let filter: Product[];
 
   if (!selectedCategory) {
     filter = products;
-  } else if (selectedCategory == "all") {
+  } else if (selectedCategory == "All") {
     filter = products;
   } else {
     filter = filtereProducts;
   }
-
+  useEffect(() => {
+    // Fetch categories when the component mounts
+    fetchCategories();
+  }, []);
   console.log("Filter Product : ", filtereProducts);
   return (
     <>
@@ -147,7 +162,7 @@ const Main = () => {
               {filteredProducts
                 .sort((a: any, b: any) => b.rate - a.rate)
                 .slice(0, 3)
-                .map((item: any) => Card(item))}
+                .map((product: any) => Card(product))}
               //changed
             </div>
           </div>
@@ -164,7 +179,7 @@ const Main = () => {
 
 export default Main;
 
-function Category(item: { title: string; value: string; icon: string }) {
+function Category(item: { category: string; }) {
   const { setSelectedCategory } = useContext(ProviderContext);
 
   const handleCategoryClick = (categoryTitle: string) => {
@@ -174,20 +189,20 @@ function Category(item: { title: string; value: string; icon: string }) {
 
   return (
     <div
-      key={item.title}
+      key={item.category}
       className="group/category-item flex justify-center px-2"
     >
       <Button
-        onClick={() => handleCategoryClick(item.value)}
+        onClick={() => handleCategoryClick(item.category)}
         className="m-0 !max-w-full !grow gap-2 border-none !bg-transparent text-xs font-semibold capitalize shadow-none hover:shadow-none md:text-sm"
       >
-        <img
+        {/* <img
           src={item.icon}
           alt=""
           className="h-5 w-5 overflow-hidden rounded-lg object-cover transition-transform duration-300 group-hover/category-item:rotate-12 group-hover/category-item:scale-125"
-        />
+        /> */}
         <p className="my-auto !bg-gradient-to-tl from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent transition-transform duration-500 group-hover/category-item:scale-110 group-hover/category-item:from-gradient-yellow-900 group-hover/category-item:to-gradient-yellow-500">
-          {item.title}
+          {item.category}
         </p>
       </Button>
     </div>

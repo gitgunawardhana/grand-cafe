@@ -79,12 +79,21 @@ const CartPage = () => {
     email = sessionStorage.email;
    }
 
+   
+
    const confirmOrder = window.confirm(
     "Are you sure to proceed?"
   );
 
   if (confirmOrder) {
     try {
+
+      const orderItems = cartItems.map((cartItem) => ({
+        cartItem: cartItem._id, // Assuming _id is the identifier for cart items
+        quantity: cartItem.quantity,
+      }));
+
+      
       const response = await fetch("http://localhost:8000/api/order/addOrder", {
         method: "POST",
         headers: {
@@ -94,9 +103,10 @@ const CartPage = () => {
           email: email,
           amount: total,
           status: "Pending",
+          items: cartItems,
         }),
       });
-      if (response.status === 201) {
+      if (response.status === 201 || response.status === 200 ) {
         // Handle success
         console.log("Success");
         alert("Order added!");
