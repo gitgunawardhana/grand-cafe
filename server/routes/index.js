@@ -4,8 +4,9 @@ import authRoutes from "./auth.js";
 import cartController from "./cart.js";
 import categoryController from "./category.js";
 import inventoryController from "./inventory.js";
-import productsController from "./products.js";
+import itemSalesRoutes from "./itemSales.js";
 import ordersController from "./order.js";
+import productsController from "./products.js";
 import userRoutes from "./user.js";
 
 const router = express.Router();
@@ -18,5 +19,6 @@ router.use("/add_cart", cartController);
 router.use("/category", categoryController);
 router.use("/inventory", inventoryController);
 router.use("/order", ordersController);
+router.use("/item-sales", itemSalesRoutes);
 
 export default router;
