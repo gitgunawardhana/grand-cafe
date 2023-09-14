@@ -1,8 +1,8 @@
 import express from "express";
-import Order from "../models/Order.js";
-const router = express.Router();
-import User from "../models/User.js";
 import Cart from "../models/Cart.js";
+import Order from "../models/Order.js";
+import User from "../models/User.js";
+const router = express.Router();
 
 export const viewOrder = async (req, res, next) => {
   try {
@@ -61,17 +61,16 @@ export const addOrder = async (req, res) => {
   }
 };
 
-
 // export const addOrde = async (req, res, next) => {
 //   try {
-//     console.log("Request Body:", req.body); 
+//     console.log("Request Body:", req.body);
 //     const { email, amount, status } = req.body;
 
 //     const newItem = new Order({
 //       email,
 //       amount,
 //       status,
-     
+
 //     });
 
 //     console.log("New Item:", newItem); // Check the newItem object
@@ -87,7 +86,6 @@ export const addOrder = async (req, res) => {
 //       });
 //   }
 // };
-
 
 export const updateOrder = async (req, res) => {
   try {
@@ -115,5 +113,160 @@ export const updateOrder = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error updating product", error: error.message });
+  }
+};
+
+// Define a function to get orders for the current month
+export const getOrdersForCurrentMonth = async (req, res) => {
+  try {
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+
+    const endOfMonth = new Date();
+    endOfMonth.setMonth(endOfMonth.getMonth() + 1);
+    endOfMonth.setDate(1);
+
+    const orders = await Order.find({
+      createdAt: {
+        $gte: startOfMonth,
+        $lt: endOfMonth,
+      },
+    });
+
+    res.status(200).json({ data: orders, message: "Success" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// Define a function to get orders count for each month
+export const getOrdersCountByCurrentMonth = async (req, res) => {
+  try {
+    const ordersByMonth = await Order.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+            $lt: new Date(
+              new Date().getFullYear(),
+              new Date().getMonth() + 1,
+              1
+            ),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { $month: "$createdAt" },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          month: {
+            $switch: {
+              branches: [
+                { case: { $eq: ["$_id", 1] }, then: "jan" },
+                { case: { $eq: ["$_id", 2] }, then: "feb" },
+                { case: { $eq: ["$_id", 3] }, then: "mar" },
+                { case: { $eq: ["$_id", 4] }, then: "apr" },
+                { case: { $eq: ["$_id", 5] }, then: "may" },
+                { case: { $eq: ["$_id", 6] }, then: "jun" },
+                { case: { $eq: ["$_id", 7] }, then: "jul" },
+                { case: { $eq: ["$_id", 8] }, then: "aug" },
+                { case: { $eq: ["$_id", 9] }, then: "sep" },
+                { case: { $eq: ["$_id", 10] }, then: "oct" },
+                { case: { $eq: ["$_id", 11] }, then: "nov" },
+                { case: { $eq: ["$_id", 12] }, then: "dec" },
+              ],
+              default: "unknown",
+            },
+          },
+          noOfOrders: "$count",
+        },
+      },
+    ]);
+
+    res.status(200).json({ data: ordersByMonth, message: "Success" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// Define a function to get orders count for each month
+export const getOrdersCountByMonth = async (req, res) => {
+  try {
+    const allMonths = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "July",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const ordersByMonth = await Order.aggregate([
+      {
+        $group: {
+          _id: { $month: "$createdAt" },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          month: {
+            $switch: {
+              branches: [
+                { case: { $eq: ["$_id", 1] }, then: "Jan" },
+                { case: { $eq: ["$_id", 2] }, then: "Feb" },
+                { case: { $eq: ["$_id", 3] }, then: "Mar" },
+                { case: { $eq: ["$_id", 4] }, then: "Apr" },
+                { case: { $eq: ["$_id", 5] }, then: "May" },
+                { case: { $eq: ["$_id", 6] }, then: "Jun" },
+                { case: { $eq: ["$_id", 7] }, then: "July" },
+                { case: { $eq: ["$_id", 8] }, then: "Aug" },
+                { case: { $eq: ["$_id", 9] }, then: "Sep" },
+                { case: { $eq: ["$_id", 10] }, then: "Oct" },
+                { case: { $eq: ["$_id", 11] }, then: "Nov" },
+                { case: { $eq: ["$_id", 12] }, then: "Dec" },
+              ],
+              default: "unknown",
+            },
+          },
+          noOfOrders: "$count",
+        },
+      },
+    ]);
+
+    // Generate an object to store counts for each month
+    const countsByMonth = {};
+    ordersByMonth.forEach((item) => {
+      countsByMonth[item.month] = item.noOfOrders;
+    });
+
+    // Fill in months with no orders and set noOfOrders to 0
+    allMonths.forEach((month) => {
+      if (!countsByMonth.hasOwnProperty(month)) {
+        countsByMonth[month] = 0;
+      }
+    });
+
+    // Create an array of objects in the desired format
+    const result = allMonths.map((month) => ({
+      month,
+      noOfOrders: countsByMonth[month],
+    }));
+
+    res.status(200).json({ data: result, message: "Success" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
   }
 };
