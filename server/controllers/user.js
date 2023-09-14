@@ -256,6 +256,39 @@ export const getBookingSeatsByUserId = async (req, res) => {
   }
 };
 
+// ? Get all pending seat booking by user ID, where the parameter called 'snumber=true' is passed then the output will be the extract seat number only.
+export const getPendingBookingSeatsByUserId = async (req, res) => {
+  const userId = req.user.id;
+  const showSeatNumbers = req.query.snumber === "true";
+  const currentDateTime = new Date();
+
+  try {
+    const userBookingSeats = await SeatBooking.find({
+      user: userId,
+      inDateTime: { $gte: currentDateTime }, // Filter out past bookings
+    }).populate("bookingSeats");
+
+    if (!userBookingSeats) {
+      return res
+        .status(404)
+        .json({ error: "No booking seats found for this user" });
+    }
+
+    // Extract and return seat numbers if showSeatNumbers is true
+    if (showSeatNumbers) {
+      const seatNumbers = userBookingSeats.map((booking) =>
+        booking.bookingSeats.map((seat) => seat.number)
+      );
+      res.status(200).json(seatNumbers);
+    } else {
+      res.status(200).json(userBookingSeats);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 // ? Seat booking delete from booking id
 export const deleteSeatBookingById = async (req, res) => {
   const bookingId = req.params.id;

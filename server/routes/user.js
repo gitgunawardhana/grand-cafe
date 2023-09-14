@@ -11,6 +11,7 @@ import {
   getAvailableSeats,
   getBookingSeatsByUserId,
   getCurrentUser,
+  getPendingBookingSeatsByUserId,
   getUserByEmail,
   getUserById,
   updateCurrentUser,
@@ -37,6 +38,11 @@ router.put("/update-all-seats", verify, updateSeats);
 router.post("/create-seat-booking", verify, createSeatBooking);
 router.get("/get-all-seat-booking", verify, getAllSeatBooking);
 router.get("/get-all-seat-booking-by-user", verify, getBookingSeatsByUserId);
+router.get(
+  "/get-all-pending-seat-booking-by-user",
+  verify,
+  getPendingBookingSeatsByUserId
+);
 router.delete("/delete-seats-booking/:id", verify, deleteSeatBookingById);
 router.delete("/delete-seats-booking-by-user", verify, deleteSeatBookingByUser);
 
