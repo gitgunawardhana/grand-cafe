@@ -19,7 +19,7 @@ const data = {
     {
       title: "Revenue",
       value: "$2.530",
-      icon: "bi:coin",
+      icon: "tdesign:money",
     },
   ],
   revenueByMonths: {
@@ -37,7 +37,7 @@ const data = {
       "Nov",
       "Dec",
     ],
-    data: [250, 200, 300, 280, 100, 220, 310, 190, 200, 120, 250, 350],
+    data: [250, 200, 300, 280, 100, 220, 310, 190, 200, 120, 250, 0],
   },
   topCustomers: {
     head: ["customer", "totalOrders", "totalSpending"],

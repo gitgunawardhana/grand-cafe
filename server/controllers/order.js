@@ -212,24 +212,24 @@ export const getOrdersCountByCurrentMonth = async (req, res) => {
   }
 };
 
+const allMonths = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "July",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
 // Define a function to get orders count for each month
 export const getOrdersCountByMonth = async (req, res) => {
   try {
-    const allMonths = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "July",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-
     const ordersByMonth = await Order.aggregate([
       {
         $group: {
@@ -283,7 +283,74 @@ export const getOrdersCountByMonth = async (req, res) => {
       noOfOrders: countsByMonth[month],
     }));
 
-    res.status(200).json({ data: result, message: "Success" });
+    const currentMonthIndex = new Date().getMonth();
+    const currentMonth = allMonths[currentMonthIndex];
+    const noOfOrdersForThisMonth = countsByMonth[currentMonth] || 0;
+
+    res
+      .status(200)
+      .json({ data: result, noOfOrdersForThisMonth, message: "Success" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// Define a function to get revenue for each month
+export const getRevenueByMonth = async (req, res) => {
+  try {
+    const ordersByMonth = await Order.aggregate([
+      {
+        $group: {
+          _id: {
+            month: { $month: "$createdAt" },
+            year: { $year: "$createdAt" },
+          },
+          totalRevenue: { $sum: "$amount" },
+        },
+      },
+    ]);
+
+    // Generate an object to store revenue for each month
+    const revenueByMonth = {};
+    ordersByMonth.forEach((item) => {
+      const month = item._id.month;
+      const year = item._id.year;
+      const monthKey = `${year}-${month.toString().padStart(2, "0")}`;
+      revenueByMonth[monthKey] = item.totalRevenue;
+    });
+
+    // Fill in months with no revenue and set noOfRevenue to 0
+    allMonths.forEach((month, index) => {
+      const monthKey = `${new Date().getFullYear()}-${(index + 1)
+        .toString()
+        .padStart(2, "0")}`;
+      if (!revenueByMonth.hasOwnProperty(monthKey)) {
+        revenueByMonth[monthKey] = 0;
+      }
+    });
+
+    // Create an array of objects in the desired format
+    const result = allMonths.map((month, index) => {
+      const monthKey = `${new Date().getFullYear()}-${(index + 1)
+        .toString()
+        .padStart(2, "0")}`;
+      return {
+        month,
+        noOfRevenue: revenueByMonth[monthKey],
+      };
+    });
+
+    // Calculate the revenue for the current month
+    const currentMonthKey = `${new Date().getFullYear()}-${(
+      new Date().getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}`;
+    const thisMonthRevenue = revenueByMonth[currentMonthKey] || 0;
+
+    res
+      .status(200)
+      .json({ data: result, thisMonthRevenue, message: "Success" });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }

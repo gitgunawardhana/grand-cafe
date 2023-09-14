@@ -7,6 +7,8 @@ import SummaryBox from "./SummaryBox";
 
 function Summary() {
   const [ordersForCurrentMonth, setOrdersForCurrentMonth] = useState<number>();
+  const [revenueForCurrentMonth, setRevenueForCurrentMonth] =
+    useState<number>();
 
   const [summaryData, setSummaryData] = useState<IsummData[]>([
     {
@@ -22,7 +24,7 @@ function Summary() {
       currency: "",
     },
     {
-      icon: "", // jam:coin
+      icon: "tdesign:money", // jam:coin
       text: "thisMonthRevenue",
       amount: "revenueAmount",
       currency: "currency",
@@ -36,8 +38,21 @@ function Summary() {
       );
       if (response.data.data) {
         setOrdersForCurrentMonth(response.data.data[0].noOfOrders);
-        // response.data.data;
-        console.log("Success fetching order data");
+      } else {
+        console.log("Error fetching order data");
+      }
+    } catch (error) {
+      console.error("Error fetching order data:", error);
+    }
+  };
+
+  const getRevenueForCurrentMonth = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/order/revenue-by-month"
+      );
+      if (response.data.data) {
+        setRevenueForCurrentMonth(response.data.thisMonthRevenue);
       } else {
         console.log("Error fetching order data");
       }
@@ -48,9 +63,9 @@ function Summary() {
 
   useEffect(() => {
     getOrdersForCurrentMonth();
+    getRevenueForCurrentMonth();
   }, []);
 
-  // Whenever ordersForCurrentMonth changes, update the corresponding value in summaryData
   useEffect(() => {
     setSummaryData((prevSummaryData) => {
       const updatedSummaryData = [...prevSummaryData];
@@ -64,6 +79,20 @@ function Summary() {
       return updatedSummaryData;
     });
   }, [ordersForCurrentMonth]);
+
+  useEffect(() => {
+    setSummaryData((prevSummaryData) => {
+      const updatedSummaryData = [...prevSummaryData];
+      const ordersIndex = updatedSummaryData.findIndex(
+        (item) => item.text === "thisMonthRevenue"
+      );
+      if (ordersIndex !== -1) {
+        updatedSummaryData[ordersIndex].amount =
+          revenueForCurrentMonth?.toString() ?? "0";
+      }
+      return updatedSummaryData;
+    });
+  }, [revenueForCurrentMonth]);
 
   const { t } = useTranslation();
   return (
