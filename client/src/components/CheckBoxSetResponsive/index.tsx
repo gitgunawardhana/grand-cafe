@@ -1,6 +1,10 @@
 import { twMerge } from "tailwind-merge";
-import React from "react";
-import { Product } from "../Provider";
+
+interface Gender {
+  id: string;
+  label: string;
+  value: string;
+}
 
 export interface CheckBoxSetResponsiveProps {
   className?: string;
@@ -10,22 +14,24 @@ export interface CheckBoxSetResponsiveProps {
   price?: number;
   name?: string;
   selectedOption?: string | string[] | null; // Change the type to string or null
-  onOptionChange?: (optionValue: string, checked: boolean) => void; 
+  onOptionChange?: (optionValue: string, checked: boolean) => void;
   inputClassName?: string;
   labelClassName?: string;
   type?: "radio" | "checkbox";
-  dataset?: {
-    id: string;
-    label: string;
-    price: number;
-    value: string;
-  }[];}
-  
-
+  dataset?:
+    | {
+        id: string;
+        label: string;
+        price: number;
+        value: string;
+      }[]
+    | Gender[];
+  checkedValue?: string;
+  disabled?: boolean;
+}
 
 const Main = (props: CheckBoxSetResponsiveProps) => {
-  const { dataset, type, name} = props;
-
+  const { dataset, type, name } = props;
 
   return (
     <div className="relative sm:flex">
@@ -44,20 +50,24 @@ const Main = (props: CheckBoxSetResponsiveProps) => {
             <div className="flex items-center pl-3">
               <input
                 id={item.id}
-                type={type} 
-                value={item.value} 
+                type={type}
+                value={item.value}
                 name={name}
-                
                 className={twMerge([
                   "h-4 w-4 transform-cpu bg-[#fadf85] checked:text-gradient-yellow-900 hover:scale-125 focus:ring-0 focus:ring-transparent",
                   props.inputClassName && props.inputClassName,
                 ])}
                 onChange={(e) => {
                   if (props.onOptionChange) {
-                    props.onOptionChange(String(item.price), e.target.checked);
+                    props.onOptionChange(
+                      String(
+                        "price" in item ? `${item.price}` : `${item.value}`
+                      ),
+                      e.target.checked
+                    );
                   }
                 }}
-               
+                disabled={props.disabled && props.disabled}
               />
               <label
                 htmlFor={item.id}
@@ -66,7 +76,7 @@ const Main = (props: CheckBoxSetResponsiveProps) => {
                   props.labelClassName && props.labelClassName,
                 ])}
               >
-                {item.label} (Rs.{item.price})
+                {item.label} {"price" in item && `Rs.${item.price}`}
               </label>
             </div>
           </li>

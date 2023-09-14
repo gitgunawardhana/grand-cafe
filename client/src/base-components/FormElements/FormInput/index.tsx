@@ -9,6 +9,11 @@ interface FormInputProps {
   labelClassName?: string;
   label?: string;
   helperText?: string;
+  disabled?: boolean;
+  type?: string;
+  accept?: ".jpeg" | ".png" | ".jpg" | string;
+  name?: string;
+  onBlur?: any;
 }
 
 const FormInput = (props: FormInputProps) => {
@@ -17,7 +22,7 @@ const FormInput = (props: FormInputProps) => {
       <div className="w-full">
         <div className="relative">
           <input
-            type="text"
+            type={props.type ? props.type : "text"}
             id={props.id}
             className={twMerge([
               "border-1 peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-1.5 pt-3 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500",
@@ -26,6 +31,10 @@ const FormInput = (props: FormInputProps) => {
             placeholder={props.placeholder && props.placeholder}
             onChange={props.onChange}
             value={props.value}
+            disabled={props.disabled && props.disabled}
+            accept={props.accept && props.accept}
+            name={props.name && props.name}
+            onBlur={props.onBlur && props.onBlur}
           />
           <label
             htmlFor={props.id}

@@ -30,7 +30,11 @@ interface MessageProps {
   position: "single" | "first" | "normal" | "last" | 0 | 1 | 2 | 3;
 }
 
-const Main: React.FC = () => {
+interface ChatBoxProps {
+  setRecipe?: any;
+}
+
+const Main: React.FC<ChatBoxProps> = ({ setRecipe }) => {
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [messages, setMessages] = useState<MessageProps[]>([
     {
@@ -160,6 +164,7 @@ const Main: React.FC = () => {
             position: "normal",
           },
         ]);
+        setRecipe(data.choices[0].message.content);
         setIsTyping(false);
       });
   }

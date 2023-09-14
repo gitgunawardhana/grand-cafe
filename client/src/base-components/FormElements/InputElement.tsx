@@ -11,6 +11,7 @@ interface InputFieldProps {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   value?: string;
   required?: boolean;
+  RequiredLabelClassName?: string;
   labelClassName?: string;
   sepLabelClassName?: string;
   label?: string;
@@ -18,6 +19,10 @@ interface InputFieldProps {
   sepLabel?: string;
   labelAlignment?: AlignmentTypes;
   type?: string;
+  disabled?: boolean;
+  accept?: ".jpeg" | ".png" | ".jpg" | string;
+  name?: string;
+  onBlur?: any;
 }
 
 const InputField = (props: InputFieldProps) => {
@@ -62,7 +67,16 @@ const InputField = (props: InputFieldProps) => {
                       props.required ? "mr-2" : "mr-0"
                     } hidden sm:flex`}
                   >
-                    {props.required ? <FormRequiredLabel /> : ""}
+                    {props.required ? (
+                      <FormRequiredLabel
+                        className={
+                          props.RequiredLabelClassName &&
+                          props.RequiredLabelClassName
+                        }
+                      />
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div
                     className={`${
@@ -95,6 +109,11 @@ const InputField = (props: InputFieldProps) => {
             labelClassName={props.labelClassName && props.labelClassName}
             label={props.label && props.label}
             helperText={props.helperText && props.helperText}
+            disabled={props.disabled && props.disabled}
+            type={props.type && props.type}
+            accept={props.accept && props.accept}
+            name={props.name && props.name}
+            onBlur={props.onBlur && props.onBlur}
           />
         </div>
       </div>

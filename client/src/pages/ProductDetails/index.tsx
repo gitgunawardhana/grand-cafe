@@ -103,14 +103,14 @@ const ProductDetails: React.FC = () => {
         <div className="m-6  flex items-center justify-center p-12">
           <img
             className="w-full   cursor-pointer rounded-2xl border opacity-[1] duration-300 ease-in hover:border-gradient-yellow-900 hover:opacity-[1] md:h-[400px] md:min-w-[230px] lg:h-[450px]"
-            src={`data:image/jpeg;base64,${selectedProduct.image}`}
+            src={selectedProduct.image}
             alt={selectedProduct.name}
           />
         </div>
         <div className="flex items-center justify-center">
           <div className=" m-6 flex h-modal w-4/6 items-center justify-center rounded-3xl !bg-opacity-25 bg-gradient-to-b from-gradient-yellow-100-15 to-gradient-yellow-900-10 p-10 shadow-md">
             <div className="px-6 pb-4 pt-2">
-              <MuiRating rateValue={selectedProduct.rateValue} />
+              <MuiRating rateValue={selectedProduct.rate} />
               <br />
               <h1 className="mb-2 !bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text font-extrabold !capitalize text-transparent md:text-lg">
                 {selectedProduct.name}
@@ -159,7 +159,7 @@ const ProductDetails: React.FC = () => {
                     </h2>
                     <br />
                     <img
-                      src={`data:image/jpeg;base64,${selectedProduct.image}`}
+                      src={selectedProduct.image}
                       className="rounded-2xl border opacity-[1] duration-300 ease-in hover:border-gradient-yellow-900 hover:opacity-[1] md:h-[80px] md:min-w-[40px] lg:h-[135px]"
                     />
 

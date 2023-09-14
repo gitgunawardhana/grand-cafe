@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import { Icon } from "@iconify/react";
+import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import { useWindowSize } from "usehooks-ts";
-import { useTranslation } from "react-i18next";
-import { images } from "../../constants";
 import sidebarNav from "../../config/sidebarNav";
-import SidebarContext from "../../store/sidebarContext";
+import { images } from "../../constants";
 import LoginContext from "../../store/loginContext";
-import { Icon } from "@iconify/react";
+import SidebarContext from "../../store/sidebarContext";
 import classes from "./Sidebar.module.scss";
 
 function Sidebar() {
@@ -25,6 +25,7 @@ function Sidebar() {
 
   function logoutHandler() {
     openSidebarHandler();
+    sessionStorage.clear();
     loginCtx.toggleLogin();
   }
 
@@ -41,8 +42,8 @@ function Sidebar() {
         !sidebarCtx.isOpen && classes.sidebar_close
       }`}
     >
-      <div className={classes.sidebar__logo}>
-        <img src={images.logo} alt="digikala" />
+      <div className="flex justify-center items-center pt-5 p-10">
+        <img src={images.logo} alt="digikala" className="w-full h-auto" />
       </div>
       <div className={classes.sidebar__menu}>
         {sidebarNav.map((nav, index) => (

@@ -10,9 +10,10 @@ interface Props {
   placeholder?: string;
   classes?: string;
   value?: string;
-  ref?: HTMLInputElement;
+  ref?: React.Ref<HTMLInputElement>; // Change the ref type
   readonly?: boolean;
   autocomplete?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface IImperativeHandler {
@@ -24,9 +25,19 @@ const Input = React.forwardRef<IImperativeHandler, Props>((props, ref) => {
   const [value, setValue] = useState(props.value || "");
 
   function inputChangeHandler(e: React.FormEvent<HTMLInputElement>) {
-    setValue(e.currentTarget.value);
-  }
+    const newValue = e.currentTarget.value;
+    setValue(newValue);
 
+    // Create a new ChangeEvent-like object manually
+    const changeEvent = {
+      target: e.currentTarget,
+    } as React.ChangeEvent<HTMLInputElement>;
+
+    // Invoke the callback when the input value changes
+    if (props.onChange) {
+      props.onChange(changeEvent); // Pass the custom event object
+    }
+  }
   function inputFocused() {
     inputRef.current?.focus();
     inputRef.current?.setAttribute("style", "border:2px solid red");
@@ -35,7 +46,7 @@ const Input = React.forwardRef<IImperativeHandler, Props>((props, ref) => {
   useImperativeHandle(ref, () => {
     return {
       focus: inputFocused,
-      value: value,
+      value: props.value,
     };
   });
   const { t } = useTranslation();
@@ -51,8 +62,8 @@ const Input = React.forwardRef<IImperativeHandler, Props>((props, ref) => {
         placeholder={props.placeholder}
         value={value}
         readOnly={props.readonly || false}
-        onChange={inputChangeHandler}
         autoComplete={props.autocomplete || "off"}
+        onChange={inputChangeHandler}
       />
     </div>
   );

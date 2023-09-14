@@ -1,4 +1,5 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import Swal from "sweetalert2";
 import ChefBotText from "../../assets/images/ChefBotText.svg";
 import RecipeGeneratorBg from "../../assets/images/RecipeGeneratorBg.svg";
 import RecipeGeneratorBgHide from "../../assets/images/RecipeGeneratorBgHide.svg";
@@ -48,22 +49,66 @@ function ChatBoxCompo(chatBoxBgStyle?: {
   backgroundRepeat: string;
   backgroundPosition: string;
 }) {
-  let RecipeNumber = "RN22546";
+  const [recipe, setRecipe] = useState<any>("");
+  const { axiosJWT } = useContext(ProviderContext);
+
+  const placeOrder = async () => {
+    try {
+      const res = await axiosJWT.post(
+        "user/create-recipe",
+        {
+          seatBookingId: sessionStorage.getItem("seatBookingId"),
+          recipe: recipe,
+        },
+        {
+          headers: {
+            authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+          },
+        }
+      );
+
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        text: "Your recipe has been successfully sent. We look forward to serving you.",
+        background: "#2A200A",
+        color: "#F19328",
+        showConfirmButton: false,
+        timer: 5000,
+      });
+
+      sessionStorage.removeItem("seatBookingId");
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        text: "Sorry, we couldn't send your recipe at this time. Please try again or contact us for assistance.",
+        background: "#2A200A",
+        color: "#F19328",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    }
+  };
   return (
     <div
       className="grid h-screen !w-full grid-rows-6 px-1 md:pl-12 md:pr-28"
       style={chatBoxBgStyle}
     >
       <div className="row-span-5 h-full py-10">
-        <ChatBox />
+        <ChatBox setRecipe={setRecipe} />
       </div>
       <div className="row-span-1 !m-0 flex h-fit w-full justify-center">
         <div className="flex w-full flex-col content-center justify-center gap-2">
           <h1 className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-center text-sm !font-thin text-transparent md:text-base">
-            Recipe generate number : {RecipeNumber}
+            Recipe generate number : {sessionStorage.getItem("seatBookingId")}
           </h1>
           <div className="flex justify-center">
-            <Button className="m-0 !mb-2 !mt-1 min-w-[200px] !rounded-[10px] border-none !bg-opacity-20 !bg-gradient-to-t from-[#ff922424] to-[#ffe35321] !px-2 !py-5 text-xs font-thin text-black hover:text-black md:!px-16 md:py-5 md:text-sm">
+            <Button
+              className="m-0 !mb-2 !mt-1 min-w-[200px] !rounded-[10px] border-none !bg-opacity-20 !bg-gradient-to-t from-[#ff922424] to-[#ffe35321] !px-2 !py-5 text-xs font-thin text-black hover:text-black md:!px-16 md:py-5 md:text-sm"
+              onClick={placeOrder}
+            >
               <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
                 Order recipe
               </p>

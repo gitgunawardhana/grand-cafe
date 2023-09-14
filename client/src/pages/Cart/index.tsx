@@ -71,6 +71,63 @@ const CartPage = () => {
     }
   };
 
+  const handleOrder = async () => {
+   let email;
+   if(!sessionStorage.email){
+    email = "unregistered@gmail.com";
+   }else{
+    email = sessionStorage.email;
+   }
+
+   
+
+   const confirmOrder = window.confirm(
+    "Are you sure to proceed?"
+  );
+
+  if (confirmOrder) {
+    try {
+
+      const orderItems = cartItems.map((cartItem) => ({
+        cartItem: cartItem._id, // Assuming _id is the identifier for cart items
+        quantity: cartItem.quantity,
+      }));
+
+      
+      const response = await fetch("http://localhost:8000/api/order/addOrder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          amount: total,
+          status: "Pending",
+          items: cartItems,
+        }),
+      });
+      if (response.status === 201 || response.status === 200 ) {
+        // Handle success
+        console.log("Success");
+        alert("Order added!");
+    } else {
+        // Handle error
+        if(response.status === 400){ 
+          
+          console.error("Error adding Order");
+        }
+       
+        console.error("Error adding item to the cart");
+    }
+    } catch (error) {
+      console.error("Error deleting item:", error);
+  
+    }
+  }
+  };
+
+
+
   useEffect(() => {
     fetchCartData();
   }, []);
@@ -90,7 +147,7 @@ const CartPage = () => {
           >
             <div className="grid-cols-1 p-2">
               <img
-                src={`data:image/jpeg;base64,${item.image}`}
+                src={item.image}
                 className="rounded-2xl border opacity-[1] duration-300 ease-in hover:scale-125 hover:border-gradient-yellow-900 hover:opacity-[1] md:h-[30px] md:min-w-[20px] lg:h-[80px]"
                 alt={item.name}
               />
@@ -179,16 +236,6 @@ const CartPage = () => {
             <div className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
               <p>Rs. {item.quantity * item.price}.00</p>
             </div>
-            {/* <div className="">
-              <Button
-               onClick={() => handleEdit(item._id, item.quantity)}
-                className="m-0 min-w-[200px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
-              >
-                <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
-                  Edit
-                </p>
-              </Button>
-            </div> */}
             <div className="">
               <Button
                 className="m-0 min-w-[200px] !rounded-[10px] border border-gradient-yellow-100-15  !bg-opacity-20 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
@@ -211,6 +258,7 @@ const CartPage = () => {
           <div className="" >
           <Button
                 className="m-0 min-w-[200px] !rounded-[10px] border border-gradient-yellow-100-15  bg-amber-400 !bg-opacity-80 !px-5 !py-2 text-xs font-semibold uppercase  hover:scale-110  md:!px-5 md:py-2 md:text-sm"
+                onClick={() => handleOrder()}
               >
                 <p className="text-zinc-900 tracking-wider bg-clip-text hover:text-amber-400">
                   Proceed to checkout

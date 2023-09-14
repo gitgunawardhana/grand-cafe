@@ -1,5 +1,153 @@
+import GeneratedRecipe from "../models/GeneratedRecipe.js";
 import Seat from "../models/Seat.js";
 import SeatBooking from "../models/SeatBooking.js";
+import User from "../models/User.js";
+
+// ? Get all user details
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+// ? Get current user
+export const getCurrentUser = async (req, res) => {
+  const userId = req.user.id;
+  try {
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+    } else {
+      res.status(200).json(user);
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+// ? Update current user
+export const updateCurrentUser = async (req, res) => {
+  const userId = req.user.id;
+  const userData = req.body;
+  try {
+    // Query the database to find the user based on the criteria
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      // If the user is not found, return a 404 status code
+      res.status(404).json({ message: "User not found" });
+    } else {
+      // If the user is found, update the user data and return the updated user
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: userId },
+        userData,
+        { new: true }
+      );
+      res.status(200).json(updatedUser);
+    }
+  } catch (err) {
+    // Handle any errors that occur during the process
+    res.status(500).json(err);
+  }
+};
+
+// ? Update current user
+export const updateUserByID = async (req, res) => {
+  const userId = req.query.userId || req.body.userId;
+  const { firstName, lastName, mobileNo, email, avatar, address, gender } =
+    req.body;
+  try {
+    // Query the database to find the user based on the criteria
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      // If the user is not found, return a 404 status code
+      res.status(404).json({ message: "User not found" });
+    } else {
+      // If the user is found, update the user data and return the updated user
+      user.firstName = firstName;
+      user.lastName = lastName;
+      user.mobileNo = mobileNo;
+      user.email = email;
+      user.avatar = avatar;
+      user.gender = gender;
+      user.address = address;
+      const updatedUser = await user.save({ new: true });
+
+      res.status(200).json(updatedUser);
+    }
+  } catch (err) {
+    // Handle any errors that occur during the process
+    res.status(500).json(err);
+  }
+};
+
+// ? Get user by email
+export const getUserByEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+    } else {
+      res.status(200).json(user);
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+// ? Get user by Id
+export const getUserById = async (req, res) => {
+  let userId = req.query.userId || req.body.userId;
+  try {
+    if (!userId) {
+      res.status(400).json({ message: "Id is required" });
+      return;
+    }
+
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+    } else {
+      res.status(200).json(user);
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+// ? Delete user by email
+export const deleteUserByEmail = async (req, res) => {
+  try {
+    let email = req.query.email || req.body.email; // Check if email is in query parameters, if not, use request body
+
+    if (!email) {
+      res.status(400).json({ message: "Email is required" });
+      return;
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+    } else {
+      await User.findOneAndDelete({ email });
+      res.status(200).json({ message: "User deleted successfully" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+// ! Table booking related --------------------------------------------------------------
 
 // ? Get all seat details
 export const getAllSeats = async (req, res) => {
@@ -86,6 +234,39 @@ export const getBookingSeatsByUserId = async (req, res) => {
     const userBookingSeats = await SeatBooking.find({ user: userId }).populate(
       "bookingSeats"
     );
+
+    if (!userBookingSeats) {
+      return res
+        .status(404)
+        .json({ error: "No booking seats found for this user" });
+    }
+
+    // Extract and return seat numbers if showSeatNumbers is true
+    if (showSeatNumbers) {
+      const seatNumbers = userBookingSeats.map((booking) =>
+        booking.bookingSeats.map((seat) => seat.number)
+      );
+      res.status(200).json(seatNumbers);
+    } else {
+      res.status(200).json(userBookingSeats);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// ? Get all pending seat booking by user ID, where the parameter called 'snumber=true' is passed then the output will be the extract seat number only.
+export const getPendingBookingSeatsByUserId = async (req, res) => {
+  const userId = req.user.id;
+  const showSeatNumbers = req.query.snumber === "true";
+  const currentDateTime = new Date();
+
+  try {
+    const userBookingSeats = await SeatBooking.find({
+      user: userId,
+      inDateTime: { $gte: currentDateTime }, // Filter out past bookings
+    }).populate("bookingSeats");
 
     if (!userBookingSeats) {
       return res
@@ -218,5 +399,36 @@ export const getAvailableSeats = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// ! Recipe Generating --------------------------------------------------------------
+
+// ? Create a new seat booking with user id
+export const createGeneratedRecipe = async (req, res) => {
+  const { seatBookingId, recipe } = req.body;
+
+  try {
+    // Find the corresponding Seat documents using the provided seat numbers
+    const seatBooking = await SeatBooking.find({ _id: seatBookingId });
+
+    if (!seatBooking) {
+      return res.status(404).json({ error: "Seat Booking not found" });
+    }
+
+    const newGeneratedRecipe = new GeneratedRecipe({
+      seatBooking: seatBookingId,
+      recipe: recipe,
+    });
+
+    const savedGRecipe = await newGeneratedRecipe.save();
+
+    const savedGeneratedRecipe = await GeneratedRecipe.find({
+      _id: savedGRecipe._id,
+    }).populate("seatBooking");
+
+    res.status(200).json(savedGeneratedRecipe);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
 };

@@ -446,7 +446,7 @@ const Main = () => {
                     </h2>
                     <br />
                     <img
-                      src={`data:image/jpeg;base64,${selectedProduct.image}`}
+                      src={selectedProduct.image}
                       className="rounded-2xl border opacity-[1] duration-300 ease-in hover:border-gradient-yellow-900 hover:opacity-[1] md:h-[80px] md:min-w-[40px] lg:h-[135px]"
                     />
 

@@ -15,30 +15,27 @@ type WindowSize = {
 };
 
 export interface Product {
-  _id:string;
+  _id: string;
   name: string;
   image: string;
   description: string;
   price: string;
   rate: number;
+  category: string;
 }
-// interface User {
-//   email: string;
-//   accessToken: string;
-//   refreshToken: string;
-// }
-
 export interface ProviderContextInterface {
   windowSize: WindowSize;
-  // seatsInitialState: Seat[];
-  // setSeatsInitialState: Dispatch<SetStateAction<Seat[]>>;
-  // user: User | null;
-  // setUser: Dispatch<SetStateAction<User | null>>;
   products: Product[];
   setProducts: Dispatch<SetStateAction<Product[]>>;
   axiosJWT: AxiosInstance;
   total: number;
   setTotal: Dispatch<SetStateAction<number>>;
+  selectedCategory: string;
+  setSelectedCategory: Dispatch<SetStateAction<string>>;
+  modalIsOpen: boolean;
+  setModalIsOpen: Dispatch<SetStateAction<boolean>>;
+  count: number;
+  setCount: Dispatch<SetStateAction<number>>;
 }
 
 const defaultState = {
@@ -48,8 +45,9 @@ const defaultState = {
   },
   setProducts: (products: Product[]) => {},
   setTotal: (total: number) => {},
-  // setSeatsInitialState: (seatsInitialState: Seat[]) => {},
-  // setUser: (user: User) => {},
+  setSelectedCategory: (selectedCategory: string) => {
+    "all";
+  },
 } as ProviderContextInterface;
 
 // Todo: when add new one, change above interface and defaultState
@@ -77,9 +75,6 @@ export const refreshToken = async () => {
 };
 
 const Provider = (props: ProviderProps) => {
-  // const [user, setUser] = useState<User | null>(null);
-  // const [seatsInitialState, setSeatsInitialState] = useState<Seat[]>([]);
-
   const [windowSize, setWindowSize] = useState({
     width: 0,
     height: 0,
@@ -124,6 +119,9 @@ const Provider = (props: ProviderProps) => {
 
   const [products, setProducts] = useState<Product[]>([]);
   const [total, setTotal] = useState<number>(0);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [count, setCount] = useState(1);
 
   const fetchData = async () => {
     try {
@@ -139,25 +137,21 @@ const Provider = (props: ProviderProps) => {
     fetchData();
   }, []);
 
-  // const contextValue: ContextValue = {
-  //   windowSize,
-  //   products,
-  //   setProducts,
-  // };
-
   return (
     <ProviderContext.Provider
       value={{
         windowSize,
-        // seatsInitialState,
-        // setSeatsInitialState,
-        // user,
-        // setUser,
         products,
         setProducts,
         axiosJWT,
         total,
         setTotal,
+        selectedCategory,
+        setSelectedCategory,
+        modalIsOpen,
+        setModalIsOpen,
+        count,
+        setCount,
       }}
     >
       {props.children}

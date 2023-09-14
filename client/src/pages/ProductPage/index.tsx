@@ -1,3 +1,7 @@
+import axios from "axios";
+import { useContext, useState, useEffect } from "react";
+import ReactModal from "react-modal";
+import { NavLink } from "react-router-dom";
 import BeveragesIcon from "../../assets/categoryIcon/BeveragesIcon.svg";
 import BurgerIcon from "../../assets/categoryIcon/BurgerIcon.svg";
 import MeatIcon from "../../assets/categoryIcon/MeatIcon.svg";
@@ -13,12 +17,9 @@ import SpeciealDescount from "../../assets/images/SpeciealDescount.svg";
 import { Button } from "../../base-components/Button";
 import InputField from "../../base-components/FormElements/InputElement";
 import MuiRating from "../../components/MuiRating";
+import { Product, ProviderContext } from "../../components/Provider";
 import TextLimit from "../../components/TextLimit";
-import { ProviderContext } from "../../components/Provider";
-import { useContext, useState } from "react";
-import {  NavLink } from "react-router-dom";
-import ReactModal from "react-modal";
-import axios from "axios";
+import SearchBar from "./../../components/SearchBar/SearchBar";
 
 interface CartItem {
   _id: string;
@@ -26,21 +27,36 @@ interface CartItem {
   price: number;
   image: string;
   quantity: number;
+  category: string;
+}
+
+interface Category {
+  _id: string;
+  category: string;
 }
 
 let subTotal = 0;
 
 const Main = () => {
-  const { products } = useContext(ProviderContext);
+  const { products, selectedCategory } = useContext(ProviderContext);
 
-  const categories = [
-    { title: "Our Specials", icon: OurSpecialsIcon },
-    { title: "Burger", icon: BurgerIcon },
-    { title: "Beverages", icon: BeveragesIcon },
-    { title: "Noodles", icon: NoodlesIcon },
-    { title: "Meat", icon: MeatIcon },
-    { title: "Pasta", icon: PastaIcon },
-  ];
+  const [categories, setCategories] = useState<Category[]>([]); 
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/category/viewcategory"
+      );
+      if (response.data.data) {
+        setCategories([{ _id: 'all', category: 'All' }, ...response.data.data]);
+       console.log("Success");
+      }
+      console.log("Error fetching cart data");
+    } catch (error) {
+      console.error("Error fetching cart data:", error);
+      
+    }
+  };
 
   const filteredProducts = products.filter(
     (item: {
@@ -49,14 +65,40 @@ const Main = () => {
       price: string;
       image: string;
       rate: number;
+      category: string;
     }) => item.rate > 3.0
   );
 
+  const filtereProducts = products.filter(
+    (item: {
+      _id: string;
+      name: string;
+      price: string;
+      image: string;
+      rate: number;
+      category: string;
+    }) => item.category == selectedCategory
+  );
+
+  let filter: Product[];
+
+  if (!selectedCategory) {
+    filter = products;
+  } else if (selectedCategory == "All") {
+    filter = products;
+  } else {
+    filter = filtereProducts;
+  }
+  useEffect(() => {
+    // Fetch categories when the component mounts
+    fetchCategories();
+  }, []);
+  console.log("Filter Product : ", filtereProducts);
   return (
     <>
       <div className="grid grid-cols-12">
         <div className="col-span-9">
-          {HeaderSection()}
+          {HeaderSection(products)}
           {/* Category Section1 - start */}
           <div>
             <div className="mx-5 flex content-center justify-between">
@@ -83,14 +125,15 @@ const Main = () => {
           {/* Food Card Section1 - start */}
           <div>
             <div className="mx-5 mb-8 mt-8 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
-              {products.map(
-                (item: {
+              {filter.map(
+                (product: {
                   _id: string;
                   name: string;
                   price: string;
                   image: string;
                   rate: number;
-                }) => Card(item)
+                  category: string;
+                }) => Card(product)
               )}
             </div>
           </div>
@@ -119,7 +162,7 @@ const Main = () => {
               {filteredProducts
                 .sort((a: any, b: any) => b.rate - a.rate)
                 .slice(0, 3)
-                .map((item: any) => Card(item))}
+                .map((product: any) => Card(product))}
               //changed
             </div>
           </div>
@@ -136,20 +179,30 @@ const Main = () => {
 
 export default Main;
 
-function Category(item: { title: string; icon: string }) {
+function Category(item: { category: string; }) {
+  const { setSelectedCategory } = useContext(ProviderContext);
+
+  const handleCategoryClick = (categoryTitle: string) => {
+    setSelectedCategory(categoryTitle);
+    //console.log(selectedCategory);
+  };
+
   return (
     <div
-      key={item.title}
+      key={item.category}
       className="group/category-item flex justify-center px-2"
     >
-      <Button className="m-0 !max-w-full !grow gap-2 border-none !bg-transparent text-xs font-semibold capitalize shadow-none hover:shadow-none md:text-sm">
-        <img
+      <Button
+        onClick={() => handleCategoryClick(item.category)}
+        className="m-0 !max-w-full !grow gap-2 border-none !bg-transparent text-xs font-semibold capitalize shadow-none hover:shadow-none md:text-sm"
+      >
+        {/* <img
           src={item.icon}
           alt=""
           className="h-5 w-5 overflow-hidden rounded-lg object-cover transition-transform duration-300 group-hover/category-item:rotate-12 group-hover/category-item:scale-125"
-        />
+        /> */}
         <p className="my-auto !bg-gradient-to-tl from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent transition-transform duration-500 group-hover/category-item:scale-110 group-hover/category-item:from-gradient-yellow-900 group-hover/category-item:to-gradient-yellow-500">
-          {item.title}
+          {item.category}
         </p>
       </Button>
     </div>
@@ -163,8 +216,10 @@ function Card(item: {
   price: string;
   image: string;
   rate: number;
+  category: string;
 }) {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const { modalIsOpen, setModalIsOpen, count, setCount } =
+    useContext(ProviderContext);
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -173,9 +228,6 @@ function Card(item: {
   const closeModal = () => {
     setModalIsOpen(false);
   };
-
-  // counter on card
-  const [count, setCount] = useState(1);
 
   const increment = () => {
     setCount(count + 1);
@@ -262,11 +314,7 @@ function Card(item: {
       key={item.name}
       className="mb-0 max-w-sm overflow-hidden rounded-xl !bg-opacity-25 bg-gradient-to-b from-gradient-yellow-100-15 to-gradient-yellow-900-10 text-center shadow-lg"
     >
-      <img
-        className="w-full"
-        src={`data:image/jpeg;base64,${item.image}`}
-        alt={item.name}
-      />
+      <img className="w-full" src={item.image} alt={item.name} />
       <div className="mb-0 ml-5 mt-2 flex">
         <MuiRating rateValue={item.rate} />
       </div>
@@ -313,7 +361,7 @@ function Card(item: {
               </h2>
               <br />
               <img
-                src={`data:image/jpeg;base64,${item.image}`}
+                src={item.image}
                 className="rounded-2xl border opacity-[1] duration-300 ease-in hover:border-gradient-yellow-900 hover:opacity-[1] md:h-[80px] md:min-w-[40px] lg:h-[135px]"
               />
 
@@ -483,7 +531,7 @@ function Order() {
 }
 
 // Header Section
-function HeaderSection() {
+function HeaderSection(products: Product[]) {
   return (
     <div
       style={{
@@ -493,12 +541,8 @@ function HeaderSection() {
       }}
       className="h-auto"
     >
-      <div className="px-6 pt-5">
-        <InputField
-          className="mx-auto !max-w-[500px] border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
-          placeholder="WHAT DO YOU WANTS TO EAT TODAY"
-        />
-      </div>
+      <SearchBar dataSet={products}></SearchBar>
+
       <div className="relative h-auto p-5 md:mt-10">
         <img
           src={SpeciealDescount}

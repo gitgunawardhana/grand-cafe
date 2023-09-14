@@ -17,6 +17,11 @@ enum Icons {
   DOWNARROW = "ChevronDown",
   UPARROW = "ChevronUp",
   ARMCHAIR = "Armchair",
+  SEARCH = "Search",
+  BAGGAGECLAIM = "BaggageClaim",
+  MOREVERTICAL = "MoreVertical",
+  EYE = "Eye",
+  EYEOFF = "EyeOff",
 }
 
 export default Icons;

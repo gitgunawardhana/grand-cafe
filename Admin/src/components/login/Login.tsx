@@ -1,37 +1,67 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 
-import LoginContext from "../../store/loginContext";
-import langContextObj from "../../store/langContext";
-import { images } from "../../constants";
-import Input from "../UI/input/Input";
-import Button from "../UI/button/Button";
+import axios from "axios";
 import { useTranslation } from "react-i18next";
-import classes from "./Login.module.scss";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import langContextObj from "../../store/langContext";
+import LoginContext from "../../store/loginContext";
+import Button from "../UI/button/Button";
+import Input from "../UI/input/Input";
+import classes from "./Login.module.scss";
 
 function LoginBox() {
   const loginCtx = useContext(LoginContext);
   const langCtx = useContext(langContextObj);
   const userNameRef = useRef<HTMLInputElement>(null);
+  const userPasswordRef = useRef<HTMLInputElement>(null);
   const errorMessageRef = useRef<HTMLSpanElement>(null);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  let isValid = true;
-  function loginHandler(e: React.FormEvent) {
+  const [userName, setUserName] = useState("admin@gmail.com");
+  const [userPassword, setUserPassword] = useState("Admin@123");
+
+  async function loginHandler(e: React.FormEvent) {
     e.preventDefault();
-    isValid = userNameRef.current?.value === "admin";
-    if (userNameRef.current) {
-      if (isValid) {
+
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/admin/auth/login",
+        { email: userName, password: userPassword }
+      );
+
+      sessionStorage.setItem("email", res.data.email);
+      sessionStorage.setItem("firstName", res.data.firstName);
+      sessionStorage.setItem("lastName", res.data.lastName);
+      sessionStorage.setItem("avatar", res.data.avatar);
+      sessionStorage.setItem("accessToken", res.data.accessToken);
+      sessionStorage.setItem("refreshToken", res.data.refreshToken);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        text: "Success! You are now logged in.",
+        background: "#A96C07",
+        color: "#fff",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+      setTimeout(() => {
         loginCtx.toggleLogin();
+        loginCtx.setLoginUser(res.data);
         navigate("/");
-      } else {
-        userNameRef.current.focus();
-        errorMessageRef.current?.setAttribute(
-          "style",
-          "display: inline-block;opacity: 1"
-        );
-      }
+      }, 1000);
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        text: "Account not found. Please verify your credentials and try again.",
+        background: "#A96C07",
+        color: "#fff",
+        showConfirmButton: false,
+        timer: 3000,
+      });
     }
   }
 
@@ -50,18 +80,22 @@ function LoginBox() {
           <Input
             ref={userNameRef}
             type={"text"}
-            id={"userName"}
-            placeholder={"admin"}
+            id={"email"}
+            placeholder={"admin@gmail.com"}
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+          <Input
+            ref={userPasswordRef}
+            type={"password"}
+            id={"pass"}
+            placeholder={"Password"}
+            value={userPassword}
+            onChange={(e) => setUserPassword(e.target.value)}
           />
           <span ref={errorMessageRef} className={classes.errorMessage}>
             {t("errorMessage")}
           </span>
-          <Input
-            type={"password"}
-            id={"pass"}
-            value={"admin"}
-            readonly={true}
-          />
           <Button type="submit">{t("login")}</Button>
           <Link className={classes.forgat_pass} to="/">
             {t("forgetPass")}

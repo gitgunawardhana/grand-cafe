@@ -3,7 +3,6 @@ import { NavigateFunction } from "react-router-dom";
 import Swal from "sweetalert2";
 
 export const handleRegistration = async (
-  e: React.FormEvent<HTMLFormElement>,
   registrationData: {
     email: string;
     password: string;
@@ -11,8 +10,6 @@ export const handleRegistration = async (
   },
   navigate: NavigateFunction
 ) => {
-  e.preventDefault();
-
   if (registrationData.password !== registrationData.confirmPassword) return;
 
   try {
@@ -47,14 +44,12 @@ export const handleRegistration = async (
 };
 
 export const handleLogin = async (
-  e: React.FormEvent<HTMLFormElement>,
   loginData: {
     email: string;
     password: string;
   },
   navigate: NavigateFunction
 ) => {
-  e.preventDefault();
   try {
     const res = await axios.post(
       "http://localhost:8000/api/auth/login",
