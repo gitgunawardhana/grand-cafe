@@ -6,6 +6,10 @@ const orderItemSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: "Cart", // Reference to the CartItem model
   },
+  category: {
+    type: String,
+    required: true,
+  },
   quantity: {
     type: Number,
     required: true,

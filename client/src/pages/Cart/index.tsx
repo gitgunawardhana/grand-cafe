@@ -10,6 +10,7 @@ interface CartItem {
   price: number;
   image: string;
   quantity: number;
+  category:string;
 }
 
 const CartPage = () => {
@@ -80,7 +81,6 @@ const CartPage = () => {
    }
 
    
-
    const confirmOrder = window.confirm(
     "Are you sure to proceed?"
   );
