@@ -8,6 +8,7 @@ import SummaryBox from "./SummaryBox";
 function Summary() {
   const [ordersForCurrentMonth, setOrdersForCurrentMonth] = useState<number>();
   const [saleForCurrentMonth, setSaleForCurrentMonth] = useState<number>();
+  const [mostSoldCategory, setMostSoldCategory] = useState<number>();
 
   const [summaryData, setSummaryData] = useState<IsummData[]>([
     {
@@ -23,10 +24,10 @@ function Summary() {
       currency: "",
     },
     {
-      icon: "tdesign:money", // akar-icons:shopping-bag
-      text: "thisMonthRevenue",
-      amount: "revenueAmount",
-      currency: "currency",
+      icon: "mdi:food-outline", // akar-icons:shopping-bag
+      text: "thisMostSoldCategory",
+      amount: "",
+      currency: "",
     },
   ]);
 
@@ -60,9 +61,26 @@ function Summary() {
     }
   };
 
+  const getSoldQuantityByCategoryData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/item-sales/sold-quantity-by-category"
+      );
+      if (response.data.data) {
+        setMostSoldCategory(response.data.mostSoldCategory);
+        console.log("Success fetching order data");
+      } else {
+        console.log("Error fetching order data");
+      }
+    } catch (error) {
+      console.error("Error fetching order data:", error);
+    }
+  };
+
   useEffect(() => {
     getOrdersForCurrentMonth();
     getSaleForCurrentMonth();
+    getSoldQuantityByCategoryData();
   }, []);
 
   useEffect(() => {
@@ -92,6 +110,20 @@ function Summary() {
       return updatedSummaryData;
     });
   }, [saleForCurrentMonth]);
+
+  useEffect(() => {
+    setSummaryData((prevSummaryData) => {
+      const updatedSummaryData = [...prevSummaryData];
+      const ordersIndex = updatedSummaryData.findIndex(
+        (item) => item.text === "thisMostSoldCategory"
+      );
+      if (ordersIndex !== -1) {
+        updatedSummaryData[ordersIndex].amount =
+          mostSoldCategory?.toString() ?? "0";
+      }
+      return updatedSummaryData;
+    });
+  }, [mostSoldCategory]);
 
   const { t } = useTranslation();
   return (

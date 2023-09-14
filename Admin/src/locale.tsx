@@ -24,6 +24,7 @@ i18n
           summary: "Summary",
           thisMonthSales: "This month Sales",
           thisMonthOrders: "This month Orders",
+          thisMostSoldCategory: "Most Sold Category",
           thisMonthRevenue: "This month Revenue",
           quickAnalysis: "Quick Analysis",
           topCustomers: "Top Customers",
