@@ -24,12 +24,6 @@ const sidebarNav = [
     text: "Orders",
   },
   {
-    link: "/analytics",
-    section: "analytics",
-    icon: "carbon:analytics",
-    text: "Analytics",
-  },
-  {
     link: "/discount",
     section: "discount",
     icon: "nimbus:discount-circle",
