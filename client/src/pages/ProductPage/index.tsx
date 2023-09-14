@@ -20,6 +20,7 @@ import MuiRating from "../../components/MuiRating";
 import { Product, ProviderContext } from "../../components/Provider";
 import TextLimit from "../../components/TextLimit";
 import SearchBar from "./../../components/SearchBar/SearchBar";
+import { Link } from "react-router-dom";
 
 interface CartItem {
   _id: string;
@@ -218,26 +219,26 @@ function Card(item: {
   rate: number;
   category: string;
 }) {
-  const { modalIsOpen, setModalIsOpen, count, setCount } =
-    useContext(ProviderContext);
+  // const { modalIsOpen, setModalIsOpen, count, setCount } =
+  //   useContext(ProviderContext);
 
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
+  // const openModal = () => {
+  //   setModalIsOpen(true);
+  // };
 
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
+  // const closeModal = () => {
+  //   setModalIsOpen(false);
+  // };
 
-  const increment = () => {
-    setCount(count + 1);
-  };
+  // const increment = () => {
+  //   setCount(count + 1);
+  // };
 
-  const decrement = () => {
-    if (count > 1) {
-      setCount(count - 1);
-    }
-  };
+  // const decrement = () => {
+  //   if (count > 1) {
+  //     setCount(count - 1);
+  //   }
+  // };
 
   const customStyles = {
     overlay: {
@@ -277,37 +278,37 @@ function Card(item: {
     }
   };
 
-  const handleAddToCart = async () => {
-    // Send API request to add item to cart
-    const response = await fetch("http://localhost:8000/api/add_cart/cart", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        _id: item._id,
-        name: item.name,
-        price: item.price,
-        image: item.image,
-        quantity: count,
-      }),
-    });
-    if (response.status === 201) {
-      // Handle success
-      closeModal();
-      fetchCartData();
-      console.log("Success");
-      alert("Product added to the cart!");
-    } else {
-      // Handle error
-      if (response.status === 400) {
-        alert("Item is already in the cart. You can change quantity by cart");
-        console.error("Error adding item to the cart");
-      }
+  // const handleAddToCart = async () => {
+  //   // Send API request to add item to cart
+  //   const response = await fetch("http://localhost:8000/api/add_cart/cart", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       _id: item._id,
+  //       name: item.name,
+  //       price: item.price,
+  //       category:item.category,
+  //       image: item.image,
+  //       quantity: count,
+  //     }),
+  //   });
+  //   if (response.status === 201) {
+  //     // Handle succes
+  //     fetchCartData();
+  //     console.log("Success");
+  //     alert("Product added to the cart!");
+  //   } else {
+  //     // Handle error
+  //     if (response.status === 400) {
+  //       alert("Item is already in the cart. You can change quantity by cart");
+  //       console.error("Error adding item to the cart");
+  //     }
 
-      console.error("Error adding item to the cart");
-    }
-  };
+  //     console.error("Error adding item to the cart");
+  //   }
+  // };
 
   return (
     <div
@@ -320,7 +321,7 @@ function Card(item: {
       </div>
       <div className="px-6 pb-4 pt-2">
         <h1 className="mb-2 !bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text font-extrabold !capitalize text-transparent md:text-lg">
-          {item.name}
+        <Link to={`/product/${encodeURIComponent(item.name)}`}>{item.name}</Link>
         </h1>
         <div>
           <p className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-sm font-normal text-transparent">
@@ -342,14 +343,15 @@ function Card(item: {
           </Button>
           <br />
           <Button
-            onClick={openModal}
+            as={NavLink}
+            to={`/product/${item.name}`}
             className="m-0 min-w-[200px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
           >
             <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
-              Add to cart
+              View Product
             </p>
           </Button>
-          <ReactModal
+          {/* <ReactModal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
             style={customStyles}
@@ -399,7 +401,7 @@ function Card(item: {
                 </p>
               </Button>
             </div>
-          </ReactModal>
+          </ReactModal> */}
         </div>
       </div>
     </div>

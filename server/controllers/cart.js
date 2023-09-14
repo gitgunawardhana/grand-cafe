@@ -6,7 +6,7 @@ import Cart from "../models/Cart.js";
 export const addToCart = async (req, res, next) => {
     try {
         console.log('Request Body:', req.body); // Check if you're receiving the correct data
-        const { _id, name, price, image, quantity } = req.body;
+        const { _id, name, price, image, quantity, category } = req.body;
 
         // Check if the item is already in the cart
         const existingItem = await Cart.findOne({ _id });
@@ -18,6 +18,7 @@ export const addToCart = async (req, res, next) => {
             _id,
             name,
             price,
+            category,
             image,
             quantity,
         });

@@ -8,9 +8,12 @@ export interface Order {
   email: string;
   amount: number;
   status: string;
+  items: Array<{
+    _id: string; // Assuming each item has an _id
+    name: string; // Add other properties of the item here
+    quantity: number;
+  }>;
 }
-
-
 
 const Main = () => {
   const [order, setOrders] = useState<Order[]>([]);
@@ -48,9 +51,9 @@ const Main = () => {
           // Product deleted successfully, you can redirect or show a success message
           alert("Product deleted successfully!");
           // Remove the deleted product from the state
-        //   setOrders((prevProducts) =>
-        //     prevProducts.filter((product) => product._id !== productId)
-        //   );
+          //   setOrders((prevProducts) =>
+          //     prevProducts.filter((product) => product._id !== productId)
+          //   );
         } else {
           // Handle errors, show an error message, or log the error
           alert("Failed to delete product. Please try again.");
@@ -69,9 +72,7 @@ const Main = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   useEffect(() => {
-    
     fetchData();
-    
   }, []);
 
   return (
@@ -103,9 +104,7 @@ const Main = () => {
               )}
           </select> */}
         </div>
-        <div>
-          
-        </div>
+        <div></div>
       </div>
       <br />
       <div className="w-full flex justify-center items-stretch bg-gray-200 p-10 rounded-3xl">
@@ -122,6 +121,9 @@ const Main = () => {
                 Amount
               </th>
               <th className="px-6 py-3 bg-amber-500 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
+                Items
+              </th>
+              <th className="px-6 py-3 bg-amber-500 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
                 Status
               </th>
               <th className="px-6 py-3 bg-amber-500 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider justify-center text-center">
@@ -134,13 +136,20 @@ const Main = () => {
             {currentItems.map((order: Order) => (
               <tr key={order._id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
-                  {order.user}    
+                  {order.user}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
                   {order.email}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
                   Rs. {order.amount}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
+                {order.items.map((item) => (
+    <div key={item._id} className="relative">
+      {item.quantity}
+    </div>
+  ))}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
                   {order.status}

@@ -3,6 +3,7 @@ import Order from "../models/Order.js";
 const router = express.Router();
 import User from "../models/User.js";
 import Cart from "../models/Cart.js";
+import ItemSales from "../models/ItemSales.js";
 
 export const viewOrder = async (req, res, next) => {
   try {
@@ -22,7 +23,7 @@ export const addOrder = async (req, res) => {
   let fName = "";
 
   if (email == "unregistered@gmail.com") {
-    fName = "Unreg";
+    fName = "User";
   } else {
     fName = user.firstName;
   }
@@ -41,8 +42,25 @@ export const addOrder = async (req, res) => {
       // Add the item and quantity to the orderItems array
       orderItems.push({
         item: cartItem._id,
+        category:cartItem.category,
         quantity: item.quantity,
       });
+
+      let itemSales = await ItemSales.findOne({ itemId: cartItem._id });
+
+      if (!itemSales) {
+        itemSales = new ItemSales({
+          itemId: cartItem._id,
+          itemName: cartItem.name, // Make sure to use the correct field
+          category: cartItem.category, // Make sure to use the correct field
+          totalQuantitySold: 0, // Initialize to 0
+        });
+      }
+
+      // Update the totalQuantitySold
+      itemSales.totalQuantitySold += item.quantity;
+      await itemSales.save();
+
     }
 
     // Create a new Order document with the order items
@@ -55,6 +73,7 @@ export const addOrder = async (req, res) => {
     });
 
     const saveOrder = await newOrder.save();
+
     res.status(200).json(saveOrder);
   } catch (err) {
     return res.status(500).json({ error: err.message });
