@@ -1,3 +1,4 @@
+import moment from "moment";
 import GeneratedRecipe from "../models/GeneratedRecipe.js";
 import Seat from "../models/Seat.js";
 import SeatBooking from "../models/SeatBooking.js";
@@ -260,18 +261,18 @@ export const getBookingSeatsByUserId = async (req, res) => {
 export const getPendingBookingSeatsByUserId = async (req, res) => {
   const userId = req.user.id;
   const showSeatNumbers = req.query.snumber === "true";
-  const currentDateTime = new Date();
+  const currentDateTime = moment().utc();
 
   try {
     const userBookingSeats = await SeatBooking.find({
       user: userId,
-      inDateTime: { $gte: currentDateTime }, // Filter out past bookings
+      outDateTime: { $gte: currentDateTime },
     }).populate("bookingSeats");
 
     if (!userBookingSeats) {
       return res
         .status(404)
-        .json({ error: "No booking seats found for this user" });
+        .json({ error: "No upcoming booking seats found for this user" });
     }
 
     // Extract and return seat numbers if showSeatNumbers is true
@@ -288,30 +289,29 @@ export const getPendingBookingSeatsByUserId = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
-// ? Seat booking delete from booking id
 export const deleteSeatBookingById = async (req, res) => {
   const bookingId = req.params.id;
 
   try {
+    // Find the booking by its ID
     const booking = await SeatBooking.findById(bookingId);
 
     if (!booking) {
       return res.status(404).json({ error: "Booking not found" });
     }
 
-    // const seatIds = booking.bookingSeats;
-
-    // Update the availability of booked seats to true
-    // await Seat.updateMany(
-    //   { _id: { $in: seatIds } },
-    //   { $set: { available: true } }
-    // );
+    // Extract the ID of the booking to be deleted
+    const seatBookingIdToDelete = booking._id;
 
     // Delete the booking using deleteOne()
     await SeatBooking.deleteOne({ _id: bookingId });
 
-    res.status(200).json({ message: "Booking deleted successfully" });
+    // Delete related generated recipes for the deleted seat booking
+    await GeneratedRecipe.deleteOne({ seatBooking: seatBookingIdToDelete });
+
+    res
+      .status(200)
+      .json({ message: "Booking and related recipe deleted successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
@@ -331,20 +331,20 @@ export const deleteSeatBookingByUser = async (req, res) => {
         .json({ error: "Bookings not found for this user" });
     }
 
-    // for (const booking of bookings) {
-    //   const seatIds = booking.bookingSeats;
+    // Extract the IDs of seat bookings to be deleted
+    const seatBookingIdsToDelete = bookings.map((booking) => booking._id);
 
-    //   // Update the availability of booked seats to true
-    //   await Seat.updateMany(
-    //     { _id: { $in: seatIds } },
-    //     { $set: { available: true } }
-    //   );
-    // }
-
-    // Delete the bookings by user ID
+    // Delete the seat bookings by user ID
     await SeatBooking.deleteMany({ user: userId });
 
-    res.status(200).json({ message: "Bookings deleted successfully" });
+    // Delete related generated recipes for the deleted seat bookings
+    await GeneratedRecipe.deleteMany({
+      seatBooking: { $in: seatBookingIdsToDelete },
+    });
+
+    res
+      .status(200)
+      .json({ message: "Bookings and related recipes deleted successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
@@ -404,13 +404,13 @@ export const getAvailableSeats = async (req, res) => {
 
 // ! Recipe Generating --------------------------------------------------------------
 
-// ? Create a new seat booking with user id
+// ? Create a recipe for seat booking with seatBookingId
 export const createGeneratedRecipe = async (req, res) => {
   const { seatBookingId, recipe } = req.body;
 
   try {
-    // Find the corresponding Seat documents using the provided seat numbers
-    const seatBooking = await SeatBooking.find({ _id: seatBookingId });
+    // Find the corresponding SeatBooking document using the provided seatBookingId
+    const seatBooking = await SeatBooking.findById(seatBookingId);
 
     if (!seatBooking) {
       return res.status(404).json({ error: "Seat Booking not found" });
@@ -423,11 +423,40 @@ export const createGeneratedRecipe = async (req, res) => {
 
     const savedGRecipe = await newGeneratedRecipe.save();
 
-    const savedGeneratedRecipe = await GeneratedRecipe.find({
-      _id: savedGRecipe._id,
-    }).populate("seatBooking");
+    // Update the generatedRecipe status in the seatBooking document
+    seatBooking.generatedRecipe = true; // Set it to true since a recipe is now associated
+
+    await seatBooking.save(); // Save the updated seatBooking document
+
+    const savedGeneratedRecipe = await GeneratedRecipe.findById(
+      savedGRecipe._id
+    ).populate("seatBooking");
 
     res.status(200).json(savedGeneratedRecipe);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+// Create an endpoint to get a GeneratedRecipe by seatBookingId
+export const getGeneratedRecipeBySeatBookingId = async (req, res) => {
+  const seatBookingId = req.query.seatBookingId || req.body.seatBookingId;
+
+  console.log(seatBookingId);
+
+  try {
+    // Find the GeneratedRecipe document with the given seatBookingId
+    const generatedRecipe = await GeneratedRecipe.findOne({
+      seatBooking: seatBookingId,
+    }).populate("seatBooking");
+
+    if (!generatedRecipe) {
+      return res.status(404).json({
+        error: "Generated Recipe not found for the specified Seat Booking ID",
+      });
+    }
+
+    res.status(200).json(generatedRecipe);
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }

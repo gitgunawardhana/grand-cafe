@@ -14,6 +14,7 @@ const Products = React.lazy(() => import("./pages/Products"));
 const ProductEdit = React.lazy(() => import("./pages/ProductEdit"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 const BlankPage = React.lazy(() => import("./pages/BlankPage"));
+const Booking = React.lazy(() => import("./pages/Booking"));
 const Login = React.lazy(() => import("./pages/Login"));
 const ProductAdd = React.lazy(() => import("./pages/AddProduct"));
 const Category = React.lazy(() => import("./pages/Category"));
@@ -39,13 +40,16 @@ function App() {
               <Route path="/products" element={<Products />} />
               <Route path="/products/:productId" element={<ProductEdit />} />
               <Route path="/orders" element={<Orders />} />
-              <Route path="/analytics" element={<BlankPage />} />
+              <Route path="/bookings" element={<Booking />} />
               <Route path="/discount" element={<BlankPage />} />
               <Route path="/addproduct" element={<ProductAdd />} />
               <Route path="/category" element={<Category />} />
               <Route path="/inventory" element={<Inventory />} />
               <Route path="/addinventory" element={<AddInventory />} />
-              <Route path="/inventory/:InventoryId" element={<EditInventory />} />
+              <Route
+                path="/inventory/:InventoryId"
+                element={<EditInventory />}
+              />
             </Route>
           </Route>
           <Route path="/login" element={<Login />} />

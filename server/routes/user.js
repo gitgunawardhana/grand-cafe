@@ -11,6 +11,7 @@ import {
   getAvailableSeats,
   getBookingSeatsByUserId,
   getCurrentUser,
+  getGeneratedRecipeBySeatBookingId,
   getPendingBookingSeatsByUserId,
   getUserByEmail,
   getUserById,
@@ -36,17 +37,22 @@ router.get("/get-all-seats", verify, getAllSeats);
 router.get("/get-available-seats", verify, getAvailableSeats);
 router.put("/update-all-seats", verify, updateSeats);
 router.post("/create-seat-booking", verify, createSeatBooking);
-router.get("/get-all-seat-booking", verify, getAllSeatBooking);
+router.get("/get-all-seat-booking", getAllSeatBooking);
 router.get("/get-all-seat-booking-by-user", verify, getBookingSeatsByUserId);
 router.get(
   "/get-all-pending-seat-booking-by-user",
   verify,
   getPendingBookingSeatsByUserId
 );
-router.delete("/delete-seats-booking/:id", verify, deleteSeatBookingById);
+router.delete("/delete-seats-booking/:id", deleteSeatBookingById);
 router.delete("/delete-seats-booking-by-user", verify, deleteSeatBookingByUser);
 
 // recipe generating
 router.post("/create-recipe", verify, createGeneratedRecipe);
+router.get(
+  "/get-recipe-by-seat-booking-id",
+
+  getGeneratedRecipeBySeatBookingId
+);
 
 export default router;

@@ -114,7 +114,9 @@ const Main = () => {
           },
         }
       );
-
+      if (res.data.flat().length === 0) {
+        sessionStorage.removeItem("seatBookingId");
+      }
       setUserCurrentSeatsBooking(res.data.flat());
     } catch (err) {
       console.log(err);

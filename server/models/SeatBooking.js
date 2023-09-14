@@ -16,6 +16,8 @@ const seatBookingSchema = new Schema(
     outDateTime: {
       type: Date,
       required: true,
+      // Set up the TTL index here
+      expires: 0, // Automatically delete documents when outDateTime is reached
     },
     bookingSeats: [
       {
@@ -26,6 +28,11 @@ const seatBookingSchema = new Schema(
     state: {
       type: Boolean,
       default: true,
+      required: true,
+    },
+    generatedRecipe: {
+      type: Boolean,
+      default: false,
       required: true,
     },
   },
