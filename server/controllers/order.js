@@ -17,7 +17,7 @@ export const viewOrder = async (req, res, next) => {
 // ? add order
 
 export const addOrder = async (req, res) => {
-  const { email, amount, items, status } = req.body;
+  const { email, id, amount, items, status } = req.body;
   const user = await User.findOne({ email });
 
   let fName = "";
@@ -41,6 +41,7 @@ export const addOrder = async (req, res) => {
 
       // Add the item and quantity to the orderItems array
       orderItems.push({
+        
         item: cartItem._id,
         category:cartItem.category,
         quantity: item.quantity,
@@ -65,6 +66,7 @@ export const addOrder = async (req, res) => {
 
     // Create a new Order document with the order items
     const newOrder = new Order({
+      id,
       user: fName,
       items: orderItems, // Include the order items array
       email,

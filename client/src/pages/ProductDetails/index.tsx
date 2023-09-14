@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import { Product, ProviderContext } from "../../components/Provider";
 import { Button } from "../../base-components/Button";
 import MuiRating from "../../components/MuiRating";
 import ReactModal from "react-modal";
 import InputField from "../../base-components/FormElements/InputElement";
+import axios from "axios";
 
 ReactModal.setAppElement("#root");
 
@@ -31,6 +32,53 @@ const ProductDetails: React.FC = () => {
   // modal open close
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modal2IsOpen, setModal2IsOpen] = useState(false);
+  const {addressEntered, setAddressEntered} = useContext(ProviderContext);
+  const [address, setAddress] = useState("");
+  const {userId, setUserId} = useContext(ProviderContext);
+  const {userAddress, setUserAddress} = useContext(ProviderContext);
+
+  const handleAddAddress  = async () => {
+    setAddressEntered(true);
+    try {
+      
+      const response = await axios.post("http://localhost:8000/api/address/addAddress", {
+        address: address,
+      });
+      if (response.status === 201) {
+        setUserId(response.data.userCode);
+        console.log("Newly created userId:", response.data.userCode);
+        setAddressEntered(true);
+      } else {
+        console.error("Failed to create user. Status code:", response.status);
+      }
+    } catch (error) {
+      console.error("Error creating user:", error);
+    }
+  };
+
+  useEffect(() => {
+const fetchUserAddress = async () => {
+
+      try {
+        const response = await axios.get(`http://localhost:8000/api/address/view/${userId}`);
+        
+        if (response.status === 200) {
+          setUserAddress(response.data.data);
+          console.log(userAddress);
+        } else {
+          console.log('Failed to fetch user address');
+        }
+      } catch (error) {
+        console.error('Error fetching user address',error);
+      } 
+    };
+    console.log(userId);
+    console.log("User add ",userAddress);
+    fetchUserAddress();
+  }, [userId]);
+  
+
+  
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -72,17 +120,65 @@ const ProductDetails: React.FC = () => {
     (product: Product) => product.name === decodeURIComponent(productName)
   );
 
+  let user = "";
+
+  const email = sessionStorage.email;
+
+  if(!email){
+    user = userId;
+  }else {
+    // If email is present, fetch user data based on email and get userCode
+    const fetchAllUsers = async () => {
+  try {
+    // Send a request to fetch all users
+    const response = await axios.get("http://localhost:8000/api/user/get-all-users");
+    
+    if (response.status === 200) {
+      // Assuming the response contains an array of user objects
+      const allUsers = response.data;
+      
+      // Filter users based on the session storage email
+      const filteredUsers = allUsers.filter((user: { email: any; }) => user.email === sessionStorage.email);
+      
+      if (filteredUsers.length > 0) {
+        // User with matching email found
+        const userData = filteredUsers[0]; // Assuming only one user matches
+        user = userData.userCode;
+        console.log(user);
+        setUserId(user); // Assign userCode to the user variable
+      } else {
+        // User with matching email not found
+        console.log('User with email not found');
+      }
+    } else {
+      console.log('Failed to fetch all users');
+    }
+  } catch (error) {
+    console.error('Error fetching all users', error);
+  } 
+};
+
+// Call the fetchAllUsers function to fetch all users and filter by email
+fetchAllUsers();
+  }
+
   const handleUser = async () => {
-    const email = sessionStorage.email;
+    
     console.log(email);
     if (!email) {
+     
       console.log("No email");
       openModal2();
     } else {
+      
       console.log(email);
       openModal();
     }
   };
+
+
+
+
 
   const handleAddToCart = async () => {
     // Send API request to add item to cart
@@ -92,7 +188,8 @@ const ProductDetails: React.FC = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        _id: selectedProduct._id,
+        id: selectedProduct._id,
+        u_id: user,
         name: selectedProduct.name,
         price: selectedProduct.price,
         category: selectedProduct.category,
@@ -240,18 +337,46 @@ const ProductDetails: React.FC = () => {
                     </h2>
                     <br />
 
-                    <div className="flex items-center w-3/5 space-x-4 p-2">
+                    <div className="flex w-3/5 items-center space-x-4 p-2">
                       <div className="grow flex-wrap gap-3 md:flex">
                         <div className="mb-2 grow md:mb-0 md:h-9">
+                          
+                          
                           <InputField
-                            className="mx-auto border !border-gradient-yellow-900 pb-2 pt-1 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25 md:pb-2 md:pt-2"
-                            placeholder="No:21/32, Okandh..."
+                           type="text"
+                           className="mx-auto border !border-gradient-yellow-900 pb-2 pt-1 !text-sm !text-black placeholder-gradient-yellow-500 !placeholder-opacity-25 md:pb-2 md:pt-2"
+                           placeholder="No:21/32, Okandh..."
+                           value={addressEntered ? userAddress : address}
+                           onChange={(e) => setAddress(e.target.value)} 
+                           disabled={addressEntered}
                           />
                         </div>
                         <div className="">
-                          <Button className="m-0 !rounded-[10px] border-none !bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm">
+                          {
+                            addressEntered ? (
+                              <div>
+                                {/* ... (other code) */}
+                                <Button
+                            
+                            className="m-0 !rounded-[10px] border-none !bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
+                          >
                             Change
                           </Button>
+                                {/* ... (other code) */}
+                              </div>
+                            ) : 
+                            (<div>
+                            {/* ... (other code) */}
+                            <Button
+                        onClick={handleAddAddress}
+                        className="m-0 !rounded-[10px] border-none !bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
+                      >
+                        Add
+                      </Button>
+                            {/* ... (other code) */}
+                          </div> )/* Render nothing if address is not entered */
+                          }
+                          
                         </div>
                       </div>
                     </div>
@@ -283,15 +408,23 @@ const ProductDetails: React.FC = () => {
                           </button>
                         </div>
                         <div className="grid">
-                          <Button
-                            as={NavLink}
-                            to={""}
-                            className="m-0 !mb-2 !mt-1 min-w-[200px] !rounded-[10px] border-none !bg-opacity-20 !bg-gradient-to-b from-gradient-yellow-900-6 to-gradient-yellow-900-2 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
-                          >
-                            <p className="!bg-gradient-to-b from-gradient-brown-400 to-gradient-brown-400 bg-clip-text text-transparent">
-                              Add to Cart
-                            </p>
-                          </Button>
+                          {/* Conditionally render the Add to Cart button */}
+                          {
+                            addressEntered ? (
+                              <div>
+                                {/* ... (other code) */}
+                                <Button
+                                  onClick={handleAddToCart}
+                                  className="m-0 min-w-[200px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-red-900 !bg-opacity-60 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
+                                >
+                                  <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
+                                    Add to cart
+                                  </p>
+                                </Button>
+                                {/* ... (other code) */}
+                              </div>
+                            ) : null /* Render nothing if address is not entered */
+                          }
                           <Button
                             onClick={closeModal2}
                             className="m-0 min-w-[200px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"

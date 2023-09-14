@@ -36,6 +36,12 @@ export interface ProviderContextInterface {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   count: number;
   setCount: Dispatch<SetStateAction<number>>;
+  userId : string;
+  setUserId: Dispatch<SetStateAction<string>>;
+  userAddress : string;
+  setUserAddress: Dispatch<SetStateAction<string>>;
+  addressEntered: boolean;
+  setAddressEntered: Dispatch<SetStateAction<boolean>>;
 }
 
 const defaultState = {
@@ -122,6 +128,9 @@ const Provider = (props: ProviderProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [count, setCount] = useState(1);
+  const [userId, setUserId] = useState<string>("");
+  const [userAddress, setUserAddress] = useState<string>("");
+  const [addressEntered, setAddressEntered] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -132,6 +141,42 @@ const Provider = (props: ProviderProps) => {
       console.error("Error fetching data:", error);
     }
   };
+
+  if(sessionStorage.email){
+  
+    // If email is present, fetch user data based on email and get userCode
+    const fetchAllUsers = async () => {
+  try {
+    // Send a request to fetch all users
+    const response = await axios.get("http://localhost:8000/api/user/get-all-users");
+    
+    if (response.status === 200) {
+      // Assuming the response contains an array of user objects
+      const allUsers = response.data;
+      
+      // Filter users based on the session storage email
+      const filteredUsers = allUsers.filter((user: { email: any; }) => user.email === sessionStorage.email);
+      
+      if (filteredUsers.length > 0) {
+        // User with matching email found
+        const userData = filteredUsers[0]; // Assuming only one user matches
+        console.log(userData.userCode);
+        setUserId(userData.userCode); // Assign userCode to the user variable
+      } else {
+        // User with matching email not found
+        console.log('User with email not found');
+      }
+    } else {
+      console.log('Failed to fetch all users');
+    }
+  } catch (error) {
+    console.error('Error fetching all users', error);
+  } 
+};
+
+// Call the fetchAllUsers function to fetch all users and filter by email
+fetchAllUsers();
+  }
 
   useEffect(() => {
     fetchData();
@@ -152,6 +197,12 @@ const Provider = (props: ProviderProps) => {
         setModalIsOpen,
         count,
         setCount,
+        userId,
+        setUserId,
+        userAddress,
+        setUserAddress,
+        addressEntered,
+        setAddressEntered,
       }}
     >
       {props.children}
