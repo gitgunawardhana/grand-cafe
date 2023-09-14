@@ -1,4 +1,3 @@
-import { faker } from "@faker-js/faker";
 import { useEffect, useState } from "react";
 
 import axios from "axios";
@@ -13,7 +12,7 @@ const SaleChart = () => {
   const { t } = useTranslation();
 
   const [ordersCountByMonths, setOrdersCountByMonths] = useState<any>([]);
-  const [ordersRevenueByMonths, setOrdersRevenueByMonths] = useState<any>([]);
+  const [ordersSalesByMonths, setOrdersSalesByMonths] = useState<any>([]);
 
   const labels = data.revenueByMonths.labels.map((month) => t(month));
 
@@ -28,12 +27,12 @@ const SaleChart = () => {
     ],
   });
 
-  const [revenueData, setRevenueData] = useState({
-    labels,
+  const [salesData, setSalesData] = useState({
+    labels: ordersSalesByMonths?.map((orderSale: any) => orderSale.month),
     datasets: [
       {
-        label: t("summaryOfRevenue"),
-        data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+        label: t("Chart of Sales"),
+        data: ordersSalesByMonths?.map((orderSale: any) => orderSale.noOfSales),
         backgroundColor: "rgba(255, 176, 13, 0.9)",
       },
     ],
@@ -55,13 +54,13 @@ const SaleChart = () => {
     }
   };
 
-  const getOrdersRevenueByMonths = async () => {
+  const getOrdersSalesByMonths = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/order/revenue-by-month"
+        "http://localhost:8000/api/order/sales-by-month"
       );
       if (response.data.data) {
-        setOrdersRevenueByMonths(response.data.data);
+        setOrdersSalesByMonths(response.data.data);
         console.log("Success fetching order data");
       } else {
         console.log("Error fetching order data");
@@ -73,7 +72,7 @@ const SaleChart = () => {
 
   useEffect(() => {
     getOrdersCountByMonths();
-    getOrdersRevenueByMonths();
+    getOrdersSalesByMonths();
   }, []);
 
   useEffect(() => {
@@ -90,21 +89,19 @@ const SaleChart = () => {
   }, [ordersCountByMonths]);
 
   useEffect(() => {
-    setRevenueData({
-      labels: ordersRevenueByMonths?.map(
-        (orderRevenue: any) => orderRevenue.month
-      ),
+    setSalesData({
+      labels: ordersSalesByMonths?.map((orderSale: any) => orderSale.month),
       datasets: [
         {
-          label: t("Chart of Revenue"),
-          data: ordersRevenueByMonths?.map(
-            (orderRevenue: any) => orderRevenue.noOfRevenue
+          label: t("Chart of Sales"),
+          data: ordersSalesByMonths?.map(
+            (orderSale: any) => orderSale.noOfSales
           ),
           backgroundColor: "rgba(255, 176, 13, 0.9)",
         },
       ],
     });
-  }, [ordersRevenueByMonths]);
+  }, [ordersSalesByMonths]);
 
   const [userData] = useState({
     labels,
@@ -134,8 +131,8 @@ const SaleChart = () => {
           <Card>
             <div className={classes.chart__wrapper}>
               <BarChart
-                chartData={revenueData}
-                chartTitle={`${t("summaryOfRevenue")}`}
+                chartData={salesData}
+                chartTitle={`${t("Chart of Sales")}`}
               />
             </div>
           </Card>

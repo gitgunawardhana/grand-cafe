@@ -7,12 +7,11 @@ import SummaryBox from "./SummaryBox";
 
 function Summary() {
   const [ordersForCurrentMonth, setOrdersForCurrentMonth] = useState<number>();
-  const [revenueForCurrentMonth, setRevenueForCurrentMonth] =
-    useState<number>();
+  const [saleForCurrentMonth, setSaleForCurrentMonth] = useState<number>();
 
   const [summaryData, setSummaryData] = useState<IsummData[]>([
     {
-      icon: "akar-icons:shopping-bag",
+      icon: "tdesign:money", // akar-icons:shopping-bag
       text: "thisMonthSales",
       amount: "salesAmount",
       currency: "currency",
@@ -24,7 +23,7 @@ function Summary() {
       currency: "",
     },
     {
-      icon: "tdesign:money", // jam:coin
+      icon: "tdesign:money", // akar-icons:shopping-bag
       text: "thisMonthRevenue",
       amount: "revenueAmount",
       currency: "currency",
@@ -46,13 +45,13 @@ function Summary() {
     }
   };
 
-  const getRevenueForCurrentMonth = async () => {
+  const getSaleForCurrentMonth = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/order/revenue-by-month"
+        "http://localhost:8000/api/order/sales-by-month"
       );
       if (response.data.data) {
-        setRevenueForCurrentMonth(response.data.thisMonthRevenue);
+        setSaleForCurrentMonth(response.data.thisMonthSales);
       } else {
         console.log("Error fetching order data");
       }
@@ -63,7 +62,7 @@ function Summary() {
 
   useEffect(() => {
     getOrdersForCurrentMonth();
-    getRevenueForCurrentMonth();
+    getSaleForCurrentMonth();
   }, []);
 
   useEffect(() => {
@@ -84,15 +83,15 @@ function Summary() {
     setSummaryData((prevSummaryData) => {
       const updatedSummaryData = [...prevSummaryData];
       const ordersIndex = updatedSummaryData.findIndex(
-        (item) => item.text === "thisMonthRevenue"
+        (item) => item.text === "thisMonthSales"
       );
       if (ordersIndex !== -1) {
         updatedSummaryData[ordersIndex].amount =
-          revenueForCurrentMonth?.toString() ?? "0";
+          saleForCurrentMonth?.toString() ?? "0";
       }
       return updatedSummaryData;
     });
-  }, [revenueForCurrentMonth]);
+  }, [saleForCurrentMonth]);
 
   const { t } = useTranslation();
   return (
