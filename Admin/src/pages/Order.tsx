@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/UI/button/Button";
+import axios from "axios";
 export interface Order {
   _id: string;
   user: string;
@@ -29,41 +30,26 @@ const Main = () => {
     }
   };
 
-  const handleDelete = async (productId: string) => {
-    // Ask the user for confirmation
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this product?"
-    );
+  const handleStatusChange = async (orderId: string, newStatus: string) => {
+    try {
+      // Make a PUT request to update the order status on the server
+      const response = await axios.put(
+        `http://localhost:8000/api/order/updateStatus/${orderId}`,
+        { status: newStatus }
+      );
 
-    if (confirmDelete) {
-      try {
-        const response = await fetch(
-          `http://localhost:8000/api/products/deleteProduct/${productId}`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+      if (response.status === 200) {
+        // Update the order status locally
+        const updatedOrders = order.map((order) =>
+          order._id === orderId ? { ...order, status: newStatus } : order
         );
-
-        if (response.ok) {
-          // Product deleted successfully, you can redirect or show a success message
-          alert("Product deleted successfully!");
-          // Remove the deleted product from the state
-          //   setOrders((prevProducts) =>
-          //     prevProducts.filter((product) => product._id !== productId)
-          //   );
-        } else {
-          // Handle errors, show an error message, or log the error
-          alert("Failed to delete product. Please try again.");
-        }
-      } catch (error) {
-        console.error("Error deleting product:", error);
-        // Handle the error (e.g., show an error message to the user)
+        setOrders(updatedOrders);
+      } else {
+        console.error("Failed to update order status");
       }
+    } catch (error) {
+      console.error("Error updating order status:", error);
     }
-    fetchData();
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -111,22 +97,22 @@ const Main = () => {
         <table className="p-8 w-full max-w-screen-xl rounded-xl shadow-2xl">
           <thead>
             <tr>
-              <th className="px-6 py-3 bg-amber-500 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-3 bg-amber-500 text-center text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
                 User
               </th>
-              <th className="px-6 py-3 bg-amber-500 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-3 bg-amber-500 text-center text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
                 Email
               </th>
-              <th className="px-6 py-3 bg-amber-500 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-3 bg-amber-500 text-center text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
                 Amount
               </th>
-              <th className="px-6 py-3 bg-amber-500 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-3 bg-amber-500 text-center text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
                 Items
               </th>
-              <th className="px-6 py-3 bg-amber-500 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
+              <th className="px-6 py-3 bg-amber-500 text-center text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-6 py-3 bg-amber-500 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider justify-center text-center">
+              <th className="px-6 py-3 bg-amber-500 text-center text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider justify-center text-center">
                 Actions
               </th>
               {/* Add more headers as needed */}
@@ -147,23 +133,39 @@ const Main = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
                 {order.items.map((item) => (
     <div key={item._id} className="relative">
-      {item.quantity}
+      {item.name}
     </div>
   ))}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
-                  {order.status}
-                </td>
+                <td className="whitespace-nowrap px-6 py-4 text-center text-sm leading-5 text-gray-800">
+                          <div className="flex items-center justify-center">
+                            {order.status === "Pending" && (
+                              <p className="w-2/3 rounded-2xl bg-blue-400 p-1 text-xs tracking-wide text-blue-950">
+                                Pending
+                              </p>
+                            )}
+                            {order.status === "Delivered" && (
+                             <p className="w-2/3 rounded-2xl bg-green-400 p-1 text-xs tracking-wide text-green-950">
+                             Delivered
+                           </p>
+                            )}
+                            {order.status === "Cancelled" && (
+                             <p className="w-2/3 rounded-2xl bg-red-500 p-1 text-xs tracking-wide text-red-950">
+                             Cancelled
+                           </p>
+                            )}
+                          </div>
+                        </td>
                 <td className="flex px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800 justify-center items-center">
                   <div className="px-4">
-                    <Link to={`/products/${order._id}`}>
                       <Icon
                         className="hover:scale-125 cursor-pointer"
                         style={{ color: "green" }}
                         icon="fluent:edit-16-regular"
                         width="24"
+                        onClick={() => handleStatusChange(order._id, "Delivered")}
                       />
-                    </Link>
+                    
                   </div>
                 </td>
                 {/* Add more cells with product data as needed */}

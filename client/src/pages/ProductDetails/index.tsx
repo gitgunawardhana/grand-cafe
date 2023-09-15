@@ -188,12 +188,12 @@ fetchAllUsers();
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: selectedProduct._id,
+        id: selectedProduct?._id,
         u_id: user,
-        name: selectedProduct.name,
-        price: selectedProduct.price,
-        category: selectedProduct.category,
-        image: selectedProduct.image,
+        name: selectedProduct?.name,
+        price: selectedProduct?.price,
+        category: selectedProduct?.category,
+        image: selectedProduct?.image,
         quantity: count,
       }),
     });

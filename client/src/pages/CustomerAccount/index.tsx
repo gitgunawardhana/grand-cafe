@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import * as Yup from "yup";
 import profileIcon from "../../assets/icons/profileIcon.png";
@@ -14,6 +14,25 @@ import TextArea from "../../components/TextArea";
 import { AlignmentTypes } from "../../constants";
 import { updateCurrentUser } from "../../services/user";
 import { convertToBase64 } from "../../utils";
+import { Icon } from "@iconify/react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCoffee } from "@fortawesome/free-solid-svg-icons";
+
+export interface Order {
+  _id: string;
+  user: string;
+  email: string;
+  amount: number;
+  id: string;
+  orderCode: string;
+  status: string;
+  items: Array<{
+    _id: string; // Assuming each item has an _id
+    name: string; // Add other properties of the item here
+    quantity: number;
+  }>;
+}
 
 const gender = [
   {
@@ -61,6 +80,7 @@ interface FormValues {
 const Main = () => {
   const { axiosJWT } = useContext(ProviderContext);
   const { user, setUser } = useContext(UserProviderContext);
+  const { userId, setUserId } = useContext(ProviderContext);
   console.log(user);
   if (!user) {
     // Render a loading indicator or handle the loading state in another way
@@ -115,6 +135,53 @@ const Main = () => {
       }
     },
   });
+
+  const [order, setOrders] = useState<Order[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  // const fetchData = async () => {
+  //   try {
+  //     const res = await fetch("http://localhost:8000/api/order/vieworder");
+  //     const json = await res.json();
+  //     setOrders(json.data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
+
+  const fetchData = async () => {
+    try {
+      // Fetch the orders from the API
+      const res = await fetch("http://localhost:8000/api/order/vieworder");
+      const json = await res.json();
+
+      // Assuming you have the userId you want to filter by
+      // Replace with the actual userId
+      console.log("User", userId);
+      // Filter the orders based on the userId
+      const filteredOrders = json.data.filter(
+        (order: { id: string }) => order.id === userId
+      );
+
+      // Set the filtered orders in your state
+      setOrders(filteredOrders);
+      console.log("Order", filteredOrders);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = order.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
 
   return (
     <>
@@ -363,6 +430,103 @@ const Main = () => {
             </div>
           </div>
         </form>
+        <div>
+          {!editProfile ? (
+            <div>
+              <p className=" text-gradient-yellow-900 text-2xl font-bold tracking-wider">
+          Order Details
+        </p><br/>
+              <div className="flex w-full  items-stretch justify-center rounded-3xl bg-amber-200 p-10">
+                <table className="w-full max-w-screen-xl rounded-xl p-8 shadow-2xl">
+                  <thead>
+                    <tr>
+                      <th className="bg-amber-600 px-6 py-3 text-center text-xs font-semibold uppercase leading-4 tracking-wider text-gray-100">
+                        Order Id
+                      </th>
+                      <th className="bg-amber-600 px-6 py-3 text-center text-xs font-semibold uppercase leading-4 tracking-wider text-gray-100">
+                        Email
+                      </th>
+                      <th className="bg-amber-600 px-6 py-3 text-center text-xs font-semibold uppercase leading-4 tracking-wider text-gray-100">
+                        Amount
+                      </th>
+                      <th className="bg-amber-600 px-6 py-3 text-center text-xs font-semibold uppercase leading-4 tracking-wider text-gray-100">
+                        Items
+                      </th>
+                      <th className="bg-amber-600 px-6 py-3 text-center text-xs font-semibold uppercase leading-4 tracking-wider text-gray-100">
+                        Status
+                      </th>
+                      {/* Add more headers as needed */}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentItems.map((order: Order) => (
+                      <tr key={order._id} className="hover:bg-gray-50 ">
+                        <td className="whitespace-nowrap px-6 py-4 text-sm leading-5 text-gray-800">
+                          {order.orderCode}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm leading-5 text-gray-800">
+                          {order.email}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm leading-5 text-gray-800">
+                          Rs. {order.amount}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm leading-5 text-gray-800">
+                          {order.items.map((item) => (
+                            <div key={item._id} className="relative">
+                              {item.name}
+                            </div>
+                          ))}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-center text-sm leading-5 text-gray-800">
+                          <div className="flex items-center justify-center">
+                            {order.status === "Pending" && (
+                              <p className="w-2/3 rounded-2xl bg-blue-400 p-1 text-xs tracking-wide text-blue-950">
+                                Pending
+                              </p>
+                            )}
+                            {order.status === "Delivered" && (
+                             <p className="w-2/3 rounded-2xl bg-green-400 p-1 text-xs tracking-wide text-green-950">
+                             Delivered
+                           </p>
+                            )}
+                            {order.status === "Cancelled" && (
+                             <p className="w-2/3 rounded-2xl bg-red-500 p-1 text-xs tracking-wide text-red-950">
+                             Cancelled
+                           </p>
+                            )}
+                          </div>
+                        </td>
+                        {/* Add more cells with product data as needed */}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="mt-4 flex justify-center">
+                <ul className="flex">
+                  {Array(Math.ceil(order.length / itemsPerPage))
+                    .fill(null)
+                    .map((_, index) => (
+                      <li key={index}>
+                        <button
+                          onClick={() => paginate(index + 1)}
+                          className={`${
+                            currentPage === index + 1
+                              ? "bg-amber-600 text-white"
+                              : "bg-gray-300"
+                          } mx-1 cursor-pointer rounded px-3 py-1`}
+                        >
+                          {index + 1}
+                        </button>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            </div>
+          ) : (
+            <div className="flex gap-3"></div>
+          )}
+        </div>
       </div>
     </>
   );
