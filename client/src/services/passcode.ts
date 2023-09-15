@@ -4,7 +4,7 @@ import { decryptPasscode, encryptPasscode } from "../utils";
 
 export const checkExpiration = async (passcode: string) => {
   try {
-    if (passcode === decryptPasscode(sessionStorage.getItem("passcode")!)) {
+    if (passcode === decryptPasscode(sessionStorage.getItem("temp")!)) {
       const res = await axios.get(
         `http://localhost:8000/api/passcode/check-expiration/${passcode}`
       );
@@ -29,7 +29,7 @@ export const createPasscode = async (data: any) => {
     );
     console.log("data.passcode ", data.passcode);
 
-    sessionStorage.setItem("passcode", encryptPasscode(data.passcode));
+    sessionStorage.setItem("temp", encryptPasscode(data.passcode));
   } catch (err) {
     console.log(err);
     Swal.fire({

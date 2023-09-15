@@ -162,7 +162,7 @@ const Main = () => {
     const result = await checkExpiration(passcode);
     if (result === "expired") {
       setPasscodeErrorMsg("Verification code is expired!");
-      sessionStorage.removeItem("passcode");
+      sessionStorage.removeItem("temp");
       setGeneratedPasscode(generateRandomCode);
       createPasscode({
         passcode: generatedPasscode,
