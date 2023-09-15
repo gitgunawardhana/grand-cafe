@@ -80,3 +80,38 @@ export const updateCurrentUser = async (
     });
   }
 };
+
+export const resetPassword = async (axiosJWT: AxiosInstance, data: any) => {
+  try {
+    const res = await axiosJWT.post(
+      "http://localhost:8000/api/user/reset-password",
+      data,
+      {
+        headers: {
+          authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+        },
+      }
+    );
+
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      text: "Success! You are now updated your password.",
+      background: "#2A200A",
+      color: "#F19328",
+      showConfirmButton: false,
+      timer: 3000,
+    });
+  } catch (err) {
+    console.log(err);
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      text: "Sorry, we couldn't update your password due to a server error. Please try again later or contact us for assistance.",
+      background: "#2A200A",
+      color: "#F19328",
+      showConfirmButton: false,
+      timer: 3000,
+    });
+  }
+};
