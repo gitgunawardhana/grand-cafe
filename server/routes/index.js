@@ -6,6 +6,7 @@ import categoryController from "./category.js";
 import inventoryController from "./inventory.js";
 import itemSalesRoutes from "./itemSales.js";
 import ordersController from "./order.js";
+import passcodeRoutes from "./passcode.js";
 import productsController from "./products.js";
 import userRoutes from "./user.js";
 
@@ -20,5 +21,6 @@ router.use("/category", categoryController);
 router.use("/inventory", inventoryController);
 router.use("/order", ordersController);
 router.use("/item-sales", itemSalesRoutes);
+router.use("/passcode", passcodeRoutes);
 
 export default router;
