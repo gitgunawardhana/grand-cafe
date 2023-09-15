@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import * as Yup from "yup";
 import profileIcon from "../../assets/icons/profileIcon.png";
@@ -12,12 +12,8 @@ import { ProviderContext } from "../../components/Provider";
 import { UserProviderContext } from "../../components/Provider/UserProvider";
 import TextArea from "../../components/TextArea";
 import { AlignmentTypes } from "../../constants";
-import { updateCurrentUser } from "../../services/user";
+import { resetPassword, updateCurrentUser } from "../../services/user";
 import { convertToBase64 } from "../../utils";
-import { Icon } from "@iconify/react";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 
 export interface Order {
   _id: string;
@@ -66,6 +62,33 @@ const validationSchema = Yup.object().shape({
   lastName: Yup.string().required("Last Name is required"),
 });
 
+const passwordValidation = Yup.string()
+  .required("Password is required")
+  .min(8, "Password must be at least 8 characters long")
+  .test(
+    "lowercase",
+    "Password must contain at least 1 lowercase letter",
+    (value) => /[a-z]/.test(value)
+  )
+  .test(
+    "uppercase",
+    "Password must contain at least 1 uppercase letter",
+    (value) => /[A-Z]/.test(value)
+  )
+  .test("numbers", "Password must contain at least 1 number", (value) =>
+    /[0-9]/.test(value)
+  )
+  .test(
+    "symbols",
+    "Password must contain at least 1 special character",
+    (value) => /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(value)
+  );
+
+const validationSchemaPassword = Yup.object().shape({
+  currentPassword: passwordValidation,
+  newPassword: passwordValidation,
+});
+
 // Define a TypeScript interface for your form values
 interface FormValues {
   avatar: string | undefined;
@@ -77,16 +100,22 @@ interface FormValues {
   gender: string | undefined;
 }
 
+interface PasswordForm {
+  currentPassword: string | undefined;
+  newPassword: string | undefined;
+}
+
 const Main = () => {
   const { axiosJWT } = useContext(ProviderContext);
   const { user, setUser } = useContext(UserProviderContext);
   const { userId, setUserId } = useContext(ProviderContext);
-  console.log(user);
+
   if (!user) {
     // Render a loading indicator or handle the loading state in another way
     return <div>Loading...</div>;
   }
   const [editProfile, setEditProfile] = useState<boolean>(false);
+  const [editPassword, setEditPassword] = useState<boolean>(false);
 
   const [selectedAvatar, setSelectedAvatar] = useState(user.avatar);
   const [selectedGender, setSelectedGender] = useState<string | null>(
@@ -136,6 +165,19 @@ const Main = () => {
     },
   });
 
+  const initialValuesPW: PasswordForm = {
+    currentPassword: "",
+    newPassword: "",
+  };
+  const formikPW = useFormik({
+    initialValues: initialValuesPW,
+    validationSchema: validationSchemaPassword,
+    onSubmit: (values: PasswordForm) => {
+      resetPassword(axiosJWT, values);
+      setEditPassword(!editPassword);
+    },
+  });
+
   const [order, setOrders] = useState<Order[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -181,7 +223,6 @@ const Main = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
 
   return (
     <>
@@ -430,12 +471,101 @@ const Main = () => {
             </div>
           </div>
         </form>
+        <form onSubmit={formikPW.handleSubmit}>
+          <div className="ml-20 mt-14 flex "></div>
+
+          <div className="!-mt-14 mb-10 grid grid-cols-2 items-center  justify-start gap-1 pb-4 md:mt-0 lg:mt-0 lg:flex-row">
+            <div className="col-span-2 ml-20 mt-20 justify-start text-start text-[20px] font-black text-gradient-yellow-900 sm:text-[20px] md:text-[20px] lg:text-[25px]">
+              <h3>Change Password</h3>
+            </div>
+            <div className="col-span-2 ml-20 mt-20 justify-start text-start sm:col-span-1">
+              <InputField
+                type="password"
+                {...formikPW.getFieldProps("currentPassword")}
+                name="currentPassword"
+                className="border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
+                placeholder="Current Password"
+                disabled={!editPassword}
+                sepLabel="Current Password"
+                labelAlignment={AlignmentTypes.BLOCK}
+                sepLabelClassName="text-gradient-yellow-900 font-bold"
+                RequiredLabelClassName="bg-[#f59f0b5e]"
+                required={editPassword}
+              />
+              {formikPW.touched.currentPassword &&
+              formikPW.errors.currentPassword ? (
+                <div className="translate-y-11 text-left text-xs text-red-700">
+                  {formikPW.errors.currentPassword}
+                </div>
+              ) : null}
+            </div>
+            <div className="col-span-2 ml-20 mt-20 justify-start text-start sm:col-span-1">
+              <InputField
+                type="password"
+                {...formikPW.getFieldProps("newPassword")}
+                name="newPassword"
+                className="border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
+                placeholder="New Password"
+                disabled={!editPassword}
+                sepLabel="New Password"
+                labelAlignment={AlignmentTypes.BLOCK}
+                sepLabelClassName="text-gradient-yellow-900 font-bold"
+                RequiredLabelClassName="bg-[#f59f0b5e]"
+                required={editPassword}
+              />
+              {formikPW.touched.newPassword && formikPW.errors.newPassword ? (
+                <div className="translate-y-11 text-left text-xs text-red-700">
+                  {formikPW.errors.newPassword}
+                </div>
+              ) : null}
+            </div>
+            <div className="col-span-2 ml-20 mt-10 justify-start text-start sm:col-span-1">
+              <div>
+                {!editPassword ? (
+                  <Button
+                    className="hover:text-none ml-0 mt-10 justify-items-start border !border-gradient-yellow-900 bg-gradient-to-b from-yellow-500 to-yellow-300 px-10 py-3 text-sm text-black hover:bg-gradient-yellow-900"
+                    onClick={() => setEditPassword(!editPassword)}
+                  >
+                    Change Password
+                  </Button>
+                ) : (
+                  <div className="flex gap-3">
+                    <Button
+                      disabled={
+                        Boolean(formikPW.errors.currentPassword) ||
+                        Boolean(formikPW.errors.newPassword)
+                      }
+                      className={twMerge([
+                        "hover:text-none ml-0 mt-14 justify-items-start border !border-gradient-yellow-900 bg-gradient-to-b from-yellow-500 to-yellow-300 px-10 py-3 text-sm text-black hover:bg-gradient-yellow-900",
+                        formikPW.errors.currentPassword ||
+                        formikPW.errors.newPassword
+                          ? "cursor-not-allowed opacity-40"
+                          : "cursor-pointer",
+                      ])}
+                    >
+                      Save Changes
+                    </Button>
+                    <Button
+                      className="hover:text-none ml-0 mt-14 justify-items-start border !border-gradient-yellow-900 bg-gradient-to-b from-yellow-500 to-yellow-300 px-10 py-3 text-sm text-black hover:bg-gradient-yellow-900"
+                      onClick={() => {
+                        setEditPassword(!editPassword);
+                      }}
+                    >
+                      Cancel Changes
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </form>
         <div>
           {!editProfile ? (
             <div>
-              <p className=" text-gradient-yellow-900 text-2xl font-bold tracking-wider">
-          Order Details
-        </p><br/>
+              <p className=" text-2xl font-bold tracking-wider text-gradient-yellow-900">
+                Order Details
+              </p>
+              <br />
               <div className="flex w-full  items-stretch justify-center rounded-3xl bg-amber-200 p-10">
                 <table className="w-full max-w-screen-xl rounded-xl p-8 shadow-2xl">
                   <thead>
@@ -485,14 +615,14 @@ const Main = () => {
                               </p>
                             )}
                             {order.status === "Delivered" && (
-                             <p className="w-2/3 rounded-2xl bg-green-400 p-1 text-xs tracking-wide text-green-950">
-                             Delivered
-                           </p>
+                              <p className="w-2/3 rounded-2xl bg-green-400 p-1 text-xs tracking-wide text-green-950">
+                                Delivered
+                              </p>
                             )}
                             {order.status === "Cancelled" && (
-                             <p className="w-2/3 rounded-2xl bg-red-500 p-1 text-xs tracking-wide text-red-950">
-                             Cancelled
-                           </p>
+                              <p className="w-2/3 rounded-2xl bg-red-500 p-1 text-xs tracking-wide text-red-950">
+                                Cancelled
+                              </p>
                             )}
                           </div>
                         </td>

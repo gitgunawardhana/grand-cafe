@@ -14,6 +14,7 @@ import {
   getPendingBookingSeatsByUserId,
   getUserByEmail,
   getUserById,
+  resetPassword,
   updateCurrentUser,
   updateSeats,
   updateUserByID,
@@ -28,6 +29,7 @@ router.get("/get-current-user", verify, getCurrentUser);
 router.put("/update-current-user", verify, updateCurrentUser);
 router.put("/update-user-by-id", updateUserByID);
 router.get("/get-user-by-email", verify, getUserByEmail);
+router.post("/reset-password", verify, resetPassword);
 router.get("/get-user-by-id", getUserById);
 router.delete("/delete-user-by-email", deleteUserByEmail);
 

@@ -1,3 +1,4 @@
+import bcryptjs from "bcryptjs";
 import GeneratedRecipe from "../models/GeneratedRecipe.js";
 import Seat from "../models/Seat.js";
 import SeatBooking from "../models/SeatBooking.js";
@@ -144,6 +145,47 @@ export const deleteUserByEmail = async (req, res) => {
     }
   } catch (err) {
     res.status(500).json(err);
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  const userId = req.user.id;
+  const { currentPassword, newPassword } = req.body;
+  console.log(currentPassword, newPassword);
+
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ message: "Email & password are required" });
+  }
+  try {
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+    const salt = await bcryptjs.genSalt(10);
+    const hashedNewPassword = await bcryptjs.hash(newPassword, salt);
+
+    bcryptjs.compare(currentPassword, user.password, async (err, result) => {
+      if (err) {
+        res.status(500).json({ message: "An error occurred" });
+      }
+      if (result === true) {
+        // Update the user's password
+        user.password = hashedNewPassword;
+
+        // Save the updated user data
+        await user.save();
+        res.status(200).json({ message: "Password reset successful" });
+      } else {
+        return res
+          .status(401)
+          .json({ message: "Current password is incorrect" });
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred" });
   }
 };
 
