@@ -1,5 +1,7 @@
+import CryptoJS from "crypto-js";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Modal from "react-modal";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import * as Yup from "yup";
@@ -9,7 +11,26 @@ import Logo from "../../base-components/Logo";
 import LucideIcon from "../../base-components/LucideIcon";
 import { Icons } from "../../constants";
 import { handleRegistration } from "../../services/auth";
+import { generateRandomCode } from "../../utils";
 
+// Secret key for encryption (you should keep this secret)
+const secretKey = "mySecretKey123";
+
+// Encrypt the passcode
+function encryptPasscode(passcode: string) {
+  const encrypted = CryptoJS.AES.encrypt(passcode, secretKey).toString();
+  return encrypted;
+}
+
+// Decrypt the passcode
+function decryptPasscode(encryptedPasscode: string) {
+  const decrypted = CryptoJS.AES.decrypt(encryptedPasscode, secretKey).toString(
+    CryptoJS.enc.Utf8
+  );
+  return decrypted;
+}
+
+// ---------------------
 const passwordValidation = Yup.string()
   .required("Password is required")
   .min(8, "Password must be at least 8 characters long")
@@ -55,6 +76,53 @@ interface FormValues {
 const Main = () => {
   const navigate = useNavigate();
 
+  // Retrieve the generatedPasscode from sessionStorage, or generate a new one
+  const [passcode, setPasscode] = useState<string>("");
+
+  let generatedPC: string;
+  if (sessionStorage.getItem("generatedPasscode")) {
+    generatedPC = decryptPasscode(sessionStorage.getItem("generatedPasscode")!);
+  } else {
+    generatedPC = generateRandomCode();
+  }
+
+  const [generatedPasscode, setGeneratedPasscode] =
+    useState<string>(generatedPC);
+
+  useEffect(() => {
+    // Store the generatedPasscode in sessionStorage
+    sessionStorage.setItem(
+      "generatedPasscode",
+      encryptPasscode(generatedPasscode)
+    );
+
+    const intervalId = setInterval(() => {
+      // Clear the passcode after 10 minutes
+      console.log("Code has been deleted after 10 seconds.");
+      sessionStorage.removeItem("generatedPasscode");
+      setGeneratedPasscode(generatedPC);
+    }, 10000); // 10 minutes in milliseconds
+
+    // Clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, [generatedPasscode]); // Run this effect when generatedPasscode changes
+
+  console.log(generatedPasscode);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal: any = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const checkMatchPassocde = () => {
+    if (passcode === generatedPasscode) return true;
+    return false;
+  };
+
   const [passwordShown, setPasswordShown] = useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
 
@@ -68,9 +136,49 @@ const Main = () => {
     initialValues,
     validationSchema,
     onSubmit: (values: FormValues) => {
-      handleRegistration(values, navigate);
+      openModal();
+      if (false) {
+        handleRegistration(values, navigate);
+      }
     },
   });
+
+  // const [data, setData] = useState("6596");
+
+  // const handleSubmit = () => {
+  //   // event.preventDefault();
+
+  //   const SERVICE_ID = "service_a2gpwdj";
+  //   const TEMPLATE_ID = "template_4mco4be";
+  //   const PUBLIC_KEY = "LkmQnioW2G00XCCVN";
+
+  //   emailjs.send(SERVICE_ID, TEMPLATE_ID, data, PUBLIC_KEY).then(
+  //     (response) => {
+  //       console.log("SUCCESS!", response.status, response.text);
+  //       Swal.fire({
+  //         position: "center",
+  //         icon: "success",
+  //         text: "Email sent successfully!",
+  //         showConfirmButton: false,
+  //         timer: 3500,
+  //       });
+  //       setData("");
+  //       // event.target.reset();
+  //     },
+  //     (error) => {
+  //       console.log("FAILED...", error);
+  //       Swal.fire({
+  //         position: "center",
+  //         icon: "error",
+  //         text: "Failed to send email. Please try again later.",
+  //         showConfirmButton: false,
+  //         timer: 3500,
+  //       });
+  //       setData("");
+  //       // event.target.reset();
+  //     }
+  //   );
+  // };
 
   return (
     <div>
@@ -291,6 +399,43 @@ const Main = () => {
                     </Button>
                   </form>
                 </div>
+                <Modal
+                  isOpen={isModalOpen}
+                  onRequestClose={closeModal}
+                  style={{
+                    content: {
+                      width: "500px",
+                      height: "auto",
+                      margin: "auto",
+                      borderRadius: "20px",
+                      backgroundColor: "#E4E6EA",
+                    },
+                  }}
+                >
+                  <div className="">
+                    ID:
+                    <input
+                      type="text"
+                      value={passcode}
+                      onChange={(e) => setPasscode(e.target.value)}
+                    />
+                    <button onSubmit={checkMatchPassocde}>Submit</button>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    style={{
+                      position: "absolute",
+                      top: "5px",
+                      right: "10px",
+                      padding: "2px",
+                      backgroundColor: "transparent",
+                    }}
+                  >
+                    close
+                  </button>
+                </Modal>
               </div>
             </div>
           </div>

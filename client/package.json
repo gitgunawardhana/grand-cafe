@@ -13,6 +13,7 @@
   "dependencies": {
     "@chatscope/chat-ui-kit-react": "^1.10.1",
     "@chatscope/chat-ui-kit-styles": "^1.4.0",
+    "@emailjs/browser": "^3.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.17",
@@ -24,6 +25,7 @@
     "autoprefixer": "^10.4.14",
     "axios": "^1.4.0",
     "clsx": "^1.2.1",
+    "crypto-js": "^4.1.1",
     "dayjs": "^1.11.9",
     "flowbite": "^1.7.0",
     "formik": "^2.4.4",
@@ -42,6 +44,7 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.1.2",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
