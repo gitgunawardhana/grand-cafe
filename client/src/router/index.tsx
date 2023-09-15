@@ -19,6 +19,7 @@ import RecipeGenerator from "../pages/RecipeGenerator";
 import Register from "../pages/Register";
 import TableBooking from "../pages/TableBooking";
 import TestPage from "../pages/TestPage";
+import Payment from "../pages/Payment";
 
 function Router() {
   const routes = [
@@ -129,6 +130,14 @@ function Router() {
         <TestPage />
       ),
     },
+    {
+      path:"/payment",
+      element:(
+        <Payment/>
+      ),
+    }
+    ,
+
     {
       path: "/*",
       element: (
