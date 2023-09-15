@@ -1,14 +1,24 @@
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Modal from "react-modal";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { twMerge } from "tailwind-merge";
 import * as Yup from "yup";
 import Sign_up from "../../assets/images/Sign_up.svg";
 import { Button } from "../../base-components/Button";
 import Logo from "../../base-components/Logo";
 import LucideIcon from "../../base-components/LucideIcon";
+import VerifyModal from "../../components/VerifyModal";
 import { Icons } from "../../constants";
 import { handleLogin } from "../../services/auth";
+import { checkExpiration, createPasscode } from "../../services/passcode";
+import { checkIfEmailExists, updatePassword } from "../../services/user";
+import {
+  generateRandomCode,
+  generateRandomPassword,
+  sendEmail,
+} from "../../utils";
 
 const passwordValidation = Yup.string()
   .required("Password is required")
@@ -50,7 +60,38 @@ interface FormValues {
 }
 
 const Main = () => {
+  const [seconds, setSeconds] = useState<number>(60);
+  const [isActive, setIsActive] = useState<boolean>(false);
+
+  const startTimer = () => {
+    setSeconds(60);
+    setIsActive(true);
+  };
+
+  useEffect(() => {
+    let interval: any;
+
+    if (isActive && seconds > 0) {
+      interval = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds - 1);
+      }, 1000);
+    } else if (seconds === 0) {
+      setIsActive(false);
+      clearInterval(interval);
+    }
+
+    return () => clearInterval(interval);
+  }, [isActive, seconds]);
+
+  const [passcodeErrorMsg, setPasscodeErrorMsg] = useState("");
+  const [passcodeSent, setPasscodeSent] = useState(false);
+
   const navigate = useNavigate();
+
+  const [passcode, setPasscode] = useState<string>("");
+
+  const [generatedPasscode, setGeneratedPasscode] =
+    useState<string>(generateRandomCode);
 
   const [passwordShown, setPasswordShown] = useState(false);
 
@@ -66,6 +107,136 @@ const Main = () => {
       handleLogin(values, navigate);
     },
   });
+
+  const [recoverEmail, setRecoverEmail] = useState("");
+
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const openVerifyModal = () => {
+    setPasscodeErrorMsg("");
+    setPasscode("");
+    setIsVerifyModalOpen(true);
+    createPasscode({
+      passcode: generatedPasscode,
+      expiresInMinutes: 1,
+    });
+
+    if (!passcodeSent) {
+      sendEmail(
+        {
+          toName: "Grand cafe new user",
+          toEmail: recoverEmail,
+          fromName: "Grand Cafe",
+          fromEmail: "resturent@grandcafe.com",
+          subject: "Verify email",
+          message: `Verification Code: ${generatedPasscode}`,
+        },
+        setPasscodeSent
+      );
+      startTimer();
+    }
+  };
+
+  const closeVerifyModal = () => {
+    setIsVerifyModalOpen(false);
+  };
+
+  const handleCheckEmail = async () => {
+    const result = await checkIfEmailExists(recoverEmail, setIsValidEmail);
+    if (result) {
+      closeModal();
+      openVerifyModal();
+    }
+    console.log(result);
+  };
+
+  const [registrationState, setRegistrationState] = useState(false);
+  const [addButton, setAddButton] = useState(false);
+
+  const reSendPasscode = () => {
+    setAddButton(false);
+    setPasscodeErrorMsg("");
+    console.log(passcodeSent);
+
+    if (!passcodeSent) {
+      createPasscode({
+        passcode: generatedPasscode,
+        expiresInMinutes: 1,
+      });
+      sendEmail(
+        {
+          toName: "Grand cafe new user",
+          toEmail: recoverEmail,
+          fromName: "Grand Cafe",
+          fromEmail: "resturent@grandcafe.com",
+          subject: "Verify email",
+          message: `Verification Code: ${generatedPasscode}`,
+        },
+        setPasscodeSent
+      );
+      startTimer();
+    }
+    setPasscode("");
+  };
+
+  const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
+
+  const handlePasscode = async () => {
+    const result = await checkExpiration(passcode);
+    if (result === "expired") {
+      setPasscodeErrorMsg("Verification code is expired!");
+      sessionStorage.removeItem("temp");
+      setGeneratedPasscode(generateRandomCode);
+      createPasscode({
+        passcode: generatedPasscode,
+        expiresInMinutes: 1,
+      });
+      setAddButton(true);
+    }
+    if (result === "passcode not matching") {
+      setPasscodeErrorMsg("Verification code is invalid!");
+    }
+
+    if (result === "success") {
+      setRegistrationState(true);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        text: "Verification Success!",
+        background: "#2A200A",
+        color: "#F19328",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      const newPassword = generateRandomPassword(12);
+      const result = await updatePassword(recoverEmail, newPassword);
+      if (result) {
+        sendEmail(
+          {
+            toName: "Grand cafe new user",
+            toEmail: recoverEmail,
+            fromName: "Grand Cafe",
+            fromEmail: "resturent@grandcafe.com",
+            subject: "Reset Password",
+            message: `Your temporary password is: ${newPassword}
+            You can use this password to log in to your Grand Cafe account. We recommend changing your password after logging in for security.`,
+          },
+          setPasscodeSent
+        );
+        closeVerifyModal();
+      }
+    }
+  };
 
   return (
     <div>
@@ -152,21 +323,88 @@ const Main = () => {
                     ) : null}
                     <br></br>
                     <div className="place-items-start">
-                      <input
-                        type="checkbox"
-                        id="vehicle1"
-                        name="vehicle1"
-                        value="Bike"
-                        className=" bg-transparent focus:border-blue-500 focus:ring-blue-500"
-                      />
                       <label
                         className={twMerge(
-                          "text-[12px] font-[500] tracking-[1.226px] !text-gradient-yellow-500"
+                          "cursor-pointer text-[12px] font-[500] tracking-[1.226px] !text-gradient-yellow-500"
                         )}
+                        onClick={openModal}
                       >
                         {" "}
-                        Accept terms & conditions
+                        Forgotten password?
                       </label>
+                      <Modal
+                        isOpen={isModalOpen}
+                        onRequestClose={closeModal}
+                        style={{
+                          content: {
+                            width: "300px",
+                            height: "350px",
+                            margin: "auto",
+                            borderRadius: "20px",
+                            backgroundColor: "#362B19",
+                          },
+                        }}
+                      >
+                        <br />
+                        <br />
+                        <div className="">
+                          <p className="my-auto mb-2 !pl-0 pr-2 text-left text-gradient-yellow-900">
+                            Find You Account:
+                          </p>
+                          <input
+                            type="text"
+                            placeholder="Email address"
+                            onChange={(e) => setRecoverEmail(e.target.value)}
+                            className="w-full rounded-lg border border-gray-300 bg-teal-950 p-2.5 text-sm text-gradient-yellow-900 focus:border-gradient-yellow-500 focus:ring-gradient-yellow-500"
+                          />
+                        </div>
+                        <div className="mt-5 flex justify-start">
+                          <button
+                            className="rounded-lg border border-gradient-yellow-900 bg-gradient-yellow-900 bg-opacity-60  px-5 py-2"
+                            onClick={closeModal}
+                          >
+                            CANCEL
+                          </button>
+                          &nbsp;
+                          <button
+                            className="rounded-lg bg-gradient-yellow-900 px-5 py-2"
+                            onClick={handleCheckEmail}
+                          >
+                            SUBMIT
+                          </button>
+                        </div>
+                        <div></div>
+                        <button
+                          type="button"
+                          onClick={closeModal}
+                          style={{
+                            position: "absolute",
+                            top: "15px",
+                            right: "20px",
+                            padding: "2px",
+                            backgroundColor: "transparent",
+                          }}
+                        >
+                          <LucideIcon
+                            icon={Icons.CLOSE}
+                            strokeWidth={1.5}
+                            color="#FF9224"
+                          />
+                        </button>
+                      </Modal>
+                      <VerifyModal
+                        isModalOpen={isVerifyModalOpen}
+                        closeModal={closeVerifyModal}
+                        passcode={passcode}
+                        setPasscode={setPasscode}
+                        passcodeSent={passcodeSent}
+                        seconds={seconds}
+                        addButton={addButton}
+                        handlePasscode={handlePasscode}
+                        passcodeErrorMsg={passcodeErrorMsg}
+                        setPasscodeSent={setPasscodeSent}
+                        reSendPasscode={reSendPasscode}
+                      />
                       <br></br>
                     </div>
                     <div className="flex justify-center gap-2">

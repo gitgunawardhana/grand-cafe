@@ -109,7 +109,7 @@ const Main = () => {
           fromName: "Grand Cafe",
           fromEmail: "resturent@grandcafe.com",
           subject: "Verify email",
-          message: `Grand Cafe: ${generatedPasscode}`,
+          message: `Verification Code: ${generatedPasscode}`,
         },
         setPasscodeSent
       );
@@ -141,7 +141,7 @@ const Main = () => {
           fromName: "Grand Cafe",
           fromEmail: "resturent@grandcafe.com",
           subject: "Verify email",
-          message: `Grand Cafe: ${generatedPasscode}`,
+          message: `Verification Code: ${generatedPasscode}`,
         },
         setPasscodeSent
       );

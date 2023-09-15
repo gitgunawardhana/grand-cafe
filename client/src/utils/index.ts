@@ -3,6 +3,7 @@ import { sendEmail } from "./emailSend";
 import { decryptPasscode, encryptPasscode } from "./encryptDecrypt";
 import { formatTime } from "./formatTime";
 import { generateRandomCode } from "./generateCode";
+import { generateRandomPassword } from "./generateRandomPassword";
 import { getCookie } from "./getCookie";
 import getWindowSize from "./getWindowSize";
 import { isLoggedInUser } from "./isLoggedInUser";
@@ -14,6 +15,7 @@ export {
   encryptPasscode,
   formatTime,
   generateRandomCode,
+  generateRandomPassword,
   getCookie,
   getWindowSize,
   isLoggedInUser,

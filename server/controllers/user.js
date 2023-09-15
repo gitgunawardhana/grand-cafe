@@ -189,6 +189,55 @@ export const resetPassword = async (req, res) => {
   }
 };
 
+// ? Check email
+export const checkIfEmailExists = async (req, res) => {
+  try {
+    let email = req.query.email || req.body.email; // Check if email is in query parameters, if not, use request body
+    console.log(email);
+
+    if (!email) {
+      res.status(400).json({ message: "Email is required" });
+      return;
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+    } else {
+      res.status(200).json({ message: "User found" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+// ? Update password
+export const updatePassword = async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+
+    if (!email) {
+      res.status(400).json({ message: "Email is required" });
+      return;
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+    } else {
+      const salt = await bcryptjs.genSalt(10);
+      const hashedNewPassword = await bcryptjs.hash(newPassword, salt);
+      user.password = hashedNewPassword;
+      await user.save();
+      res.status(200).json({ message: "Password reset successful" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
 // ! Table booking related --------------------------------------------------------------
 
 // ? Get all seat details
