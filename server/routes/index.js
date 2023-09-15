@@ -8,6 +8,7 @@ import itemSalesRoutes from "./itemSales.js";
 import ordersController from "./order.js";
 import passcodeRoutes from "./passcode.js";
 import productsController from "./products.js";
+import unregController from "./unreg.js";
 import userRoutes from "./user.js";
 
 const router = express.Router();
@@ -22,5 +23,6 @@ router.use("/inventory", inventoryController);
 router.use("/order", ordersController);
 router.use("/item-sales", itemSalesRoutes);
 router.use("/passcode", passcodeRoutes);
+router.use("/address", unregController);
 
 export default router;

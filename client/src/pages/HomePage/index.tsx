@@ -38,6 +38,9 @@ import HomeBlog from "./../../components/HomeBlog/index";
 import ImageGallery from "./../../components/ImageGallery/index";
 import ProductBrowsingComponent from "./../../components/MenuItems/index";
 import ReviewCardComponent from "./../../components/ReviewCardComponent/index";
+import { useContext } from "react";
+import { ProviderContext } from "../../components/Provider";
+import axios from "axios";
 
 const reviews = [
   {
@@ -71,6 +74,10 @@ const reviews = [
 ];
 
 const Main = () => {
+
+  
+ 
+
   return (
     <div>
       <div

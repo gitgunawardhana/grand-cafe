@@ -17,11 +17,12 @@ const CartPage = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const { total, setTotal } = useContext(ProviderContext);
+  const {userId, setUserId} = useContext(ProviderContext);
 
   const fetchCartData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/add_cart/getCart"
+        `http://localhost:8000/api/add_cart/getCart/${userId}`
       );
       if (response.data.data) {
         setCartItems(response.data.data);
@@ -100,6 +101,7 @@ const CartPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          id : userId,
           email: email,
           amount: total,
           status: "Pending",
@@ -110,6 +112,26 @@ const CartPage = () => {
         // Handle success
         console.log("Success");
         alert("Order added!");
+        const clearCartResponse = await fetch("http://localhost:8000/api/add_cart/clearcart", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: userId,
+          }),
+        });
+
+        if (clearCartResponse.status === 200) {
+          // Cart data cleared successfully
+          console.log("Cart data cleared");
+          fetchCartData();
+        } else {
+          // Handle error while clearing cart data
+          console.error("Error clearing cart data");
+        }
+
+
     } else {
         // Handle error
         if(response.status === 400){ 
@@ -129,6 +151,7 @@ const CartPage = () => {
 
 
   useEffect(() => {
+    console.log(userId);
     fetchCartData();
   }, []);
 
