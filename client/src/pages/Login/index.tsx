@@ -1,14 +1,24 @@
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { twMerge } from "tailwind-merge";
 import * as Yup from "yup";
 import Sign_up from "../../assets/images/Sign_up.svg";
 import { Button } from "../../base-components/Button";
 import Logo from "../../base-components/Logo";
 import LucideIcon from "../../base-components/LucideIcon";
+import CheckEmailModal from "../../components/CheckEmailModal";
+import VerifyModal from "../../components/VerifyModal";
 import { Icons } from "../../constants";
 import { handleLogin } from "../../services/auth";
+import { checkExpiration, createPasscode } from "../../services/passcode";
+import { checkIfEmailExists, updatePassword } from "../../services/user";
+import {
+  generateRandomCode,
+  generateRandomPassword,
+  sendEmail,
+} from "../../utils";
 
 const passwordValidation = Yup.string()
   .required("Password is required")
@@ -50,7 +60,38 @@ interface FormValues {
 }
 
 const Main = () => {
+  const [seconds, setSeconds] = useState<number>(60);
+  const [isActive, setIsActive] = useState<boolean>(false);
+
+  const startTimer = () => {
+    setSeconds(60);
+    setIsActive(true);
+  };
+
+  useEffect(() => {
+    let interval: any;
+
+    if (isActive && seconds > 0) {
+      interval = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds - 1);
+      }, 1000);
+    } else if (seconds === 0) {
+      setIsActive(false);
+      clearInterval(interval);
+    }
+
+    return () => clearInterval(interval);
+  }, [isActive, seconds]);
+
+  const [passcodeErrorMsg, setPasscodeErrorMsg] = useState("");
+  const [passcodeSent, setPasscodeSent] = useState(false);
+
   const navigate = useNavigate();
+
+  const [passcode, setPasscode] = useState<string>("");
+
+  const [generatedPasscode, setGeneratedPasscode] =
+    useState<string>(generateRandomCode);
 
   const [passwordShown, setPasswordShown] = useState(false);
 
@@ -66,6 +107,134 @@ const Main = () => {
       handleLogin(values, navigate);
     },
   });
+
+  const [recoverEmail, setRecoverEmail] = useState("");
+
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const openVerifyModal = () => {
+    setPasscodeErrorMsg("");
+    setPasscode("");
+    setIsVerifyModalOpen(true);
+    createPasscode({
+      passcode: generatedPasscode,
+      expiresInMinutes: 1,
+    });
+
+    if (!passcodeSent) {
+      sendEmail(
+        {
+          toName: "Grand cafe new user",
+          toEmail: recoverEmail,
+          fromName: "Grand Cafe",
+          fromEmail: "resturent@grandcafe.com",
+          subject: "Verify email",
+          message: `Verification Code: ${generatedPasscode}`,
+        },
+        setPasscodeSent
+      );
+      startTimer();
+    }
+  };
+
+  const closeVerifyModal = () => {
+    setIsVerifyModalOpen(false);
+  };
+
+  const handleCheckEmail = async () => {
+    const result = await checkIfEmailExists(recoverEmail, setIsValidEmail);
+    if (result) {
+      closeModal();
+      openVerifyModal();
+    }
+    console.log(result);
+  };
+
+  const [addButton, setAddButton] = useState(false);
+
+  const reSendPasscode = () => {
+    setAddButton(false);
+    setPasscodeErrorMsg("");
+    console.log(passcodeSent);
+
+    if (!passcodeSent) {
+      createPasscode({
+        passcode: generatedPasscode,
+        expiresInMinutes: 1,
+      });
+      sendEmail(
+        {
+          toName: "Grand cafe new user",
+          toEmail: recoverEmail,
+          fromName: "Grand Cafe",
+          fromEmail: "resturent@grandcafe.com",
+          subject: "Verify email",
+          message: `Verification Code: ${generatedPasscode}`,
+        },
+        setPasscodeSent
+      );
+      startTimer();
+    }
+    setPasscode("");
+  };
+
+  const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
+
+  const handlePasscode = async () => {
+    const result = await checkExpiration(passcode);
+    if (result === "expired") {
+      setPasscodeErrorMsg("Verification code is expired!");
+      sessionStorage.removeItem("temp");
+      setGeneratedPasscode(generateRandomCode);
+      createPasscode({
+        passcode: generatedPasscode,
+        expiresInMinutes: 1,
+      });
+      setAddButton(true);
+    }
+    if (result === "passcode not matching") {
+      setPasscodeErrorMsg("Verification code is invalid!");
+    }
+
+    if (result === "success") {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        text: "Verification Success!",
+        background: "#2A200A",
+        color: "#F19328",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      const newPassword = generateRandomPassword(12);
+      const result = await updatePassword(recoverEmail, newPassword);
+      if (result) {
+        sendEmail(
+          {
+            toName: "Grand cafe new user",
+            toEmail: recoverEmail,
+            fromName: "Grand Cafe",
+            fromEmail: "resturent@grandcafe.com",
+            subject: "Reset Password",
+            message: `Your temporary password is: ${newPassword}
+            You can use this password to log in to your Grand Cafe account. We recommend changing your password after logging in for security.`,
+          },
+          setPasscodeSent
+        );
+        closeVerifyModal();
+      }
+    }
+  };
 
   return (
     <div>
@@ -152,21 +321,34 @@ const Main = () => {
                     ) : null}
                     <br></br>
                     <div className="place-items-start">
-                      <input
-                        type="checkbox"
-                        id="vehicle1"
-                        name="vehicle1"
-                        value="Bike"
-                        className=" bg-transparent focus:border-blue-500 focus:ring-blue-500"
-                      />
                       <label
                         className={twMerge(
-                          "text-[12px] font-[500] tracking-[1.226px] !text-gradient-yellow-500"
+                          "cursor-pointer text-[12px] font-[500] tracking-[1.226px] !text-gradient-yellow-500"
                         )}
+                        onClick={openModal}
                       >
                         {" "}
-                        Accept terms & conditions
+                        Forgotten password?
                       </label>
+                      <CheckEmailModal
+                        isModalOpen={isModalOpen}
+                        closeModal={closeModal}
+                        setRecoverEmail={setRecoverEmail}
+                        handleCheckEmail={handleCheckEmail}
+                      />
+                      <VerifyModal
+                        isModalOpen={isVerifyModalOpen}
+                        closeModal={closeVerifyModal}
+                        passcode={passcode}
+                        setPasscode={setPasscode}
+                        passcodeSent={passcodeSent}
+                        seconds={seconds}
+                        addButton={addButton}
+                        handlePasscode={handlePasscode}
+                        passcodeErrorMsg={passcodeErrorMsg}
+                        setPasscodeSent={setPasscodeSent}
+                        reSendPasscode={reSendPasscode}
+                      />
                       <br></br>
                     </div>
                     <div className="flex justify-center gap-2">

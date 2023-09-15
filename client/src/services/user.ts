@@ -1,4 +1,4 @@
-import { AxiosInstance } from "axios";
+import axios, { AxiosInstance } from "axios";
 import Swal from "sweetalert2";
 
 export const getCurrentUser = async (
@@ -113,5 +113,61 @@ export const resetPassword = async (axiosJWT: AxiosInstance, data: any) => {
       showConfirmButton: false,
       timer: 3000,
     });
+  }
+};
+
+export const checkIfEmailExists = async (
+  email: string,
+  setIsValidEmail: any
+) => {
+  try {
+    const res = await axios.post(
+      `http://localhost:8000/api/user/check-if-email-exists?email=${email}`
+    );
+    if (res.data.message === "User found") {
+      setIsValidEmail(true);
+      return true;
+    } else {
+      setIsValidEmail(false);
+      return false;
+    }
+  } catch (err) {
+    console.log(err);
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      text: "Sorry, we couldn't find email. Please enter valid email.",
+      background: "#2A200A",
+      color: "#F19328",
+      showConfirmButton: false,
+      timer: 3000,
+    });
+    return false;
+  }
+};
+
+export const updatePassword = async (email: string, newPassword: string) => {
+  try {
+    const res = await axios.post(
+      `http://localhost:8000/api/user/update-password`,
+      { email, newPassword }
+    );
+    if (res.data.message === "Password reset successful") {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    console.log(err);
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      text: "Sorry, we couldn't reset password.",
+      background: "#2A200A",
+      color: "#F19328",
+      showConfirmButton: false,
+      timer: 3000,
+    });
+    return false;
   }
 };

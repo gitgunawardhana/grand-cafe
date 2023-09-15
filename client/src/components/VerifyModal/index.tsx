@@ -77,14 +77,14 @@ const VerifyModal: React.FC<VerifyModalProps> = ({
         </div>
         {passcodeErrorMsg !== "" && (
           <div>
-            <div className="mb-5 mt-10 px-1 text-left text-sm text-red-700">
+            <div className="mb-5 mt-6 px-1 text-left text-sm text-red-700">
               {passcodeErrorMsg}
             </div>
           </div>
         )}
         {!passcodeSent ? (
           <button
-            className="rounded-lg border border-gradient-yellow-900 px-5 py-2 text-gradient-yellow-900"
+            className="mt-2 rounded-lg border border-gradient-yellow-900 px-5 py-2 text-gradient-yellow-900"
             onClick={() => {
               setPasscodeSent(false);
               reSendPasscode();

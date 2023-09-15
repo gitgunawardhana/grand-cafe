@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  checkIfEmailExists,
   createGeneratedRecipe,
   createSeatBooking,
   deleteSeatBookingById,
@@ -16,6 +17,7 @@ import {
   getUserById,
   resetPassword,
   updateCurrentUser,
+  updatePassword,
   updateSeats,
   updateUserByID,
 } from "../controllers/user.js";
@@ -38,6 +40,8 @@ router.get("/get-all-seats", verify, getAllSeats);
 router.get("/get-available-seats", verify, getAvailableSeats);
 router.put("/update-all-seats", verify, updateSeats);
 router.post("/create-seat-booking", verify, createSeatBooking);
+router.post("/check-if-email-exists", checkIfEmailExists);
+router.post("/update-password", updatePassword);
 router.get("/get-all-seat-booking", verify, getAllSeatBooking);
 router.get("/get-all-seat-booking-by-user", verify, getBookingSeatsByUserId);
 router.get(
