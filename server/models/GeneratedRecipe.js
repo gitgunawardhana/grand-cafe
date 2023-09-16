@@ -23,4 +23,15 @@ const generatedRecipeSchema = new Schema(
   { timestamps: true }
 );
 
+// Add a pre-remove middleware to delete the related GeneratedRecipe document
+generatedRecipeSchema.pre("remove", async function (next) {
+  try {
+    // Use this to delete the related GeneratedRecipe document
+    await this.model("GeneratedRecipe").deleteOne({ _id: this._id });
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default mongoose.model("GeneratedRecipe", generatedRecipeSchema);

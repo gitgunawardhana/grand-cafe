@@ -14,6 +14,7 @@ i18n
           admin: "admin",
           dashboard: "Dashboard",
           orders: "Orders",
+          bookings: "Bookings",
           products: "Products",
           customers: "Customers",
           analytics: "Analytics",

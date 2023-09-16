@@ -1,5 +1,6 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { twMerge } from "tailwind-merge";
 import ChefBotText from "../../assets/images/ChefBotText.svg";
 import RecipeGeneratorBg from "../../assets/images/RecipeGeneratorBg.svg";
 import RecipeGeneratorBgHide from "../../assets/images/RecipeGeneratorBgHide.svg";
@@ -50,6 +51,22 @@ function ChatBoxCompo(chatBoxBgStyle?: {
   backgroundPosition: string;
 }) {
   const [recipe, setRecipe] = useState<any>("");
+  const [buttonDisable, setButtonDisable] = useState<boolean>(false);
+  const keywordsToCheck = ["Ingredients:", "Instructions:", "Here's"];
+
+  useEffect(() => {
+    if (sessionStorage.getItem("seatBookingId")) {
+      if (keywordsToCheck.some((keyword) => recipe.includes(keyword))) {
+        setButtonDisable(true);
+      } else {
+        setButtonDisable(false);
+      }
+    } else {
+      setButtonDisable(false);
+    }
+    console.log(buttonDisable);
+  }, [recipe]);
+
   const { axiosJWT } = useContext(ProviderContext);
 
   const placeOrder = async () => {
@@ -106,8 +123,12 @@ function ChatBoxCompo(chatBoxBgStyle?: {
           </h1>
           <div className="flex justify-center">
             <Button
-              className="m-0 !mb-2 !mt-1 min-w-[200px] !rounded-[10px] border-none !bg-opacity-20 !bg-gradient-to-t from-[#ff922424] to-[#ffe35321] !px-2 !py-5 text-xs font-thin text-black hover:text-black md:!px-16 md:py-5 md:text-sm"
+              className={twMerge([
+                "m-0 !mb-2 !mt-1 min-w-[200px] !rounded-[10px] border-none !bg-opacity-20 !bg-gradient-to-t from-[#ff922424] to-[#ffe35321] !px-2 !py-5 text-xs font-thin text-black hover:text-black md:!px-16 md:py-5 md:text-sm",
+                !buttonDisable && "cursor-not-allowed opacity-30",
+              ])}
               onClick={placeOrder}
+              disabled={!buttonDisable}
             >
               <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
                 Order recipe

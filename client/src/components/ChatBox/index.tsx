@@ -8,8 +8,9 @@ import {
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Logo100percentage from "../../assets/images/logo100percentage.png";
+import { UserProviderContext } from "../Provider/UserProvider";
 import "./ChatBox.css";
 
 // This API Key should be change
@@ -35,6 +36,7 @@ interface ChatBoxProps {
 }
 
 const Main: React.FC<ChatBoxProps> = ({ setRecipe }) => {
+  const { user } = useContext(UserProviderContext);
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [messages, setMessages] = useState<MessageProps[]>([
     {
@@ -194,7 +196,9 @@ const Main: React.FC<ChatBoxProps> = ({ setRecipe }) => {
                 <Avatar
                   src={
                     message.sender === "user"
-                      ? "https://chatscope.io/storybook/react/static/media/joe.641da105.svg"
+                      ? user.avatar
+                        ? user.avatar
+                        : "https://chatscope.io/storybook/react/static/media/joe.641da105.svg"
                       : Logo100percentage
                   }
                   name="Joe"

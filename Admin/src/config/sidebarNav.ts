@@ -24,6 +24,12 @@ const sidebarNav = [
     text: "Orders",
   },
   {
+    link: "/bookings",
+    section: "bookings",
+    icon: "mdi:love-seat-outline",
+    text: "Bookings",
+  },
+  {
     link: "/discount",
     section: "discount",
     icon: "nimbus:discount-circle",
