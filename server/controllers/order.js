@@ -21,13 +21,12 @@ export const addOrder = async (req, res) => {
   const user = await User.findOne({ email });
 
   let fName = "";
-
+  console.log("email", email);
   if (email == "unregistered@gmail.com") {
     fName = "User";
   } else {
     fName = user.firstName;
   }
-
   try {
     // Create an array to store the order items with quantities
     const orderItems = [];
@@ -41,14 +40,12 @@ export const addOrder = async (req, res) => {
 
       // Add the item and quantity to the orderItems array
       orderItems.push({
-        
         item: cartItem._id,
         category: cartItem.category,
         quantity: item.quantity,
       });
 
       let itemSales = await ItemSales.findOne({ itemId: cartItem._id });
-
       if (!itemSales) {
         itemSales = new ItemSales({
           itemId: cartItem._id,
@@ -73,39 +70,30 @@ export const addOrder = async (req, res) => {
       status,
     });
 
-    const saveOrder = await newOrder.save();
+   await newOrder.save();
 
-    res.status(200).json(saveOrder);
+    res.status(200).json({orderId: newOrder.orderCode});
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
 };
 
-// export const addOrde = async (req, res, next) => {
-//   try {
-//     console.log("Request Body:", req.body);
-//     const { email, amount, status } = req.body;
+export const getOrderById = async (req, res, next) => {
+  try {
+    const { orderCode } = req.body;
+    console.log("Order code",orderCode);
+    //const orderCode = req.params.orderCode; // Assuming the orderId is passed as a route parameter
+    const order = await Order.findOne({ orderCode: orderCode });
+    console.log(order);
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
 
-//     const newItem = new Order({
-//       email,
-//       amount,
-//       status,
-
-//     });
-
-//     console.log("New Item:", newItem); // Check the newItem object
-//     await newItem.save();
-//     res.status(201).json({ message: "Order added to the system" });
-//   } catch (error) {
-//     console.error("Error:", error); // Check if there are any errors
-//     res
-//       .status(500)
-//       .json({
-//         message: "Error adding order to system",
-//         error: error.message,
-//       });
-//   }
-// };
+    res.status(200).json({ data: order, message: "Success" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 export const updateOrder = async (req, res) => {
   try {

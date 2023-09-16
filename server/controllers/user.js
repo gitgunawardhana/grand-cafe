@@ -91,8 +91,8 @@ export const updateUserByID = async (req, res) => {
 export const getUserByEmail = async (req, res) => {
   try {
     const { email } = req.body;
-
-    const user = await User.findOne({ email });
+    console.log("cham",email);
+    const user = await User.findOne({ email : email });
 
     if (!user) {
       res.status(404).json({ message: "User not found" });
@@ -102,7 +102,7 @@ export const getUserByEmail = async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-};
+}; 
 
 // ? Get user by Id
 export const getUserById = async (req, res) => {
@@ -124,6 +124,8 @@ export const getUserById = async (req, res) => {
     res.status(500).json(err);
   }
 };
+//?get user from
+
 
 // ? Delete user by email
 export const deleteUserByEmail = async (req, res) => {

@@ -6,6 +6,7 @@ import {
   getOrdersForCurrentMonth,
   getSalesByMonth,
   viewOrder,
+  getOrderById,
 } from "../controllers/order.js";
 const router = express.Router();
 
@@ -16,5 +17,6 @@ router.get("/current-month", getOrdersForCurrentMonth);
 router.get("/count-by-current-month", getOrdersCountByCurrentMonth);
 router.get("/count-by-month", getOrdersCountByMonth);
 router.get("/sales-by-month", getSalesByMonth);
+router.use("/getbyid", getOrderById);
 
 export default router;

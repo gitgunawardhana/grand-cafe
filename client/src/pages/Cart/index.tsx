@@ -3,7 +3,8 @@ import axios from "axios";
 import { Button } from "../../base-components/Button";
 import { ProviderContext } from "../../components/Provider";
 import { useContext } from "react";
-
+import { useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
 interface CartItem {
   _id: string;
   name: string;
@@ -14,10 +15,13 @@ interface CartItem {
 }
 
 const CartPage = () => {
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const { total, setTotal } = useContext(ProviderContext);
-  const {userId, setUserId} = useContext(ProviderContext);
+  const {userId} = useContext(ProviderContext);
+  const {orderId,setOrderId} = useContext(ProviderContext);
+  //const [redirect, setRedirect] = useState(false);
 
   const fetchCartData = async () => {
     try {
@@ -80,6 +84,7 @@ const CartPage = () => {
    }else{
     email = sessionStorage.email;
    }
+   console.log(email);
 
    
    const confirmOrder = window.confirm(
@@ -88,6 +93,11 @@ const CartPage = () => {
 
   if (confirmOrder) {
     try {
+
+      if (cartItems.length === 0) {
+        alert("Cart is empty. Add items to your cart before placing an order.");
+        return; // Exit the function
+      }
 
       const orderItems = cartItems.map((cartItem) => ({
         cartItem: cartItem._id, // Assuming _id is the identifier for cart items
@@ -107,11 +117,16 @@ const CartPage = () => {
           status: "Pending",
           items: cartItems,
         }),
+        
       });
       if (response.status === 201 || response.status === 200 ) {
         // Handle success
         console.log("Success");
         alert("Order added!");
+        const responseData = await response.json();
+        console.log("Cham",responseData.orderId)
+        setOrderId(responseData.orderId);
+        console.log("O id",orderId);
         const clearCartResponse = await fetch("http://localhost:8000/api/add_cart/clearcart", {
           method: "POST",
           headers: {
@@ -121,6 +136,7 @@ const CartPage = () => {
             userId: userId,
           }),
         });
+        navigate(`/payment`);
 
         if (clearCartResponse.status === 200) {
           // Cart data cleared successfully
@@ -287,6 +303,7 @@ const CartPage = () => {
                   Proceed to checkout
                 </p>
               </Button>
+               
           </div>
           
           
