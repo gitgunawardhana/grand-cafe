@@ -22,8 +22,7 @@ interface User {
 }
 
 const Main = () => {
-  //const {orderId} = useContext(ProviderContext);
-  //console.log("Order I",orderId);
+
   const [orderDetails, setOrderDetails] = useState({
     id: "",
     email: "",
@@ -40,9 +39,10 @@ const Main = () => {
   const [cashOn, setCashOn] = useState<boolean>(false);
   const [cardPay, setCardPay] = useState<boolean>(false);
   const user = sessionStorage.email;
-  const [paymentMethod, setPaymentMethod] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
 
   const email = sessionStorage.email;
+
 
   const fetchOrderDetails = async (orderCode: string) => {
     try {
@@ -65,6 +65,7 @@ const Main = () => {
         const orderData = responseData.data;
         setOrderDetails(orderData);
         setAmount(orderData.amount);
+        console.log(orderDetails);
 
         console.log("Order details:", orderData);
       } else {
@@ -93,13 +94,17 @@ const Main = () => {
 
       if (userResponse.status === 200) {
         const responseData = await userResponse.json();
-        setFName(responseData.firstName);
-        setLName(responseData.lastName);
+        if(!email){
+          setFName("Guest");
+          setLName("User");
+        }{ setFName(responseData.firstName);
+          setLName(responseData.lastName);}
+       
         setAddress(responseData.address);
         console.log(address);
         setMobile(responseData.mobileNo);
-        setUserDetails(userData);
-        console.log("User details:", userData);
+        setUserDetails(responseData);
+        console.log("User details:", responseData);
       } else {
         console.error("Error fetching user details");
       }
@@ -108,15 +113,47 @@ const Main = () => {
     }
   };
 
+  const fetchAddress = async (orderCode: string) => {
+    try {
+      console.log("Fetching address details for orderId:", orderCode);
+      
+      // Make an API request to fetch order details using the orderId
+      const orderResponse = await fetch(
+        `http://localhost:8000/api/address/getAddressByID`,
+        {
+          method: "POST", // Use POST method to send the orderCode in the request body
+          headers: {
+            "Content-Type": "application/json", // Set the content type to JSON
+          },
+          body: JSON.stringify({ orderCode }), // Send orderCode in the request body as JSON
+        }
+      );
+
+      if (orderResponse.status === 200) {
+        const responseData = await orderResponse.json();
+        const addressData = responseData.data;
+        setAddress(addressData.address);
+
+        console.log("Address details:", addressData);
+      } else {
+        console.error("Error fetching order details");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  
+
   const handleCashOnButtonClick = () => {
-    setPaymentMethod("Cash On");
+    setPaymentMethod("CashOn");
   };
 
   const handleCardPayButtonClick = () => {
-    setPaymentMethod("Card Pay");
+    setPaymentMethod("CardPay");
   };
 
   useEffect(() => {
+    fetchAddress(orderId);
     fetchOrderDetails(orderId);
     fetchUserDetails(user); // Use the orderId from context
   }, [orderId]);
@@ -170,7 +207,7 @@ const Main = () => {
         <div className="flex h-full items-center justify-center text-white ">
           {paymentMethod ? (
             <div>
-              {paymentMethod === "Cash On" && (
+              {paymentMethod === "CashOn" && (
                 <div>
                   <h1 className="mb-4 text-2xl font-bold">Delivery Details</h1>
                   <br />
@@ -181,7 +218,7 @@ const Main = () => {
                   <h1 className="text-lg font-semibold">Address : {address}</h1>
                 </div>
               )}
-              {paymentMethod === "Card Pay" && (
+              {paymentMethod === "CardPay" && (
                 <div>
                   <form
                     method="post"
