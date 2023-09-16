@@ -19,37 +19,10 @@ import {
   generateRandomPassword,
   sendEmail,
 } from "../../utils";
-
-const passwordValidation = Yup.string()
-  .required("Password is required")
-  .min(8, "Password must be at least 8 characters long")
-  .test(
-    "lowercase",
-    "Password must contain at least 1 lowercase letter",
-    (value) => /[a-z]/.test(value)
-  )
-  .test(
-    "uppercase",
-    "Password must contain at least 1 uppercase letter",
-    (value) => /[A-Z]/.test(value)
-  )
-  .test("numbers", "Password must contain at least 1 number", (value) =>
-    /[0-9]/.test(value)
-  )
-  .test(
-    "symbols",
-    "Password must contain at least 1 special character",
-    (value) => /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(value)
-  );
+import { emailValidation, passwordValidation } from "../../utils/validation";
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email")
-    .matches(
-      /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-      "Email must be in the correct email format"
-    )
-    .required("Email is required"),
+  email: emailValidation,
   password: passwordValidation,
 });
 
@@ -134,7 +107,7 @@ const Main = () => {
     if (!passcodeSent) {
       sendEmail(
         {
-          toName: "Grand cafe new user",
+          toName: "Grand cafe user",
           toEmail: recoverEmail,
           fromName: "Grand Cafe",
           fromEmail: "resturent@grandcafe.com",
@@ -174,7 +147,7 @@ const Main = () => {
       });
       sendEmail(
         {
-          toName: "Grand cafe new user",
+          toName: "Grand cafe user",
           toEmail: recoverEmail,
           fromName: "Grand Cafe",
           fromEmail: "resturent@grandcafe.com",
@@ -187,8 +160,6 @@ const Main = () => {
     }
     setPasscode("");
   };
-
-  const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
 
   const handlePasscode = async () => {
     const result = await checkExpiration(passcode);
@@ -221,7 +192,7 @@ const Main = () => {
       if (result) {
         sendEmail(
           {
-            toName: "Grand cafe new user",
+            toName: "Grand cafe user",
             toEmail: recoverEmail,
             fromName: "Grand Cafe",
             fromEmail: "resturent@grandcafe.com",
