@@ -58,4 +58,18 @@ export const getSoldQuantityByCategory = async (req, res) => {
   }
 };
 
+//get item sales
+export const getItemSales = async (req, res, next) => {
+  try {
+    // Use Mongoose to query the database and retrieve data from the "ItemSales" collection
+    const itemSalesData = await ItemSales.find();
+
+    // Send the retrieved data as a response
+    res.status(200).json({ data: itemSalesData, message: "Item sales data retrieved successfully" });
+  } catch (error) {
+    // Handle any errors that occur during the database query
+    console.error("Error fetching item sales data:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 

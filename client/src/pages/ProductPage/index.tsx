@@ -12,6 +12,8 @@ import Cart from "../../assets/icons/Cart.svg";
 import DecreaseButton from "../../assets/icons/DecreaseButton.svg";
 import IncreaseButton from "../../assets/icons/IncreaseButton.svg";
 import Order1 from "../../assets/images/Orders/Order1.svg";
+import Order2 from "../../assets/images/Orders/hotdog.jpeg";
+import Order3 from "../../assets/images/Orders/sandwich.jpeg";
 import ProductPageBg from "../../assets/images/ProductPageBg.svg";
 import SpeciealDescount from "../../assets/images/SpeciealDescount.svg";
 import { Button } from "../../base-components/Button";
@@ -35,6 +37,11 @@ interface Category {
   _id: string;
   category: string;
 }
+
+// interface ItemSales {
+//   itemId: string;
+//   category: string;
+// }
 
 let subTotal = 0;
 
@@ -197,11 +204,6 @@ function Category(item: { category: string; }) {
         onClick={() => handleCategoryClick(item.category)}
         className="m-0 !max-w-full !grow gap-2 border-none !bg-transparent text-xs font-semibold capitalize shadow-none hover:shadow-none md:text-sm"
       >
-        {/* <img
-          src={item.icon}
-          alt=""
-          className="h-5 w-5 overflow-hidden rounded-lg object-cover transition-transform duration-300 group-hover/category-item:rotate-12 group-hover/category-item:scale-125"
-        /> */}
         <p className="my-auto !bg-gradient-to-tl from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent transition-transform duration-500 group-hover/category-item:scale-110 group-hover/category-item:from-gradient-yellow-900 group-hover/category-item:to-gradient-yellow-500">
           {item.category}
         </p>
@@ -219,26 +221,7 @@ function Card(item: {
   rate: number;
   category: string;
 }) {
-  // const { modalIsOpen, setModalIsOpen, count, setCount } =
-  //   useContext(ProviderContext);
 
-  // const openModal = () => {
-  //   setModalIsOpen(true);
-  // };
-
-  // const closeModal = () => {
-  //   setModalIsOpen(false);
-  // };
-
-  // const increment = () => {
-  //   setCount(count + 1);
-  // };
-
-  // const decrement = () => {
-  //   if (count > 1) {
-  //     setCount(count - 1);
-  //   }
-  // };
 
   const customStyles = {
     overlay: {
@@ -277,38 +260,6 @@ function Card(item: {
       console.error("Error fetching cart data:", error);
     }
   };
-
-  // const handleAddToCart = async () => {
-  //   // Send API request to add item to cart
-  //   const response = await fetch("http://localhost:8000/api/add_cart/cart", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       _id: item._id,
-  //       name: item.name,
-  //       price: item.price,
-  //       category:item.category,
-  //       image: item.image,
-  //       quantity: count,
-  //     }),
-  //   });
-  //   if (response.status === 201) {
-  //     // Handle succes
-  //     fetchCartData();
-  //     console.log("Success");
-  //     alert("Product added to the cart!");
-  //   } else {
-  //     // Handle error
-  //     if (response.status === 400) {
-  //       alert("Item is already in the cart. You can change quantity by cart");
-  //       console.error("Error adding item to the cart");
-  //     }
-
-  //     console.error("Error adding item to the cart");
-  //   }
-  // };
 
   return (
     <div
@@ -351,57 +302,6 @@ function Card(item: {
               View Product
             </p>
           </Button>
-          {/* <ReactModal
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-            style={customStyles}
-            contentLabel="Add to Cart Modal"
-          >
-            <div className="flex flex-col items-center justify-center text-center">
-              <h2 className="!bg-gradient-to-r from-gradient-brown-900 to-gradient-brown-400 bg-clip-text font-extrabold !capitalize text-transparent md:text-xl">
-                Add items to the cart
-              </h2>
-              <br />
-              <img
-                src={item.image}
-                className="rounded-2xl border opacity-[1] duration-300 ease-in hover:border-gradient-yellow-900 hover:opacity-[1] md:h-[80px] md:min-w-[40px] lg:h-[135px]"
-              />
-
-              <div className="flex items-center space-x-4 p-2">
-                <button
-                  className="rounded-full border-yellow-600 !bg-opacity-20 !bg-gradient-to-b from-gradient-yellow-900-6 to-gradient-yellow-900-2 p-2 transition duration-300 hover:bg-gray-300"
-                  onClick={decrement}
-                >
-                  <span className="text-xl font-bold">-</span>
-                </button>
-                <span className="text-2xl font-semibold">{count}</span>
-                <button
-                  className="rounded-full !bg-opacity-20 !bg-gradient-to-b from-gradient-yellow-900-6 to-gradient-yellow-900-2 p-2 transition duration-300 hover:bg-gray-300"
-                  onClick={increment}
-                >
-                  <span className="text-xl font-bold">+</span>
-                </button>
-              </div>
-              <Button
-                onClick={handleAddToCart}
-                as={NavLink}
-                to={""}
-                className="m-0 !mb-2 !mt-1 min-w-[200px] !rounded-[10px] border-none !bg-opacity-20 !bg-gradient-to-b from-gradient-yellow-900-6 to-gradient-yellow-900-2 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
-              >
-                <p className="!bg-gradient-to-b from-gradient-brown-400 to-gradient-brown-400 bg-clip-text text-transparent">
-                  Add to Cart
-                </p>
-              </Button>
-              <Button
-                onClick={closeModal}
-                className="m-0 min-w-[200px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
-              >
-                <p className="!bg-gradient-to-b from-gradient-brown-400 to-gradient-brown-400 bg-clip-text text-transparent">
-                  Close
-                </p>
-              </Button>
-            </div>
-          </ReactModal> */}
         </div>
       </div>
     </div>
@@ -414,12 +314,12 @@ function OrderMenuSection() {
     <div>
       <div className="-mb-5 h-auto rounded-t-[15px] bg-gradient-brown-500 px-5 pb-5 pt-5">
         <h1 className="mb-2 !bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text font-extrabold text-transparent md:text-lg">
-          Order Menu
+          Hot items
         </h1>
         <div className="grid grid-cols-1 divide-y divide-gradient-yellow-300">
-          <div>{Order()}</div>
-          <div>{Order()}</div>
-          <div>{Order()}</div>
+          <div>{Order("Shawarma",1250,Order1)}</div>
+          <div>{Order("Hot Dog",950,Order2)}</div>
+          <div>{Order("Sandwiches",450,Order3)}</div>
           <div className="text-center">
             <h1
               style={{
@@ -437,7 +337,9 @@ function OrderMenuSection() {
         </div>
       </div>
       <div className="!-mx-0 mt-4 flex justify-center">
-        <Button className="m-0 !max-w-full !grow gap-2 !rounded-b-[20px] !rounded-t-[0px] border-none !bg-gradient-to-bl from-gradient-green-400 to-gradient-green-300 text-xs font-semibold uppercase text-black hover:text-black md:text-sm">
+        <Button 
+        to="/cart"
+        className="m-0 !max-w-full !grow gap-2 !rounded-b-[20px] !rounded-t-[0px] border-none !bg-gradient-to-bl from-gradient-green-400 to-gradient-green-300 text-xs font-semibold uppercase text-black hover:text-black md:text-sm">
           <img
             src={Cart}
             alt=""
@@ -486,46 +388,54 @@ function AddressSection() {
 }
 
 // Order Component
-function Order() {
+function Order(name:string, price:number,image:string) {
+
+  // const [items, setItems] = useState();
+  // const fetchCategories = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       "http://localhost:8000/api/get-items/get-item-sales"
+  //     );
+  //     if (response.data.data) {
+  //       setItems(response.data.data);
+  //      console.log("Success");
+  //     }
+  //     console.log("Error fetching cart data");
+  //   } catch (error) {
+  //     console.error("Error fetching cart data:", error);
+      
+  //   }
+  // };
+
+  // const filteredProducts = items.filter(
+  //   (item: {
+  //     _id: string;
+  //     name: string;
+  //     price: string;
+  //     image: string;
+  //     rate: number;
+  //     category: string;
+  //   }) => item.rate > 3.0
+  // );
+
+
   return (
     <div className="my-2 flex flex-wrap justify-between gap-3">
       <div>
         <img
-          src={Order1}
+          src={image}
           alt=""
           className="h-16 w-16 overflow-hidden rounded-lg object-cover opacity-70"
         />
       </div>
       <div className="grow">
         <h2 className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-xs font-black text-transparent md:text-sm">
-          <TextLimit text={"Chicken Shawarma"} limit={14} />
+          <TextLimit text={name} limit={14} />
         </h2>
-        {/* <div className="mt-2 flex gap-1">
-          <Button className="my-auto h-fit !rounded-[10px] border-none !bg-transparent !p-0 text-black hover:text-black">
-            <img
-              src={DecreaseButton}
-              alt=""
-              className="h-5 w-5 overflow-hidden rounded-lg object-cover"
-            />
-          </Button>
-          <div className="mb-0 h-8">
-            <InputField
-              className="mx-auto h-8 max-w-[60px] border !border-gradient-yellow-900 pb-2 pt-2 text-center !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
-              placeholder={"1x"}
-            />
-          </div>
-          <Button className="my-auto h-fit !rounded-[10px] border-none !bg-transparent !p-0 text-black hover:text-black">
-            <img
-              src={IncreaseButton}
-              alt=""
-              className="h-5 w-5 overflow-hidden rounded-lg object-cover"
-            />
-          </Button>
-        </div> */}
       </div>
       <div>
         <p className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-xs font-black text-transparent md:text-sm">
-          Rs {"2300"}
+          Rs {price}
         </p>
       </div>
     </div>
