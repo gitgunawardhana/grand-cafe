@@ -209,7 +209,7 @@ const Main = () => {
           </thead>
           <tbody>
             {booking &&
-              currentItems.map((bookingItem: Booking) => (
+              currentItems?.map((bookingItem: Booking) => (
                 <tr key={bookingItem._id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
                     {bookingItem._id}
