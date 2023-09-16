@@ -500,7 +500,7 @@ function Order() {
         <h2 className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-xs font-black text-transparent md:text-sm">
           <TextLimit text={"Chicken Shawarma"} limit={14} />
         </h2>
-        <div className="mt-2 flex gap-1">
+        {/* <div className="mt-2 flex gap-1">
           <Button className="my-auto h-fit !rounded-[10px] border-none !bg-transparent !p-0 text-black hover:text-black">
             <img
               src={DecreaseButton}
@@ -521,7 +521,7 @@ function Order() {
               className="h-5 w-5 overflow-hidden rounded-lg object-cover"
             />
           </Button>
-        </div>
+        </div> */}
       </div>
       <div>
         <p className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-xs font-black text-transparent md:text-sm">

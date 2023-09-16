@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { ProviderContext } from "../../components/Provider";
 import { Button } from "../../base-components/Button";
 import logo from "../../assets/images/logo100percentage.svg";
+import { useNavigate } from 'react-router-dom';
 interface Order {
   user: string;
   emai: string;
@@ -22,7 +23,7 @@ interface User {
 }
 
 const Main = () => {
-
+  const navigate = useNavigate();
   const [orderDetails, setOrderDetails] = useState({
     id: "",
     email: "",
@@ -42,7 +43,6 @@ const Main = () => {
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
 
   const email = sessionStorage.email;
-
 
   const fetchOrderDetails = async (orderCode: string) => {
     try {
@@ -94,12 +94,15 @@ const Main = () => {
 
       if (userResponse.status === 200) {
         const responseData = await userResponse.json();
-        if(!email){
+        if (!email) {
           setFName("Guest");
           setLName("User");
-        }{ setFName(responseData.firstName);
-          setLName(responseData.lastName);}
-       
+        }
+        {
+          setFName(responseData.firstName);
+          setLName(responseData.lastName);
+        }
+
         setAddress(responseData.address);
         console.log(address);
         setMobile(responseData.mobileNo);
@@ -116,7 +119,7 @@ const Main = () => {
   const fetchAddress = async (orderCode: string) => {
     try {
       console.log("Fetching address details for orderId:", orderCode);
-      
+
       // Make an API request to fetch order details using the orderId
       const orderResponse = await fetch(
         `http://localhost:8000/api/address/getAddressByID`,
@@ -142,7 +145,6 @@ const Main = () => {
       console.error("Error:", error);
     }
   };
-  
 
   const handleCashOnButtonClick = () => {
     setPaymentMethod("CashOn");
@@ -159,6 +161,28 @@ const Main = () => {
   }, [orderId]);
 
   console.log("Net :", netamount);
+
+  const handleUpdateStatus = async () => {
+    try {
+
+
+      // Define the update data, such as the new status value
+      const updateData = {
+        orderCode: orderId,
+        payment: 'COD', // Replace with the new status value
+      };
+
+      // Send a PUT request to update the order status
+      await axios.put(`http://localhost:8000/api/order/updateOrder`, updateData);
+
+      // Handle success or show a notification to the user
+      console.log('Order status updated successfully!');
+      window.alert("Order placed in COD");
+      navigate(`/product-page`);
+    } catch (error) {
+      // Handle errors or show an error message to the user
+      console.error('Error updating order status:', error);
+    } };
 
   const am = netamount.toString();
 
@@ -185,7 +209,7 @@ const Main = () => {
               className="hover:text-none ml-0 mt-10 justify-items-start border !border-gradient-yellow-900 bg-gradient-to-b from-yellow-500 to-yellow-300 px-10 py-3 text-sm text-black hover:bg-gradient-yellow-900"
               onClick={handleCashOnButtonClick}
             >
-              Cah On Delivary
+              Cash On Delivary
             </Button>
           ) : (
             <div>
@@ -216,6 +240,13 @@ const Main = () => {
                   </h1>
                   <br />
                   <h1 className="text-lg font-semibold">Address : {address}</h1>
+
+                  <Button
+            className="hover:text-none ml-0 mt-10 justify-items-start border !border-gradient-yellow-900 bg-gradient-to-b from-yellow-500 to-yellow-300 px-10 py-3 text-sm text-black hover:bg-gradient-yellow-900"
+            onClick={handleUpdateStatus}
+          >
+            Proceed
+          </Button>
                 </div>
               )}
               {paymentMethod === "CardPay" && (
@@ -301,7 +332,7 @@ const Main = () => {
                     <input type="hidden" name="hash" value={hash} />
                     <input
                       type="submit"
-                      className="btn !border-gradient-yellow-900 bg-gradient-to-b from-yellow-500 to-yellow-300 hover:from-yellow-500 hover:to-amber-500 text-amber-950 font-medium py-2 px-4 rounded-full hover:shadow-lg transition-transform transform hover:scale-125"
+                      className="btn transform rounded-full !border-gradient-yellow-900 bg-gradient-to-b from-yellow-500 to-yellow-300 px-4 py-2 font-medium text-amber-950 transition-transform hover:scale-125 hover:from-yellow-500 hover:to-amber-500 hover:shadow-lg"
                       value="Proceed"
                     />
                   </form>

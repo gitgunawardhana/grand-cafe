@@ -57,3 +57,5 @@ export const getSoldQuantityByCategory = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+

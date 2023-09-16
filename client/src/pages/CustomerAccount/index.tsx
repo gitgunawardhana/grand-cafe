@@ -23,6 +23,7 @@ export interface Order {
   id: string;
   orderCode: string;
   status: string;
+  payment:string;
   items: Array<{
     _id: string; // Assuming each item has an _id
     name: string; // Add other properties of the item here
@@ -583,7 +584,7 @@ const Main = () => {
                         Items
                       </th>
                       <th className="bg-amber-600 px-6 py-3 text-center text-xs font-semibold uppercase leading-4 tracking-wider text-gray-100">
-                        Status
+                        Payment Method
                       </th>
                       {/* Add more headers as needed */}
                     </tr>
@@ -601,28 +602,38 @@ const Main = () => {
                           Rs. {order.amount}
                         </td>
                         <td className="whitespace-nowrap px-6 py-4 text-sm leading-5 text-gray-800">
-                          {order.items.map((item) => (
-                            <div key={item._id} className="relative">
-                              {item.name}
-                            </div>
-                          ))}
+                            {order.payment === "COD" && (
+                              <p className="w-2/3 rounded-2xl bg-gray-900 text-white p-1 text-xs tracking-wide text-blue-950 text-center">
+                                COD
+                              </p>
+                            )}
+                            {order.payment === "Card" && (
+                             <p className="w-2/3 rounded-2xl bg-violet-800 text-white p-1 text-xs tracking-wide text-green-950 text-center">
+                             CARD
+                           </p>
+                            )}
                         </td>
                         <td className="whitespace-nowrap px-6 py-4 text-center text-sm leading-5 text-gray-800">
                           <div className="flex items-center justify-center">
-                            {order.status === "Pending" && (
+                          {order.status === "Pending" && (
                               <p className="w-2/3 rounded-2xl bg-blue-400 p-1 text-xs tracking-wide text-blue-950">
                                 Pending
                               </p>
                             )}
                             {order.status === "Delivered" && (
-                              <p className="w-2/3 rounded-2xl bg-green-400 p-1 text-xs tracking-wide text-green-950">
-                                Delivered
-                              </p>
+                             <p className="w-2/3 rounded-2xl bg-green-400 p-1 text-xs tracking-wide text-green-950">
+                             Delivered
+                           </p>
                             )}
                             {order.status === "Cancelled" && (
-                              <p className="w-2/3 rounded-2xl bg-red-500 p-1 text-xs tracking-wide text-red-950">
-                                Cancelled
-                              </p>
+                             <p className="w-2/3 rounded-2xl bg-red-500 p-1 text-xs tracking-wide text-red-950">
+                             Cancelled
+                           </p>
+                            )}
+                            {order.status === "Processing" && (
+                             <p className="w-2/3 rounded-2xl bg-yellow-500 p-1 text-xs tracking-wide text-red-950">
+                             Processing
+                           </p>
                             )}
                           </div>
                         </td>
