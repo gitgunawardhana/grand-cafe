@@ -42,6 +42,8 @@ export interface ProviderContextInterface {
   setUserAddress: Dispatch<SetStateAction<string>>;
   addressEntered: boolean;
   setAddressEntered: Dispatch<SetStateAction<boolean>>;
+  orderId:string;
+  setOrderId:Dispatch<SetStateAction<string>>;
 }
 
 const defaultState = {
@@ -131,6 +133,7 @@ const Provider = (props: ProviderProps) => {
   const [userId, setUserId] = useState<string>("");
   const [userAddress, setUserAddress] = useState<string>("");
   const [addressEntered, setAddressEntered] = useState(false);
+  const [orderId, setOrderId] = useState<string>("");
 
   const fetchData = async () => {
     try {
@@ -203,6 +206,8 @@ fetchAllUsers();
         setUserAddress,
         addressEntered,
         setAddressEntered,
+        orderId,
+        setOrderId,
       }}
     >
       {props.children}

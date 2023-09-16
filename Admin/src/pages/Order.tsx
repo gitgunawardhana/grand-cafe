@@ -9,6 +9,7 @@ export interface Order {
   email: string;
   amount: number;
   status: string;
+  id:string;
   items: Array<{
     _id: string; // Assuming each item has an _id
     name: string; // Add other properties of the item here
@@ -122,7 +123,7 @@ const Main = () => {
             {currentItems.map((order: Order) => (
               <tr key={order._id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
-                  {order.user}
+                  {order.id}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
                   {order.email}

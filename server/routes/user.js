@@ -34,6 +34,7 @@ router.get("/get-user-by-email", verify, getUserByEmail);
 router.post("/reset-password", verify, resetPassword);
 router.get("/get-user-by-id", getUserById);
 router.delete("/delete-user-by-email", deleteUserByEmail);
+router.use("/get-user-email", getUserByEmail);
 
 // table booking
 router.get("/get-all-seats", verify, getAllSeats);

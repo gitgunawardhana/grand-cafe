@@ -94,7 +94,7 @@ const ProductBrowsingComponent: React.FC<ProductBrowsingComponentProps> = ({
 
         {/* Scroll right button */}
         <button
-          className={` ${
+          className={`${
             currentPage === products.length - 1
               ? "cursor-not-allowed opacity-50"
               : ""
