@@ -20,6 +20,7 @@ import Register from "../pages/Register";
 import TableBooking from "../pages/TableBooking";
 import TestPage from "../pages/TestPage";
 import Payment from "../pages/Payment";
+import About from "../pages/Aboutus";
 
 function Router() {
   const routes = [
@@ -131,7 +132,7 @@ function Router() {
       ),
     },
     {
-      path:"/payment",
+      path: "/payment",
       element:(
         <Payment/>
       ),
@@ -172,6 +173,16 @@ function Router() {
         </TopLayout>
       ),
     },
+    {
+      path: "/about-us",
+      element: (
+        <SideMenuLayout footer>
+          <About/>
+        </SideMenuLayout>
+      ),
+    },
+
+
   ];
 
   return useRoutes(routes);
