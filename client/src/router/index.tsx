@@ -4,27 +4,24 @@ import PrivateRoutes from "../components/PrivateRoutes";
 import SideMenuLayout from "../layouts/SideMenuLayout";
 import SimpleLayout from "../layouts/SimpleLayout";
 import TopLayout from "../layouts/TopMenu";
+import About from "../pages/Aboutus";
 import Cart from "../pages/Cart";
 import CustomerAcc from "../pages/CustomerAccount";
 import CustomerView from "../pages/CustomerView";
 import CustomizePage from "../pages/CustomizePage";
 import ErrorPage from "../pages/ErrorPage";
+import Favourites from "../pages/Favourite";
 import FirstPage from "../pages/FirstPage";
 import HomePage from "../pages/HomePage";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
+import Payment from "../pages/Payment";
 import ProductDetailsPage from "../pages/ProductDetails";
 import ProductPage from "../pages/ProductPage";
 import RecipeGenerator from "../pages/RecipeGenerator";
 import Register from "../pages/Register";
 import TableBooking from "../pages/TableBooking";
 import TestPage from "../pages/TestPage";
-import Payment from "../pages/Payment";
-<<<<<<< Updated upstream
-import About from "../pages/Aboutus";
-=======
-import Favourites from "../pages/Favourite";
->>>>>>> Stashed changes
 
 function Router() {
   const routes = [
@@ -145,12 +142,8 @@ function Router() {
     },
     {
       path: "/payment",
-      element:(
-        <Payment/>
-      ),
-    }
-    ,
-
+      element: <Payment />,
+    },
     {
       path: "/*",
       element: (
@@ -189,12 +182,10 @@ function Router() {
       path: "/about-us",
       element: (
         <SideMenuLayout footer>
-          <About/>
+          <About />
         </SideMenuLayout>
       ),
     },
-
-
   ];
 
   return useRoutes(routes);
