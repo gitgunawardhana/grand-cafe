@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { twMerge } from "tailwind-merge";
 import ChefBotText from "../../assets/images/ChefBotText.svg";
@@ -68,7 +69,7 @@ function ChatBoxCompo(chatBoxBgStyle?: {
   }, [recipe]);
 
   const { axiosJWT } = useContext(ProviderContext);
-
+  const navigate = useNavigate();
   const placeOrder = async () => {
     try {
       const res = await axiosJWT.post(
@@ -91,10 +92,11 @@ function ChatBoxCompo(chatBoxBgStyle?: {
         background: "#2A200A",
         color: "#F19328",
         showConfirmButton: false,
-        timer: 5000,
+        timer: 1000,
       });
 
       sessionStorage.removeItem("seatBookingId");
+      navigate("/table-booking");
     } catch (err) {
       console.log(err);
       Swal.fire({
