@@ -29,12 +29,12 @@ const sidebarNav = [
     icon: "mdi:love-seat-outline",
     text: "Bookings",
   },
-  {
-    link: "/discount",
-    section: "discount",
-    icon: "nimbus:discount-circle",
-    text: "Discount",
-  },
+  // {
+  //   link: "/discount",
+  //   section: "discount",
+  //   icon: "nimbus:discount-circle",
+  //   text: "Discount",
+  // },
   {
     link: "/category",
     section: "category",
