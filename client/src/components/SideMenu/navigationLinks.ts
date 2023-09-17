@@ -35,18 +35,18 @@ export const sideNavigationLinks = [
   },
   {
     icon: SideCustomerSupport,
-    title: "Customer support",
+    title: "Contact Us",
     to: "/customer-support",
   },
   {
     icon: SideMessage,
-    title: "Message",
+    title: "About Us",
     to: "/message",
   },
   {
     icon: SideSettings,
-    title: "Settings",
-    to: "/settings",
+    title: "Your Profile",
+    to: "/customer-acc",
   },
   {
     icon: SideLogout,
