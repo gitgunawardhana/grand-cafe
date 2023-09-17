@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import { Product, ProviderContext } from "../../components/Provider";
 import ReactModal from "react-modal";
+import axios from "axios";
 
 const customStyles = {
   overlay: {
@@ -149,7 +150,7 @@ const addFrenchFries = [
 const Main = () => {
   const { products } = useContext(ProviderContext);
   const { productName } = useParams<{ productName?: string }>();
-  
+  const {userId, setUserId} = useContext(ProviderContext);
 
   if (!productName) {
     return <div>Product not found.</div>;
@@ -299,9 +300,53 @@ const Main = () => {
     }
   };
 
+  let user = "";
+
+  const email = sessionStorage.email;
+
+  if(!email){
+    user = userId;
+    console.log("user w", user);
+  }else {
+    // If email is present, fetch user data based on email and get userCode
+    const fetchAllUsers = async () => {
+  try {
+    // Send a request to fetch all users
+    const response = await axios.get("http://localhost:8000/api/user/get-all-users");
+    
+    if (response.status === 200) {
+      // Assuming the response contains an array of user objects
+      const allUsers = response.data;
+      
+      // Filter users based on the session storage email
+      const filteredUsers = allUsers.filter((user: { email: any; }) => user.email === sessionStorage.email);
+      
+      if (filteredUsers.length > 0) {
+        // User with matching email found
+        const userData = filteredUsers[0]; // Assuming only one user matches
+        user = userData.userCode;
+        console.log( "User s",user);
+        setUserId(user); // Assign userCode to the user variable
+      } else {
+        // User with matching email not found
+        console.log('User with email not found');
+      }
+    } else {
+      console.log('Failed to fetch all users');
+    }
+  } catch (error) {
+    console.error('Error fetching all users', error);
+  } 
+};
+
+// Call the fetchAllUsers function to fetch all users and filter by email
+fetchAllUsers();
+  }
+
+
   const handleAddToCart = async () => {
 
-    const customName = ` ${selectedProduct.name} Customized`;
+    const customName = `${selectedProduct.name} Customized`;
     const totalP = selectedOptionsTotal + totalPrice;
     const customId = `${selectedProduct._id}cu`;
 
@@ -312,9 +357,11 @@ const Main = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        _id: customId,
+        id: customId,
+        u_id: user,
         name: customName,
         price: totalP,
+        category: selectedProduct?.category,
         image: selectedProduct.image,
         quantity: count,
       }),

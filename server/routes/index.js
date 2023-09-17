@@ -10,6 +10,7 @@ import passcodeRoutes from "./passcode.js";
 import productsController from "./products.js";
 import unregController from "./unreg.js";
 import userRoutes from "./user.js";
+import favouriteRoutes from "./favourites.js";
 
 const router = express.Router();
 
@@ -24,5 +25,6 @@ router.use("/order", ordersController);
 router.use("/item-sales", itemSalesRoutes);
 router.use("/passcode", passcodeRoutes);
 router.use("/address", unregController);
+router.use("/favourite", favouriteRoutes);
 
 export default router;

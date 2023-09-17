@@ -1,17 +1,18 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "../../base-components/Button";
 import { ProviderContext } from "../../components/Provider";
 import { useContext } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 interface CartItem {
   _id: string;
   name: string;
   price: number;
   image: string;
   quantity: number;
-  category:string;
+  category: string;
 }
 
 const CartPage = () => {
@@ -19,10 +20,15 @@ const CartPage = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const { total, setTotal } = useContext(ProviderContext);
-  const {userId} = useContext(ProviderContext);
-  const {orderId,setOrderId} = useContext(ProviderContext);
+  const [address, setAddress] = useState("");
+  const { userId } = useContext(ProviderContext);
+  const [orderCount, setOrderCount] = useState(null);
+  const [discount, setDiscount] = useState(1);
+  console.log("Usee iiii", userId);
+  const { orderId, setOrderId } = useContext(ProviderContext);
+  const user = sessionStorage.email;
   //const [redirect, setRedirect] = useState(false);
-
+  const userCode = userId;
   const fetchCartData = async () => {
     try {
       const response = await axios.get(
@@ -30,6 +36,7 @@ const CartPage = () => {
       );
       if (response.data.data) {
         setCartItems(response.data.data);
+        console.log("cart 5", response.data.data);
         const totalPrice = response.data.data.reduce(
           (accumulator: number, item: CartItem) =>
             accumulator + item.quantity * item.price,
@@ -77,99 +84,223 @@ const CartPage = () => {
     }
   };
 
-  const handleOrder = async () => {
-   let email;
-   if(!sessionStorage.email){
-    email = "unregistered@gmail.com";
-   }else{
-    email = sessionStorage.email;
-   }
-   console.log(email);
-
-   
-   const confirmOrder = window.confirm(
-    "Are you sure to proceed?"
-  );
-
-  if (confirmOrder) {
+  const fetchUserDetails = async (user: string) => {
     try {
+      console.log("Fetching user details for userId:", user);
+      const email = user;
+      // Make an API request to fetch user details using the userId
+      const userResponse = await fetch(
+        `http://localhost:8000/api/user/get-user-email`,
+        {
+          method: "POST", // Use GET method to send the email as a query parameter
+          headers: {
+            "Content-Type": "application/json", // Set the content type to JSON
+          },
+          body: JSON.stringify({ email }), // Sen
+        }
+      );
 
-      if (cartItems.length === 0) {
-        alert("Cart is empty. Add items to your cart before placing an order.");
-        return; // Exit the function
+      if (userResponse.status === 200) {
+        const responseData = await userResponse.json();
+
+        setAddress(responseData.address);
+        console.log(address);
+
+        console.log("User details:", responseData);
+      } else {
+        console.error("Error fetching user details");
       }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
-      const orderItems = cartItems.map((cartItem) => ({
-        cartItem: cartItem._id, // Assuming _id is the identifier for cart items
-        quantity: cartItem.quantity,
-      }));
-
-      
-      const response = await fetch("http://localhost:8000/api/order/addOrder", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id : userId,
-          email: email,
-          amount: total,
-          status: "Pending",
-          items: cartItems,
-          payment:"Card",
-        }),
-        
-      });
-      if (response.status === 201 || response.status === 200 ) {
-        // Handle success
-        console.log("Success");
-        alert("Order added!");
-        const responseData = await response.json();
-        console.log("Cham",responseData.orderId)
-        setOrderId(responseData.orderId);
-        console.log("O id",orderId);
-        const clearCartResponse = await fetch("http://localhost:8000/api/add_cart/clearcart", {
+  const fetchAddress = async (userCode: string) => {
+    try {
+      console.log("Fetching address details for orderId:", userCode);
+      const orderResponse = await fetch(
+        `http://localhost:8000/api/address/getAddressByID`,
+        {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            userId: userId,
-          }),
-        });
-        navigate(`/payment`);
-
-        if (clearCartResponse.status === 200) {
-          // Cart data cleared successfully
-          console.log("Cart data cleared");
-          fetchCartData();
-        } else {
-          // Handle error while clearing cart data
-          console.error("Error clearing cart data");
+          body: JSON.stringify({ userCode }),
         }
+      );
 
+      if (orderResponse.status === 200) {
+        const responseData = await orderResponse.json();
+        //console.log("Adde",add)
+        setAddress(responseData.address);
 
-    } else {
-        // Handle error
-        if(response.status === 400){ 
-          
-          console.error("Error adding Order");
-        }
-       
-        console.error("Error adding item to the cart");
-    }
+        console.log("Address details:", responseData.address);
+      } else {
+        console.error("Error fetching order details");
+      }
     } catch (error) {
-      console.error("Error deleting item:", error);
-  
+      console.error("Error:", error);
     }
-  }
+  };
+  const handleEvent = async () => {
+    if (address) {
+      handleOrder();
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        text: "First add Address to your user account",
+        background: "#991b1b",
+        color: "#fff",
+        showConfirmButton: false,
+        timer: 5000,
+      });
+    }
   };
 
+  const handleOrder = async () => {
+    let email;
+    if (!sessionStorage.email) {
+      email = "unregistered@gmail.com";
+    } else {
+      email = sessionStorage.email;
+    }
+    console.log(email);
 
+    //  const confirmOrder = window.confirm(
+    //   "Are you sure to proceed?"
+    // );
+
+    const result = await Swal.fire({
+      title: `Are you sure to proceed?`,
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      background: "#A96C07",
+      color: "#fff",
+      confirmButtonColor: "#198754",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Proceed!",
+    });
+
+    if (result) {
+      try {
+        if (cartItems.length === 0) {
+          //alert("Cart is empty. Add items to your cart before placing an order.");
+          Swal.fire({
+            position: "center",
+            icon: "warning",
+            text: "Cart is empty. Add items to your cart before placing an order.",
+            background: "#A96C07",
+            color: "#fff",
+            showConfirmButton: false,
+            timer: 5000,
+          });
+          return; // Exit the function
+        }
+
+        const orderItems = cartItems.map((cartItem) => ({
+          cartItem: cartItem._id, // Assuming _id is the identifier for cart items
+          quantity: cartItem.quantity,
+        }));
+
+        const response = await fetch(
+          "http://localhost:8000/api/order/addOrder",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              id: userId,
+              email: email,
+              amount: finalTotal,
+              status: "Pending",
+              items: cartItems,
+              payment: "Card",
+            }),
+          }
+        );
+        if (response.status === 201 || response.status === 200) {
+          // Handle success
+          console.log("Success");
+          //alert("Order added!");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            text: "Order added successfully",
+            background: "#A96C07",
+            color: "#fff",
+            showConfirmButton: false,
+            timer: 5000,
+          });
+          const responseData = await response.json();
+          console.log("Cham", responseData.orderId);
+          setOrderId(responseData.orderId);
+          console.log("O id", orderId);
+          const clearCartResponse = await fetch(
+            "http://localhost:8000/api/add_cart/clearcart",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                userId: userId,
+              }),
+            }
+          );
+          navigate(`/payment`);
+
+          if (clearCartResponse.status === 200) {
+            // Cart data cleared successfully
+            console.log("Cart data cleared");
+            fetchCartData();
+          } else {
+            // Handle error while clearing cart data
+            console.error("Error clearing cart data");
+          }
+        } else {
+          // Handle error
+          if (response.status === 400) {
+            console.error("Error adding Order 1");
+          }
+
+          console.error("Error adding order 2");
+        }
+      } catch (error) {
+        console.error("Error adding order 3:", error);
+      }
+    }
+  };
+
+  const fetchOrderCount = async () => {
+    try {
+      const email = user;
+      const response = await axios.post(
+        "http://localhost:8000/api/order/get-order-count",
+        { email }
+      );
+      setOrderCount(response.data.data);
+      console.log("order count", orderCount);
+      if (response.data.data > 20) {
+        setDiscount(0.9); // 10% discount
+      } else {
+        setDiscount(1); // No discount
+      }
+    } catch (error) {
+      console.error("Error fetching order count:", error);
+    }
+  };
+
+  const finalTotal = total * discount;
 
   useEffect(() => {
-    console.log(userId);
+    fetchAddress(userCode);
+    fetchUserDetails(user);
+    console.log("add ", address);
     fetchCartData();
+    fetchOrderCount();
   }, []);
 
   if (loading) {
@@ -217,7 +348,7 @@ const CartPage = () => {
               <div className="flex !bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
                 <div className="mr-2 flex items-center">
                   <button
-                    className="rounded-l bg-transparent px-2 py-1 text-amber-500 hover:bg-opacity-20 hover:scale-150"
+                    className="rounded-l bg-transparent px-2 py-1 text-amber-500 hover:scale-150 hover:bg-opacity-20"
                     onClick={() => {
                       const newQuantity = item.quantity - 1;
                       if (newQuantity >= 1) {
@@ -254,7 +385,7 @@ const CartPage = () => {
                 </div>
                 <div className="ml-2 flex items-center">
                   <button
-                    className="rounded-r bg-transparent px-2 py-1 text-amber-500 hover:bg-opacity-20 hover:scale-150"
+                    className="rounded-r bg-transparent px-2 py-1 text-amber-500 hover:scale-150 hover:bg-opacity-20"
                     onClick={() => {
                       const newQuantity = item.quantity + 1;
                       if (newQuantity >= 1) {
@@ -288,28 +419,47 @@ const CartPage = () => {
             </div>
           </div>
         ))}
-        <div className="box-border p-2 grid grid-cols-6 items-center  justify-end rounded-xl border-2 border-solid border-gradient-yellow-900 text-white">
-          <div className=" col-span-4 text-amber-400 px-24">
-              Total Amount
+        <div className="box-border grid grid-cols-6 items-center justify-end  rounded-xl border-2 border-solid border-gradient-yellow-900 p-2 text-white">
+          <div className=" col-span-3 px-24 text-amber-400">Total Amount</div>
+          {orderCount ? (
+            orderCount > 20 ? (
+              <>
+                <div className="px-24 text-amber-400">
+                  <div>Total :</div>
+                  <div>Promo :</div>
+                </div>
+                <div className="text-[18px] text-amber-400">
+                  <div>Rs. {total}.00</div>
+                  <div>Rs. {finalTotal}.00</div>
+                </div></>
+            ) : (
+              <>
+                <div className="px-24 text-amber-400"></div>
+                <div className="text-[18px] text-amber-400">
+                  <div>Rs. {finalTotal}.00</div>
+                </div>
+                </>
+            )
+          ) : (
+            <>
+                <div className="px-24 text-amber-400"></div>
+                <div className="text-[18px] text-amber-400">
+                  <div>Rs. {finalTotal}.00</div>
+                </div>
+                </>
+          )}
+
+          <div className="">
+            <Button
+              className="m-0 min-w-[200px] !rounded-[10px] border border-gradient-yellow-100-15  bg-amber-400 !bg-opacity-80 !px-5 !py-2 text-xs font-semibold uppercase  hover:scale-110  md:!px-5 md:py-2 md:text-sm"
+              onClick={() => handleEvent()}
+            >
+              <p className="bg-clip-text tracking-wider text-zinc-900 hover:text-amber-400">
+                Proceed to checkout
+              </p>
+            </Button>
           </div>
-          <div className="text-amber-400 text-[18px]">
-           Rs. {total}.00
-          </div>
-          <div className="" >
-          <Button
-                className="m-0 min-w-[200px] !rounded-[10px] border border-gradient-yellow-100-15  bg-amber-400 !bg-opacity-80 !px-5 !py-2 text-xs font-semibold uppercase  hover:scale-110  md:!px-5 md:py-2 md:text-sm"
-                onClick={() => handleOrder()}
-              >
-                <p className="text-zinc-900 tracking-wider bg-clip-text hover:text-amber-400">
-                  Proceed to checkout
-                </p>
-              </Button>
-               
-          </div>
-          
-          
-          
-          </div>
+        </div>
       </div>
     </div>
   );

@@ -268,7 +268,7 @@ function Card(item: {
     >
       <img className="w-full" src={item.image} alt={item.name} />
       <div className="mb-0 ml-5 mt-2 flex">
-        <MuiRating rateValue={item.rate} />
+        <MuiRating rateValue={item.rate} productId={item._id} active={false} />
       </div>
       <div className="px-6 pb-4 pt-2">
         <h1 className="mb-2 !bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text font-extrabold !capitalize text-transparent md:text-lg">
@@ -279,7 +279,7 @@ function Card(item: {
             Starting from
           </p>
           <p className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-base font-semibold  text-transparent md:text-lg">
-            Rs {item.price}
+            Rs. {item.price}.00
           </p>
         </div>
         <div className="mt-2">

@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { ProviderContext } from "../../components/Provider";
 import { Button } from "../../base-components/Button";
 import logo from "../../assets/images/logo100percentage.svg";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 interface Order {
   user: string;
   emai: string;
@@ -119,16 +119,14 @@ const Main = () => {
   const fetchAddress = async (orderCode: string) => {
     try {
       console.log("Fetching address details for orderId:", orderCode);
-
-      // Make an API request to fetch order details using the orderId
       const orderResponse = await fetch(
         `http://localhost:8000/api/address/getAddressByID`,
         {
-          method: "POST", // Use POST method to send the orderCode in the request body
+          method: "POST",
           headers: {
-            "Content-Type": "application/json", // Set the content type to JSON
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({ orderCode }), // Send orderCode in the request body as JSON
+          body: JSON.stringify({ orderCode }),
         }
       );
 
@@ -164,25 +162,23 @@ const Main = () => {
 
   const handleUpdateStatus = async () => {
     try {
-
-
-      // Define the update data, such as the new status value
       const updateData = {
         orderCode: orderId,
-        payment: 'COD', // Replace with the new status value
+        payment: "COD",
       };
 
-      // Send a PUT request to update the order status
-      await axios.put(`http://localhost:8000/api/order/updateOrder`, updateData);
+      await axios.put(
+        `http://localhost:8000/api/order/updateOrder`,
+        updateData
+      );
 
-      // Handle success or show a notification to the user
-      console.log('Order status updated successfully!');
+      console.log("Order status updated successfully!");
       window.alert("Order placed in COD");
       navigate(`/product-page`);
     } catch (error) {
-      // Handle errors or show an error message to the user
-      console.error('Error updating order status:', error);
-    } };
+      console.error("Error updating order status:", error);
+    }
+  };
 
   const am = netamount.toString();
 
@@ -242,11 +238,11 @@ const Main = () => {
                   <h1 className="text-lg font-semibold">Address : {address}</h1>
 
                   <Button
-            className="hover:text-none ml-0 mt-10 justify-items-start border !border-gradient-yellow-900 bg-gradient-to-b from-yellow-500 to-yellow-300 px-10 py-3 text-sm text-black hover:bg-gradient-yellow-900"
-            onClick={handleUpdateStatus}
-          >
-            Proceed
-          </Button>
+                    className="hover:text-none ml-0 mt-10 justify-items-start border !border-gradient-yellow-900 bg-gradient-to-b from-yellow-500 to-yellow-300 px-10 py-3 text-sm text-black hover:bg-gradient-yellow-900"
+                    onClick={handleUpdateStatus}
+                  >
+                    Proceed
+                  </Button>
                 </div>
               )}
               {paymentMethod === "CardPay" && (

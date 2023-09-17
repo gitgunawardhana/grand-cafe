@@ -89,3 +89,46 @@ export const updateProduct = async (req, res) => {
       .json({ message: "Error updating product", error: error.message });
   }
 };
+
+
+export const updateRate = async (req,res)=>{
+  try {
+    const {_id, rate } = req.body;
+console.log("id cham",_id);
+    // Check if the rateValue is valid (between 0 and 5)
+    if (rate >= 0 && rate <= 5) {
+      // Find the product by its ID
+      const product = await Product.findById(_id);
+
+      if (!product) {
+        return res.status(404).json({ error: "Product not found" });
+      }
+
+      // Calculate the new overall average rating across all users' ratings
+      const existingRatings = product.rate || []; // Use an array to store all ratings
+      existingRatings.push(rate); // Add the new rating to the array
+      const newAverageRating =
+        existingRatings.reduce((sum, rate) => sum + rate, 0) /
+        existingRatings.length;
+
+      // Update the product's ratings array in the database
+      const updatedProduct = await Product.findByIdAndUpdate(
+        _id,
+        { rate: newAverageRating },
+        { new: true }
+      );
+
+      return res.status(200).json({
+        data: updatedProduct,
+        message: "Rate updated successfully",
+      });
+    } else {
+      return res
+        .status(400)
+        .json({ error: "Invalid rate value. Rate must be between 0 and 5." });
+    }
+  } catch (error) {
+    console.error("Error updating rate:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};

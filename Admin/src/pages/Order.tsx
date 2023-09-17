@@ -209,7 +209,6 @@ const Main = () => {
                   <div className="flex px-4 justify-around">
      
                      <Icon
-                         data-tip="delivery-tooltip"
                         className="hover:scale-125 cursor-pointer mr-4"
                         style={{ color: "blue" }}
                         icon="ic:baseline-pending-actions"

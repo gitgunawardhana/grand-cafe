@@ -158,6 +158,20 @@ export const getOrdersForCurrentMonth = async (req, res) => {
   }
 };
 
+export const getOrderCountByEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+    console.log(email);
+    // Use Mongoose to query the database and count orders based on email
+    const orderCount = await Order.countDocuments({ email: email });
+console.log(orderCount);
+    res.status(200).json({ data: orderCount, message: "Order count retrieved successfully" });
+  } catch (error) {
+    console.error("Error fetching order count:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 // Define a function to get orders count for each month
 export const getOrdersCountByCurrentMonth = async (req, res) => {
   try {

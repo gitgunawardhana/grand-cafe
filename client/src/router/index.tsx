@@ -20,7 +20,11 @@ import Register from "../pages/Register";
 import TableBooking from "../pages/TableBooking";
 import TestPage from "../pages/TestPage";
 import Payment from "../pages/Payment";
+<<<<<<< Updated upstream
 import About from "../pages/Aboutus";
+=======
+import Favourites from "../pages/Favourite";
+>>>>>>> Stashed changes
 
 function Router() {
   const routes = [
@@ -56,6 +60,14 @@ function Router() {
           element: (
             <SideMenuLayout className="!px-0">
               <RecipeGenerator />
+            </SideMenuLayout>
+          ),
+        },
+        {
+          path: "/favorite",
+          element: (
+            <SideMenuLayout className="!px-0">
+              <Favourites />
             </SideMenuLayout>
           ),
         },
