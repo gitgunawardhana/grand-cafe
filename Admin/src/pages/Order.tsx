@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/UI/button/Button";
 import axios from "axios";
+
+
 export interface Order {
   _id: string;
   user: string;
@@ -10,6 +12,8 @@ export interface Order {
   amount: number;
   status: string;
   id:string;
+  payment:string;
+  orderCode:string;
   items: Array<{
     _id: string; // Assuming each item has an _id
     name: string; // Add other properties of the item here
@@ -53,6 +57,29 @@ const Main = () => {
     }
   };
 
+  const handleUpdateStatus = async (orderId: string, newStatus: string) => {
+    const confirmed = window.confirm(`Are you sure you want to update the status to "${newStatus}"?`);
+    if (!confirmed) {
+      return;
+    }
+    try {
+      const updateData = {
+        orderCode: orderId,
+        status: newStatus, 
+      };
+      await axios.put(`http://localhost:8000/api/order/updateOrder`, updateData);
+      console.log('Order status updated successfully!');
+      window.alert("Status Updated");
+      fetchData();
+    } catch (error) {
+      console.error('Error updating order status:', error);
+    }
+  };
+  
+
+
+
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = order.slice(indexOfFirstItem, indexOfLastItem);
@@ -64,6 +91,7 @@ const Main = () => {
 
   return (
     <div>
+      
       <div className="flex justify-between items-center mb-4">
         <div>
           {/* <select
@@ -107,8 +135,11 @@ const Main = () => {
               <th className="px-6 py-3 bg-amber-500 text-center text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
                 Amount
               </th>
-              <th className="px-6 py-3 bg-amber-500 text-center text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
+              {/* <th className="px-6 py-3 bg-amber-500 text-center text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
                 Items
+              </th> */}
+              <th className="px-6 py-3 bg-amber-500 text-center text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
+                Payment Method
               </th>
               <th className="px-6 py-3 bg-amber-500 text-center text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider">
                 Status
@@ -131,12 +162,24 @@ const Main = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
                   Rs. {order.amount}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
+                {/* <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800">
                 {order.items.map((item) => (
     <div key={item._id} className="relative">
       {item.name}
     </div>
   ))}
+                </td> */}
+                <td className="flex px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800 justify-center items-center">
+                            {order.payment === "COD" && (
+                              <p className="w-2/3 rounded-2xl bg-gray-900 text-white p-1 text-xs tracking-wide text-blue-950 text-center">
+                                COD
+                              </p>
+                            )}
+                            {order.payment === "Card" && (
+                             <p className="w-2/3 rounded-2xl bg-violet-800 text-white p-1 text-xs tracking-wide text-green-950 text-center">
+                             CARD
+                           </p>
+                            )}
                 </td>
                 <td className="whitespace-nowrap px-6 py-4 text-center text-sm leading-5 text-gray-800">
                           <div className="flex items-center justify-center">
@@ -155,17 +198,46 @@ const Main = () => {
                              Cancelled
                            </p>
                             )}
+                            {order.status === "Processing" && (
+                             <p className="w-2/3 rounded-2xl bg-yellow-500 p-1 text-xs tracking-wide text-red-950">
+                             Processing
+                           </p>
+                            )}
                           </div>
                         </td>
                 <td className="flex px-6 py-4 whitespace-nowrap text-sm leading-5 text-gray-800 justify-center items-center">
-                  <div className="px-4">
-                      <Icon
-                        className="hover:scale-125 cursor-pointer"
-                        style={{ color: "green" }}
-                        icon="fluent:edit-16-regular"
+                  <div className="flex px-4 justify-around">
+     
+                     <Icon
+                         data-tip="delivery-tooltip"
+                        className="hover:scale-125 cursor-pointer mr-4"
+                        style={{ color: "blue" }}
+                        icon="ic:baseline-pending-actions"
                         width="24"
-                        onClick={() => handleStatusChange(order._id, "Delivered")}
+                        onClick={() => handleUpdateStatus(order.orderCode, "Pending")}
                       />
+                      <Icon
+                        className="hover:scale-125 cursor-pointer mr-4"
+                        style={{ color: "green" }}
+                        icon="mdi:food-processor-outline"
+                        width="24"
+                        onClick={() => handleUpdateStatus(order.orderCode, "Processing")}
+                      />
+                      <Icon
+                        className="hover:scale-125 cursor-pointer mr-4"
+                        style={{ color: "black" }}
+                        icon="grommet-icons:deliver"
+                        width="24"
+                        onClick={() => handleUpdateStatus(order.orderCode, "Delivered")}
+                      />
+                      <Icon
+                        className="hover:scale-125 cursor-pointer mr-4"
+                        style={{ color: "red" }}
+                        icon="mdi:cancel-bold"
+                        width="24"
+                        onClick={() => handleUpdateStatus(order.orderCode, "Cancelled")}
+                      />
+
                     
                   </div>
                 </td>

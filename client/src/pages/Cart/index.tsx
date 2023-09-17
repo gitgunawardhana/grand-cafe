@@ -116,6 +116,7 @@ const CartPage = () => {
           amount: total,
           status: "Pending",
           items: cartItems,
+          payment:"Card",
         }),
         
       });

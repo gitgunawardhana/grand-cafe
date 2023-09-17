@@ -17,7 +17,7 @@ export const viewOrder = async (req, res, next) => {
 // ? add order
 
 export const addOrder = async (req, res) => {
-  const { email, id, amount, items, status } = req.body;
+  const { email, id, amount, items, status,payment } = req.body;
   const user = await User.findOne({ email });
 
   let fName = "";
@@ -68,6 +68,7 @@ export const addOrder = async (req, res) => {
       email,
       amount,
       status,
+      payment,
     });
 
    await newOrder.save();
@@ -95,32 +96,42 @@ export const getOrderById = async (req, res, next) => {
   }
 };
 
-export const updateOrder = async (req, res) => {
+//? Update order 
+
+export const updateOrder = async (req, res, next) => {
   try {
-    const productId = req.params.ProductId;
-    const { name, description, rate, price, image, category } = req.body;
-
-    const existingProduct = await Product.findOne({ _id: productId });
-
-    if (!existingProduct) {
-      return res.status(404).json({ message: "Product not found" });
+    // Extract the order ID from the request parameters
+    // Extract the fields you want to update from the request body
+    const { orderCode,status, payment } = req.body;
+console.log(orderCode);
+const filter = { orderCode: orderCode };
+    // Create an update object based on the fields provided
+    const updateFields = {};
+    if (status) {
+      updateFields.status = status;
+    }
+    if (payment) {
+      updateFields.payment = payment;
     }
 
-    existingProduct.name = name;
-    existingProduct.description = description;
-    existingProduct.rate = rate;
-    existingProduct.price = price;
-    existingProduct.image = image;
-    existingProduct.category = category;
+    // Find the order by ID and update it with the new fields
+    const updatedOrder = await Order.findOneAndUpdate(
+      filter,
+      updateFields,
+      { new: true } // Return the updated document
+    );
 
-    await existingProduct.save();
+    // Check if the order was found and updated successfully
+    if (!updatedOrder) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
 
-    res.status(200).json({ message: "Product updated successfully" });
+    // Return the updated order as a response
+    res.status(200).json({ data: updatedOrder, message: 'Order updated successfully' });
   } catch (error) {
-    console.error("Error:", error);
-    res
-      .status(500)
-      .json({ message: "Error updating product", error: error.message });
+    // Handle any errors that occur during the update process
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
