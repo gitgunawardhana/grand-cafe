@@ -68,6 +68,14 @@ function Router() {
             </SideMenuLayout>
           ),
         },
+        {
+          path: `/customize-page/:productName`,
+          element: (
+            <TopLayout>
+              <CustomizePage />
+            </TopLayout>
+          ),
+        },
       ],
     },
     {
@@ -160,22 +168,6 @@ function Router() {
             <ProductDetailsPage />
           </TopLayout>
         </SideMenuLayout>
-      ),
-    },
-    {
-      path: "/customize-page",
-      element: (
-        <TopLayout>
-          <CustomizePage />
-        </TopLayout>
-      ),
-    },
-    {
-      path: `/customize-page/:productName`,
-      element: (
-        <TopLayout>
-          <CustomizePage />
-        </TopLayout>
       ),
     },
     {
