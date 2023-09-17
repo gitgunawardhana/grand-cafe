@@ -13,3 +13,4 @@ server/.env
 node_modules/.yarn-integrity
 Admin/yarn.lock
 Admin/yarn.lock
+*.lock
