@@ -249,11 +249,11 @@ function tableBookingForm(
         background: "#2A200A",
         color: "#F19328",
         showConfirmButton: false,
-        timer: 5000,
+        timer: 1000,
       });
       setTimeout(() => {
         location.reload();
-      }, 3000);
+      }, 500);
     } catch (err) {
       console.log(err);
       Swal.fire({
@@ -285,11 +285,11 @@ function tableBookingForm(
         background: "#2A200A",
         color: "#F19328",
         showConfirmButton: false,
-        timer: 5000,
+        timer: 1000,
       });
       setTimeout(() => {
         location.reload();
-      }, 3000);
+      }, 500);
     } catch (err) {
       console.log(err);
       Swal.fire({
