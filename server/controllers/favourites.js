@@ -30,7 +30,7 @@ export const addFavourite = async (req, res) => {
 
 export const view = async (req, res, next) => {
   try {
-    // const { email } = req.body; // Get the email from the request body
+     const { email } = req.body; // Get the email from the request body
 
     // // Find the user based on the email
     // const user = await User.findOne({ email });
@@ -40,7 +40,7 @@ export const view = async (req, res, next) => {
     // }
 
     // Find favorites associated with the user and populate the product details
-    const favorites = await Favourite.find().populate("favourite");
+    const favorites = await Favourite.find({email}).populate("favourite");
     // console.log(favourites);
     res.status(200).json({ data: favorites, message: "Success" });
   } catch (error) {
