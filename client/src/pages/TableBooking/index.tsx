@@ -349,7 +349,7 @@ function tableBookingForm(
           </div>
           <div className="">
             <h2 className="!bg-gradient-to-r from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text !text-sm font-extrabold text-transparent md:!text-base">
-              In-time
+              Out-time
             </h2>
             <MuiDateTimePicker
               variant="desktop"
