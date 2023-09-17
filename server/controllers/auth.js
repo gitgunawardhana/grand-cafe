@@ -83,6 +83,7 @@ export const login = async (req, res, next) => {
     return res.status(200).json({
       name: user.name,
       email: user.email,
+      userCode: user.userCode,
       message: "You logged in successfully!",
       accessToken,
       refreshToken,
@@ -97,12 +98,14 @@ export const login = async (req, res, next) => {
 
 export const logout = async (req, res) => {
   const refreshToken = req.body.refreshToken;
-  if (!refreshTokens.includes(refreshToken)) {
-    return res.status(403).json("Refresh token is not valid!");
-  }
-  const refreshTokenIndex = refreshTokens.indexOf(refreshToken);
-  // refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
-  refreshTokens.splice(refreshTokenIndex, 1);
+  // if (!refreshTokens.includes(refreshToken)) {
+  //   return res.status(403).json("Refresh token is not valid!");
+  // }
+  // const refreshTokenIndex = refreshTokens.indexOf(refreshToken);
+  // // refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+  // refreshTokens.splice(refreshTokenIndex, 1);
+  refreshTokens.splice(0, refreshTokens.length);
+
   res.status(200).json({ message: "You logged out successfully!" });
 };
 

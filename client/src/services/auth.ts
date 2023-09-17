@@ -24,11 +24,11 @@ export const handleRegistration = async (
       background: "#2A200A",
       color: "#F19328",
       showConfirmButton: false,
-      timer: 3000,
+      timer: 1000,
     });
     setTimeout(() => {
       navigate("/sign-in");
-    }, 2000);
+    }, 500);
   } catch (err) {
     console.log(err);
     Swal.fire({
@@ -57,6 +57,7 @@ export const handleLogin = async (
     );
 
     sessionStorage.setItem("email", res.data.email);
+    sessionStorage.setItem("userCode", res.data.userCode);
     sessionStorage.setItem("accessToken", res.data.accessToken);
     sessionStorage.setItem("refreshToken", res.data.refreshToken);
     Swal.fire({
@@ -66,11 +67,11 @@ export const handleLogin = async (
       background: "#2A200A",
       color: "#F19328",
       showConfirmButton: false,
-      timer: 3000,
+      timer: 1000,
     });
     setTimeout(() => {
       window.location.href = "/home";
-    }, 2000);
+    }, 500);
   } catch (err) {
     console.log(err);
     Swal.fire({
@@ -113,11 +114,11 @@ export const handleLogout = async (
       background: "#2A200A",
       color: "#F19328",
       showConfirmButton: false,
-      timer: 5000,
+      timer: 1000,
     });
     setTimeout(() => {
       window.location.href = "/";
-    }, 2000);
+    }, 500);
   } catch (err) {
     console.log(err);
     Swal.fire({
@@ -127,7 +128,7 @@ export const handleLogout = async (
       background: "#2A200A",
       color: "#F19328",
       showConfirmButton: false,
-      timer: 5000,
+      timer: 3000,
     });
   }
 };
