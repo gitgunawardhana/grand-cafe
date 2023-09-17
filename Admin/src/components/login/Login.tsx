@@ -70,6 +70,10 @@ function LoginBox() {
       className={`${classes.container} ${
         langCtx.lang === "fa" ? classes.rtl : ""
       }`}
+      style={{
+        backgroundImage: `url(${require("../../assets/images/loginBg.png")})`,
+        backgroundSize: "cover",
+      }}
     >
       <div className={classes.loginBox}>
         <div className={classes.logo}>
@@ -108,10 +112,10 @@ function LoginBox() {
       </div>
 
       <div className={classes.keyPic}>
-        <img
-          src={require("../../assets/images/Revenue-cuate.svg").default}
+        {/* <img
+          src={require("../../assets/images/loginBg.png")}
           alt="illustrator key"
-        />
+        /> */}
       </div>
     </div>
   );
