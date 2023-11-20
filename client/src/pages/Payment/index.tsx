@@ -150,6 +150,8 @@ const Main = () => {
 
   const handleCardPayButtonClick = () => {
     setPaymentMethod("CardPay");
+    console.log("Order Id", orderI);
+    console.log("Amount", amount);
   };
 
   useEffect(() => {
@@ -182,18 +184,27 @@ const Main = () => {
 
   const am = netamount.toString();
 
-  let merchantSecret = "MTg1OTY5ODg4NTEyNjczMTczMjc1MTE1NDI4MjczMDQ2NTQ5NTY0";
-  let merchantId = "1223708";
-  let orderI = orderId;
-  let amount = am || "0";
-  let hashedSecret = md5(merchantSecret).toString().toUpperCase();
-  let amountFormated = parseFloat(amount)
-    .toLocaleString("en-us", { minimumFractionDigits: 2 })
-    .replace(",", "");
-  let currency = "LKR";
-  let hash = md5(merchantId + orderI + amountFormated + currency + hashedSecret)
-    .toString()
-    .toUpperCase();
+  let merchantSecret  = 'MTg1OTY5ODg4NTEyNjczMTczMjc1MTE1NDI4MjczMDQ2NTQ5NTY0';
+  let merchantId      = '1223708';
+  let orderI         = orderId;
+  let amount          = am || "0";
+  let hashedSecret    = md5(merchantSecret).toString().toUpperCase();
+  let amountFormated = parseFloat(amount).toLocaleString('en-us', { minimumFractionDigits: 2 }).replace(/,/g, '');
+  let currency        = 'LKR';
+  let hash            = md5(merchantId + orderI + amountFormated + currency + hashedSecret).toString().toUpperCase();
+
+  // let merchantSecret = "MTI4NTA2Mjg2NDI4MzQyMjQ2MDgzMjE0NDQ1MjA0MTQyNzYwMzYx";
+  // let merchantId = "1224837";
+  // let orderI = orderId;
+  // let amount = am || "0";
+  // let hashedSecret = md5(merchantSecret).toString().toUpperCase();
+  // let amountFormated = parseFloat(amount)
+  //   .toLocaleString("en-us", { minimumFractionDigits: 2 })
+  //   .replace(",", "");
+  // let currency = "LKR";
+  // let hash = md5(merchantId + orderI + amountFormated + currency + hashedSecret)
+  //   .toString()
+  //   .toUpperCase();
 
   return (
     <div className="flex h-full flex-row">
@@ -273,6 +284,72 @@ const Main = () => {
                     />
                     <br />
                     <br />
+                    
+                    <br />
+                    Order Id :
+                    <input type="text" className="border-none bg-transparent"  name="order_id" value={orderI} /><br/><br/>
+                    <input
+                      type="hidden"
+                      name="items"
+                      className="border-none bg-transparent"
+                      value={orderI}
+                    />
+                    Currency :
+                    <input type="text"  className="border-none bg-transparent" name="currency" value={currency} /><br/><br/>
+                    Amount:
+                    <input type="text" className="border-none bg-transparent" name="amount" value={amount} />
+                    <br />
+                    <br />
+                    <br />
+                    <input type="hidden" name="first_name" value="Saman" />
+                    <input type="hidden" name="last_name" value="Perera" />
+                    <input
+                      type="hidden"
+                      name="email"
+                      value="chathuradinushka97@gmail.com"
+                    />
+                    <input type="hidden" name="phone" value="0771234567" />
+                    <input
+                      type="hidden"
+                      name="address"
+                      value="No.1, Galle Road"
+                    />
+                    <input type="hidden" name="city" value="Colombo" />
+                    <input type="hidden" name="country" value="Sri Lanka" />
+                    <input type="hidden" name="hash" value={hash} />
+                    <input
+                      type="submit"
+                      className="btn transform rounded-full !border-gradient-yellow-900 bg-gradient-to-b from-yellow-500 to-yellow-300 px-4 py-2 font-medium text-amber-950 transition-transform hover:scale-125 hover:from-yellow-500 hover:to-amber-500 hover:shadow-lg"
+                      value="Proceed"
+                    />
+                  </form>
+
+                  {/* <form
+                    method="post"
+                    action="https://sandbox.payhere.lk/pay/checkout"
+                  >
+                    <input
+                      type="hidden"
+                      name="merchant_id"
+                      value={merchantId}
+                    />
+                    <input
+                      type="hidden"
+                      name="return_url"
+                      value="http://sample.com/return"
+                    />
+                    <input
+                      type="hidden"
+                      name="cancel_url"
+                      value="http://sample.com/cancel"
+                    />
+                    <input
+                      type="hidden"
+                      name="notify_url"
+                      value="http://sample.com/notify"
+                    />
+                    <br />
+                    <br />
                     <br />
                     <div className="space-y-4">
                       <div className="flex items-center space-x-2">
@@ -315,7 +392,7 @@ const Main = () => {
                     <input
                       type="hidden"
                       name="email"
-                      value="chathuradinushka97@gmail.com"
+                      value="chathuradinushka@gmail.com"
                     />
                     <input type="hidden" name="phone" value="0771234567" />
                     <input
@@ -331,7 +408,7 @@ const Main = () => {
                       className="btn transform rounded-full !border-gradient-yellow-900 bg-gradient-to-b from-yellow-500 to-yellow-300 px-4 py-2 font-medium text-amber-950 transition-transform hover:scale-125 hover:from-yellow-500 hover:to-amber-500 hover:shadow-lg"
                       value="Proceed"
                     />
-                  </form>
+                  </form> */}
                 </div>
               )}
             </div>

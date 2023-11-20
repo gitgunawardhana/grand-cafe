@@ -60,21 +60,25 @@ const orderSchema = new mongoose.Schema(
 orderSchema.pre("save", async function (next) {
   // Check if the document is new (not an update)
   if (this.isNew) {
-    // Find the highest userCode in the collection
-    const highestOrder = await this.constructor.findOne()
-      .sort("-orderCode")
-      .exec();
+    // Find the highest orderCode in the collection
+    const highestOrder = await this.constructor.findOne().sort("-orderCode").exec();
 
-    // If there are no existing documents, start with UNREG01
+    // If there are no existing documents, start with #OD001
     if (!highestOrder || !highestOrder.orderCode) {
-      this.orderCode = "#OD01";
+      this.orderCode = "#OD001";
     } else {
-      // Extract the numeric part of the highest userCode and increment it
-      const highestNumber = parseInt(highestOrder.orderCode.match(/\d+/)[0]);
+      // Extract the numeric part of the highest orderCode and increment it
+      const matchResult = highestOrder.orderCode.match(/\d+/);
+      const highestNumber = matchResult ? parseInt(matchResult[0]) : 0;
       const nextNumber = highestNumber + 1;
-      // Pad the number with leading zeros if necessary
-      const nextUserCode = `#OD${nextNumber.toString().padStart(2, "0")}`;
+
+      // Pad the number with leading zeros to always have three digits
+      const nextUserCode = `#OD${nextNumber.toString().padStart(3, "0")}`;
       this.orderCode = nextUserCode;
+
+      console.log("Highest Order:", highestOrder.orderCode);
+      console.log("Next Number:", nextNumber);
+      console.log("Next Order Code:", nextUserCode);
     }
   }
 
