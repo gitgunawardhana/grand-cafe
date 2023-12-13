@@ -266,7 +266,14 @@ function Card(item: {
       key={item.name}
       className="mb-0 max-w-sm overflow-hidden rounded-xl !bg-opacity-25 bg-gradient-to-b from-gradient-yellow-100-15 to-gradient-yellow-900-10 text-center shadow-lg"
     >
-      <img className="w-full" src={item.image} alt={item.name} />
+      <img  style={{
+      height: '250px',  // Set a constant height for non-web view
+      width: '100%',    // Let the width adjust accordingly
+      '@media (min-width: 768px)': {
+        height: '150px', // Adjust the height for web view (example value)
+      },
+    }}
+    className="w-full" src={item.image} alt={item.name} />
       <div className="mb-0 ml-5 mt-2 flex">
         <MuiRating rateValue={item.rate} productId={item._id} active={false} />
       </div>
@@ -283,7 +290,8 @@ function Card(item: {
           </p>
         </div>
         <div className="mt-2">
-          <Button
+
+          {item.category=="Burger" || item.category === "Shawarma" || item.category === "Hotdog" || item.category === "Submarine" ?(<Button
             as={NavLink}
             to={`/customize-page/${item.name}`}
             className="m-0 !mb-2 !mt-1 min-w-[200px] !rounded-[10px] border-none !bg-opacity-20 !bg-gradient-to-b from-gradient-yellow-900-6 to-gradient-yellow-900-2 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
@@ -291,7 +299,10 @@ function Card(item: {
             <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
               customize
             </p>
-          </Button>
+          </Button>):(<div>
+
+          </div>)}
+          
           <br />
           <Button
             as={NavLink}
