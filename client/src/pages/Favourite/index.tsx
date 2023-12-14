@@ -5,6 +5,7 @@ import MuiRating from "../../components/MuiRating";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+
 const index = () => {
   const [favourites, setFavourites] = useState([]);
 
@@ -45,7 +46,7 @@ const index = () => {
 
 export default index;
 
-function Card({ favorite }) {
+function Card({ favorite  }) {
   const customStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.7)",
@@ -54,6 +55,7 @@ function Card({ favorite }) {
     content: {
       top: "50%",
       left: "50%",
+      width:"100%",
       transform: "translate(-50%, -50%)",
       padding: "20px",
       border: "2px",
@@ -66,6 +68,27 @@ function Card({ favorite }) {
   };
 
   const { _id, favourite } = favorite;
+
+  const removeFavourites = async () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this item?"
+    );
+    if (confirmDelete) {
+    try {
+      const response = await axios.post(`http://localhost:8000/api/favourite/deleteFavourites/${_id}`);
+  
+      if (response.status === 201) {
+        alert('Product removed from favorites!');
+        // Assuming you want to refresh the favorites after removal, you can refetch them
+        fetchCategories();
+      }
+    } catch (error) {
+      console.error('Error removing from favorites:', error);
+    }
+  }
+  };
+
+  
 
   return (
     <div
@@ -93,21 +116,21 @@ function Card({ favorite }) {
         <div className="mt-2">
           <Button
             as={NavLink}
-            to={`/customize-page/${favourite.name}`}
-            className="m-0 !mb-2 !mt-1 min-w-[200px] !rounded-[10px] border-none !bg-opacity-20 !bg-gradient-to-b from-gradient-yellow-900-6 to-gradient-yellow-900-2 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
-          >
-            <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
-              customize
-            </p>
-          </Button>
-          <br />
-          <Button
-            as={NavLink}
             to={`/product/${favourite.name}`}
             className="m-0 min-w-[200px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-transparent !bg-opacity-20 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
           >
             <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
               View Product
+            </p>
+          </Button>
+          <br/><br/>
+          <Button
+            as={NavLink}
+            onClick={removeFavourites}
+            className="m-0 min-w-[200px] !rounded-[10px] border border-gradient-yellow-100-15 !bg-red-800 !bg-opacity-20 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm"
+          >
+            <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
+              Remove Favourites
             </p>
           </Button>
         </div>
