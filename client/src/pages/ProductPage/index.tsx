@@ -299,7 +299,8 @@ function Card(item: {
             <p className="!bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 bg-clip-text text-transparent">
               customize
             </p>
-          </Button>):(<div>
+          </Button>):(
+          <div>
 
           </div>)}
           

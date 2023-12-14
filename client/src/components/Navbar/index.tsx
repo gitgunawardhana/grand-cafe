@@ -126,7 +126,7 @@ function Main() {
             >
               <li className="mt-1 px-2" data-te-nav-item-ref>
                 <form className="!my-auto content-center md:flex">
-                  <InputField
+                  {/* <InputField
                     type="search"
                     className="min-w-[210x] border !border-gradient-yellow-900 pb-2 !text-sm !text-gradient-yellow-900 placeholder-gradient-yellow-500 !placeholder-opacity-25"
                     placeholder="Search here your favorites"
@@ -140,7 +140,7 @@ function Main() {
                       strokeWidth={2}
                       className="text-gradient-yellow-900"
                     />
-                  </span>
+                  </span> */}
                   &nbsp;
                   {sessionStorage.getItem("accessToken") && (
                     <span

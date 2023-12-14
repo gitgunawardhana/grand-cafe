@@ -234,6 +234,9 @@ const ProductDetails: React.FC = () => {
 
   
 
+
+  
+
   if (!selectedProduct) {
     return <div>Product not found.</div>;
   }
@@ -250,7 +253,7 @@ const ProductDetails: React.FC = () => {
         </div>
         <div className="flex  flex-col items-center justify-center ">
           <br />
-          <AddressSection selectedProduct={selectedProduct} isFavorite={isFavorite} addToFavorites={addToFavorites} />
+          <AddressSection selectedProduct={selectedProduct} isFavorite={isFavorite} addToFavorites={addToFavorites}  />
           //? button
           <div className=" m-6 flex h-modal w-4/6 items-center justify-center rounded-3xl !bg-opacity-25 bg-gradient-to-b from-gradient-yellow-100-15 to-gradient-yellow-900-10 p-10 shadow-md">
             <div className="px-6 pb-4 pt-2">
@@ -475,10 +478,12 @@ function AddressSection({
   selectedProduct,
   isFavorite,
   addToFavorites,
+  
 }: {
   selectedProduct: Product;
   isFavorite: boolean;
   addToFavorites: () => void;
+  
 }) {
   const email = sessionStorage.email;
 
@@ -506,12 +511,13 @@ function AddressSection({
         </p>
       </div>
       <div className="mt-4">
-        <Button 
+      <Button 
          onClick={addToFavorites} 
         disabled={isFavorite}
         className="m-0 !rounded-[10px] border-none !bg-gradient-to-b from-gradient-yellow-500 to-gradient-yellow-900 !px-5 !py-2 text-xs font-semibold uppercase text-black hover:text-black md:!px-5 md:py-2 md:text-sm">
           {isFavorite ? 'Added to Favorites' : 'Add to Favorites'}
         </Button>
+        
       </div>
     </div>
   );
