@@ -9,7 +9,7 @@ const Main = () => {
           backgroundImage: `url(${FooterBG})`,
           backgroundSize: "cover",
         }}
-        className="bg-gradient-to-r from-gray-100 via-[#bce1ff] to-gray-100 pb-5"
+        className="bg-gradient-to-r from-gray-100 via-[#bce1ff] to-gray-100 pb-10"
       >
         <div className="relative mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
@@ -179,7 +179,7 @@ const Main = () => {
           <p className="mb-8 mt-5 text-xs text-gradient-yellow-300 md:mb-0">
             © 2023
           </p>
-          <div className="absolute bottom-1 left-0 w-full">
+          <div className="absolute -bottom-1 left-0 w-full">
             <div className="flex justify-center">
               <Button className="!rounded-[20px] border-none !bg-gradient-to-bl from-gradient-green-400 to-gradient-green-300 !px-[80px] font-semibold uppercase text-black hover:text-black md:!px-[150px]">
                 Get Started
