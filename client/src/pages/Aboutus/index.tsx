@@ -43,21 +43,6 @@ const Main = () => {
               homes.
             </p>
 
-            <Button
-              as={NavLink}
-              to="/"
-              className={twMerge(
-                "rounded-[15px] border-2 border-solid border-gradient-yellow-500 !bg-transparent bg-opacity-50 px-[20px] py-[20px]   sm:px-[80px] sm:py-[20px]"
-              )}
-            >
-              <span
-                className={twMerge(
-                  "!text-#FFE353 text-[14px] font-[900] uppercase tracking-[2px] hover:scale-110"
-                )}
-              >
-                Read More
-              </span>
-            </Button>
           </div>
         </div>
       </div>

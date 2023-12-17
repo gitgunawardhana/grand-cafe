@@ -22,6 +22,7 @@ import RecipeGenerator from "../pages/RecipeGenerator";
 import Register from "../pages/Register";
 import TableBooking from "../pages/TableBooking";
 import TestPage from "../pages/TestPage";
+import Contactus from "../pages/Contactus";
 
 function Router() {
   const routes = [
@@ -178,6 +179,14 @@ function Router() {
         </SideMenuLayout>
       ),
     },
+    {
+      path: "/contact-us",
+      element: (
+        <SideMenuLayout footer>
+          <Contactus />
+        </SideMenuLayout>
+      ),
+    }
   ];
 
   return useRoutes(routes);
