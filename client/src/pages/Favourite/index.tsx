@@ -35,7 +35,7 @@ const index = () => {
         &nbsp; &nbsp;Favourite Items</h1>
         <div className="flex">
         {favourites.map((favorite) => (
-          <Card key={favorite._id} favorite={favorite} />
+          <Card key={favorite._id} favorite={favorite} fetchCategories={fetchCategories} />
         ))}
         </div>
         
@@ -46,7 +46,7 @@ const index = () => {
 
 export default index;
 
-function Card({ favorite  }) {
+function Card({ favorite , fetchCategories }) {
   const customStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.7)",
@@ -79,7 +79,6 @@ function Card({ favorite  }) {
   
       if (response.status === 201) {
         alert('Product removed from favorites!');
-        // Assuming you want to refresh the favorites after removal, you can refetch them
         fetchCategories();
       }
     } catch (error) {
@@ -88,7 +87,9 @@ function Card({ favorite  }) {
   }
   };
 
-  
+  useEffect(() => {
+    fetchCategories();
+  }, [favorite]);
 
   return (
     <div
