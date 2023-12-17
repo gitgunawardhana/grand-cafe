@@ -14,6 +14,7 @@ import Favourites from "../pages/Favourite";
 import FirstPage from "../pages/FirstPage";
 import HomePage from "../pages/HomePage";
 import Landing from "../pages/Landing";
+import Location from "../pages/Location";
 import Login from "../pages/Login";
 import Payment from "../pages/Payment";
 import ProductDetailsPage from "../pages/ProductDetails";
@@ -176,6 +177,14 @@ function Router() {
         <SideMenuLayout footer>
           <About />
         </SideMenuLayout>
+      ),
+    },
+    {
+      path: "/location",
+      element: (
+        <TopLayout className="!overflow-hidden" footer>
+          <Location />
+        </TopLayout>
       ),
     },
   ];
