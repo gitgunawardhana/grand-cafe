@@ -106,7 +106,7 @@ function Router() {
     {
       path: "/home",
       element: (
-        <TopLayout footer>
+        <TopLayout className="!overflow-hidden" footer>
           <HomePage />
         </TopLayout>
       ),
