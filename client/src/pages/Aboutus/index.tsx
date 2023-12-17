@@ -41,9 +41,11 @@ const Main = () => {
               table through our website. We also offer takeaway options for
               those who prefer to enjoy our food from the comfort of their own
               homes.
-            </p>
+            </p><br/>
+            <br/>
+            <br/><br/><br/>
 
-            <Button
+            {/* <Button
               as={NavLink}
               to="/"
               className={twMerge(
@@ -57,7 +59,7 @@ const Main = () => {
               >
                 Read More
               </span>
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>
