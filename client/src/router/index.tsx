@@ -21,6 +21,7 @@ import ProductDetailsPage from "../pages/ProductDetails";
 import ProductPage from "../pages/ProductPage";
 import RecipeGenerator from "../pages/RecipeGenerator";
 import Register from "../pages/Register";
+import Reviews from "../pages/Reviews";
 import TableBooking from "../pages/TableBooking";
 import TestPage from "../pages/TestPage";
 
@@ -176,6 +177,14 @@ function Router() {
       element: (
         <TopLayout className="!overflow-hidden" footer>
           <About />
+        </TopLayout>
+      ),
+    },
+    {
+      path: "/reviews",
+      element: (
+        <TopLayout className="!overflow-hidden" footer>
+          <Reviews />
         </TopLayout>
       ),
     },
