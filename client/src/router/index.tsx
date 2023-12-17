@@ -174,9 +174,9 @@ function Router() {
     {
       path: "/about-us",
       element: (
-        <SideMenuLayout footer>
+        <TopLayout className="!overflow-hidden" footer>
           <About />
-        </SideMenuLayout>
+        </TopLayout>
       ),
     },
     {
