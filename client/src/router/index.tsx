@@ -24,6 +24,7 @@ import Register from "../pages/Register";
 import Reviews from "../pages/Reviews";
 import TableBooking from "../pages/TableBooking";
 import TestPage from "../pages/TestPage";
+import Contactus from "../pages/Contactus";
 
 function Router() {
   const routes = [
@@ -196,6 +197,14 @@ function Router() {
         </TopLayout>
       ),
     },
+    {
+      path: "/contact-us",
+      element: (
+        <SideMenuLayout footer>
+          <Contactus />
+        </SideMenuLayout>
+      ),
+    }
   ];
 
   return useRoutes(routes);
