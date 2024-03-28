@@ -6,7 +6,7 @@ import "./index.css";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <App />
 );
-Kommunicate.init("30b4dfef7097d37448b61620dc8428762", {
+Kommunicate.init("278def5cbbe10bd5c0cbaa7965bd03497", {
   automaticChatOpenOnNavigation: true,
   popupWidget: true,
 });

@@ -14,12 +14,14 @@ import Favourites from "../pages/Favourite";
 import FirstPage from "../pages/FirstPage";
 import HomePage from "../pages/HomePage";
 import Landing from "../pages/Landing";
+import Location from "../pages/Location";
 import Login from "../pages/Login";
 import Payment from "../pages/Payment";
 import ProductDetailsPage from "../pages/ProductDetails";
 import ProductPage from "../pages/ProductPage";
 import RecipeGenerator from "../pages/RecipeGenerator";
 import Register from "../pages/Register";
+import Reviews from "../pages/Reviews";
 import TableBooking from "../pages/TableBooking";
 import TestPage from "../pages/TestPage";
 import Contactus from "../pages/Contactus";
@@ -171,14 +173,7 @@ function Router() {
         </SideMenuLayout>
       ),
     },
-    {
-      path: "/about-us",
-      element: (
-        <SideMenuLayout footer>
-          <About />
-        </SideMenuLayout>
-      ),
-    },
+   ,
     {
       path: "/contact-us",
       element: (
